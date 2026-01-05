@@ -362,26 +362,6 @@
             const scrollY = window.scrollY;
             hero.style.backgroundPositionY = scrollY * 0.5 + 'px';
         });
-      <!-- MUSIK DI BAWAH LAYAR -->
-<div id="music-bar">
-    <audio id="bg-music" loop>
-        <source src="musik009.mp3" type="audio/mpeg">
-    </audio>
-    <span>🎵 Musik diputar</span>
-</div>
-      let musicStarted = false;
-
-function startMusicOnce() {
-    if (musicStarted) return;
-
-    const music = document.getElementById("bg-music");
-    music.volume = 0.7;
-    music.play();
-    musicStarted = true;
-}
-
-document.addEventListener("click", startMusicOnce, { once: true });
-document.addEventListener("scroll", startMusicOnce, { once: true });
-    </script>
+      </script>
 </body>
 </html>
