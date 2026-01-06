@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rhmtmuhmmdd</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset dan Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #000000; /* Hitam untuk kontras */
+            background-color: #add8e6; /* Biru muda */
+            line-height: 1.6;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #00008b; /* Biru tua */
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff; /* Putih */
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+            gap: 2rem;
+        }
+        nav a {
+            color: #ffffff; /* Putih */
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #add8e6; /* Biru muda */
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background: #ffffff; /* Putih */
+            margin: 3px 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: url('Foto1.jpg') no-repeat center center/cover; /* Gambar pegunungan */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 139, 0.5); /* Overlay biru tua transparan */
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: #ffffff; /* Putih */
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .cta-button {
+            background: #00008b; /* Biru tua */
+            color: #ffffff; /* Putih */
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: background 0.3s;
+            cursor: pointer;
+            border: none;
+            margin: 0 0.5rem;
+        }
+        .cta-button:hover {
+            background: #add8e6; /* Biru muda */
+        }
+
+        /* Konten Utama */
+        .section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .eksplorasi {
+            background: #add8e6; /* Biru muda */
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .card {
+            background: #ffffff; /* Putih untuk kontras */
+            border: 1px solid #00008b; /* Biru tua */
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card h3 {
+            padding: 1rem;
+            font-size: 1.5rem;
+            color: #000000; /* Hitam */
+        }
+        .card p {
+            padding: 0 1rem 1rem;
+            color: #000000; /* Hitam */
+        }
+
+        .galeri, .blog {
+            display: none; /* Disembunyikan secara default */
+            background: #add8e6; /* Biru muda */
+        }
+        .galeri.show, .blog.show {
+            display: block;
+        }
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 1rem 0;
+        }
+        .carousel img {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .blog-item {
+            display: flex;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+        .blog-item img {
+            width: 150px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 1rem;
+            border-radius: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background: #00008b; /* Biru tua */
+            color: #ffffff; /* Putih */
+            text-align: center;
+            padding: 2rem;
+        }
+        .social-links a {
+            margin: 0 1rem;
+            color: #add8e6; /* Biru muda */
+        }
+
+        /* Musik */
+        .music-player {
+            display: none; /* Disembunyikan */
+        }
+
+        /* Responsivitas */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #00008b; /* Biru tua */
+                padding: 1rem;
+            }
+            nav ul.show {
+                display: flex;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Musik Latar (Autoplay, tapi mungkin diblokir browser) -->
+    <div class="music-player">
+        <audio id="bg-music" loop>
+            <source src="musik009.mp3" type="audio/mpeg">
+            Browser Anda tidak mendukung elemen audio.
+        </audio>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">rhmtmuhmmdd</div>
+        <nav>
+            <div class="hamburger" onclick="toggleMenu()">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <ul id="nav-menu">
+                <li><a href="#hero">Home Page</a></li>
+                <li><a href="#eksplorasi">Exploration</a></li>
+                <li><a href="#galeri">Gallery</a></li>
+                <li><a href="#blog">Blogs</a></li>
+                <li><a href="#kontak">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <h1>Saves steps in frames</h1>
+            <p>Every step has a story, every story is worth remembering.</p>
+            <button class="cta-button" onclick="playMusic()">Play Music</button>
+            <button class="cta-button" onclick="showExploration()">For More</button>
+        </div>
+    </section>
+
+    <!-- Eksplorasi -->
+    <section id="eksplorasi" class="section eksplorasi">
+        <h2>Exploration</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="Foto2.jpg" alt="Pegunungan">
+                <h3>Puncak Talung</h3>
+                <p>Puncak Talung adalah tempat di mana lelah pendakian terbayar oleh hamparan alam yang menenangkan. Udara sejuk, lanskap pegunungan, dan sunyi yang damai menjadikannya ruang terbaik untuk berhenti sejenak dan menyadari betapa kecilnya manusia di hadapan alam..</p>
+            </div>
+            <div class="card">
+                <img src="Foto3.jpg" alt="Hutan">
+                <h3>Lembah Ramma</h3>
+                <p> Lembah Ramma terletak di kawasan Gunung Bawakaraeng, Kabupaten Gowa, Sulawesi Selatan. Lembah ini berupa hamparan padang rumput luas yang dikelilingi perbukitan dan tebing pegunungan, dengan aliran sungai kecil dan udara yang sejuk.</p>
+            </div>
+            <div class="card">
+                <img src="Foto4.jpg" alt="Langit Terbuka">
+                <h3>Danau Slank</h3>
+                <p>Danau Slank terletak di jalur pendakian Gunung Bawakaraeng, dekat Lembah Ramma. Danau kecil dengan air tenang ini dikelilingi padang rumput dan perbukitan, menghadirkan suasana sejuk dan hening.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeri (Disembunyikan, muncul setelah klik tombol) -->
+    <section id="galeri" class="section galeri">
+        <h2>Gallery </h2>
+        <div class="carousel">
+            <img src="Foto5.jpg" alt="Galeri 1">
+            <img src="Foto6.jpg" alt="Galeri 2">
+            <img src="Foto7.jpg" alt="Galeri 3">
+            <img src="Foto8.jpg" alt="Galeri 4">
+            <img src="Foto9.jpg" alt="Galeri 5">
+            <img src="Foto10.jpg" alt="Galeri 6">
+            <img src="Foto11.jpg" alt="Galeri 7">
+            <img src="Foto12.jpg" alt="Galeri 8">
+            <img src="Foto13.jpg" alt="Galeri 9">
+            <img src="Foto14.jpg" alt="Galeri 10">
+            <img src="Foto15.jpg" alt="Galeri 11">
+            <img src="Foto16.jpg" alt="Galeri 12">
+            <img src="Foto17.jpg" alt="Galeri 13">
+            <img src="Foto18.jpg" alt="Galeri 14">
+            <img src="Foto19.jpg" alt="Galeri 15">
+            <img src="Foto20.jpg" alt="Galeri 16">
+        </div>
+    </section>
+
+    <!-- Blog (Disembunyikan, muncul setelah klik tombol) -->
+    <section id="blog" class="section blog">
+        <h2>Blogs</h2>
+        <div class="blog-item">
+            <img src="Foto21.jpg" alt="Blog 1">
+            <div>
+                <h3>Tips Hiking Aman</h3>
+                <p>banyak tutor di yt haha</p>
+            </div>
+        </div>
+        <div class="blog-item">
+            <img src="assets/images/foto14.jpg" alt="Blog 2">
+            <div>
+                <h3>Tips Hiking </h3>
+                <p>Hiking dengan orang yang tepat ( </p>
+        </div>
+    </section>
+        <div class="social-links">
+    <a href="https://www.facebook.com/share/1CwptmurGn/" target="_blank" rel="noopener">Facebook</a>
+    <a href="https://www.instagram.com/rhmtmuhmmdd?igsh=a3pvejBrMnUybzE1" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://twitter.com/USERNAME_KAMU" target="_blank" rel="noopener">Twitter</a>
+        </div>
+  <script>
+        // Toggle menu untuk mobile
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('show');
+        }
+
+        // Fungsi untuk memainkan musik (karena autoplay mungkin diblokir)
+        function playMusic() {
+            const music = document.getElementById('bg-music');
+            music.play().catch(e => {
+                console.log('Autoplay diblokir browser. Klik tombol Play Musik untuk memulai.');
+            });
+        }
+
+        // Fungsi untuk menampilkan galeri dan blog setelah klik tombol, serta memainkan musik otomatis
+        function showExploration() {
+            document.getElementById('galeri').classList.add('show');
+            document.getElementById('blog').classList.add('show');
+            // Memainkan musik otomatis setelah klik tombol eksplorasi
+            playMusic();
+            // Scroll ke eksplorasi
+            document.getElementById('eksplorasi').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Parallax effect sederhana untuk hero
+        window.addEventListener('scroll', function() {
+            const hero = document.querySelector('.hero');
+            const scrollY = window.scrollY;
+            hero.style.backgroundPositionY = scrollY * 0.5 + 'px';
+        });
+      </script>
+</body>
+</html>
