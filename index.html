@@ -119,9 +119,14 @@ nav a:hover{
 }
 
 .menu-icon{
-  width:24px;
-  height:24px;
+  font-size:1.1rem;
+}
+
+img.menu-icon{
+  width:20px;
+  height:20px;
   object-fit:contain;
+  vertical-align:middle;
 }
 
 /* ===== HERO ===== */
@@ -295,13 +300,13 @@ nav a:hover{
 }
 .carousel-item img{
   width:100%;
-  height:auto;
-  object-fit:contain;
+  height:150px;
+  object-fit:cover;
   border-radius:10px;
 }
 .photo-date{
-  font-size:0.7rem;
-  color:#999;
+  font-size:0.75rem;
+  color:var(--muted);
   text-align:center;
   font-style:italic;
   user-select:text;
@@ -337,812 +342,971 @@ nav a:hover{
 }
 .blog-item img{
   width:120px;
-  height:120px;
-  border-radius:10px;
+  height:90px;
   object-fit:cover;
+  border-radius:10px;
   flex-shrink:0;
 }
-.blog-item-content h3{
-  margin-bottom:.4rem;
+.blog-item h3{
   color:var(--text);
+  margin-bottom:0.5rem;
 }
-.blog-item-content p{
+.blog-item p{
   color:var(--muted);
-  font-size:.9rem;
 }
+
 .blog-text{
-  max-height:4.5em;
+  max-height:4em;
   overflow:hidden;
-  line-height:1.5em;
+  line-height:1.35em;
   transition:max-height 0.4s ease;
   margin-bottom:0.5rem;
 }
+
 .blog-text.expanded{
   max-height:1000px;
 }
-.read-more-blog-btn{
+
+.blog-read-more{
   background:none;
   border:none;
   color:var(--fb-blue);
   font-weight:600;
   cursor:pointer;
-  font-size:0.9rem;
-  transition:all 0.2s ease;
-  padding:0;
+  padding:0.3rem 0 0;
+  font-size:0.85rem;
+  transition:all 0.3s ease;
+  display:block;
 }
-.read-more-blog-btn:hover{
+
+.blog-read-more:hover{
   text-decoration:underline;
 }
 
-/* ===== LOCATION SECTION ===== */
-.location-grid{
-  display:none;
-  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-  gap:1rem;
-  margin-top:1rem;
-  opacity:0;
-  transform:translateY(10px);
-  transition:opacity 0.4s ease, transform 0.4s ease;
-}
-.location-grid.show{
-  display:grid;
-  opacity:1;
-  transform:translateY(0);
-}
-.location-card{
-  background:var(--card);
-  border-radius:12px;
-  padding:1rem;
+/* ===== SOCIAL ===== */
+.social-links{
   text-align:center;
-  cursor:pointer;
-  transition:transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease;
-  box-shadow:0 1px 2px rgba(0,0,0,.08);
+  padding:2rem 0;
 }
-.location-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 6px 18px rgba(0,0,0,.14);
+.social-links a{
+  margin:0 .7rem;
+  font-weight:600;
+  text-decoration:none;
+  transition: transform 0.2s;
 }
-.location-card .icon{
-  font-size:2.2rem;
-  margin-bottom:.5rem;
+.social-links a:hover{
+  transform: translateY(-2px);
 }
-.location-card h3{
-  font-size:.95rem;
-  color:var(--text);
+
+/* Instagram - Gradient Pink-Ungu-Orange */
+.social-links a:nth-child(1){
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* TikTok - Hitam dengan hint pink-cyan */
+.social-links a:nth-child(2){
+  color: #000;
+  text-shadow: 2px 2px 0 #fe2c55, -2px -2px 0 #00f2ea;
+}
+
+/* Facebook - Biru */
+.social-links a:nth-child(3){
+  color: var(--fb-blue);
+}
+
+/* ===== LOCATION SECTION ===== */
+.location-instruction{
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--card);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.1);
+  transition: background 0.3s ease;
 }
 
 .open-destination-btn{
-  margin:1.5rem auto 0;
   display:block;
+  margin:2rem auto;
   background:var(--fb-blue);
   color:#fff;
   border:none;
-  padding:.65rem 1.8rem;
+  padding:1rem 2.5rem;
   border-radius:999px;
   font-weight:600;
+  font-size:1rem;
   cursor:pointer;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
-}
-.open-destination-btn:hover{
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(24,119,242,0.18);
+  box-shadow:0 4px 15px rgba(24,119,242,0.4);
+  transition:all 0.3s ease;
 }
 
+.open-destination-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 6px 20px rgba(24,119,242,0.6);
+}
+
+.location-grid{
+  display: none;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.location-grid.show{
+  display:grid;
+}
+
+.location-btn{
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 0.4rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  text-decoration: none;
+}
+
+.location-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+}
+
+/* Colors for types omitted for brevity (kept same as before) */
+
 /* ===== INFORMATION SECTION ===== */
-.info-card{
+.info-content{
   background:var(--card);
-  border-radius:12px;
-  padding:1.2rem;
-  margin-bottom:1.2rem;
-  box-shadow:0 1px 2px rgba(0,0,0,.08);
-  transition: background 0.3s ease;
+  border-radius:15px;
+  padding:2rem;
+  text-align:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.1);
+  margin-top:1rem;
+  transition:background 0.3s ease;
 }
-.info-card h3{
+
+.info-content p{
   color:var(--text);
-  margin-bottom:.7rem;
-}
-.info-card p{
-  color:var(--muted);
+  font-size:1rem;
   line-height:1.6;
+  margin-bottom:2rem;
+}
+
+.wa-channel-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:0.7rem;
+  background:linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color:#fff;
+  border:none;
+  padding:1rem 2rem;
+  border-radius:999px;
+  font-weight:600;
+  font-size:1rem;
+  cursor:pointer;
+  text-decoration:none;
+  box-shadow:0 4px 15px rgba(37,211,102,0.4);
+  transition:all 0.3s ease;
+}
+
+.wa-channel-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 6px 20px rgba(37,211,102,0.6);
+}
+
+.wa-icon{
+  font-size:1.5rem;
 }
 
 /* ===== MODAL VIA ===== */
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.5);
-  z-index:2000;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  transition:opacity 0.3s ease;
-}
-.modal.show{
-  display:flex;
-  opacity:1;
-}
-.modal-content{
-  background:var(--card);
-  border-radius:16px;
-  padding:1.8rem;
-  max-width:400px;
-  width:90%;
-  max-height:80vh;
-  overflow-y:auto;
-  position:relative;
-  box-shadow:0 10px 40px rgba(0,0,0,.2);
-}
-.modal-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:1.5rem;
-}
-.modal-header h2{
-  color:var(--text);
-  font-size:1.3rem;
-}
-.close-btn{
-  background:none;
-  border:none;
-  font-size:1.8rem;
-  cursor:pointer;
-  color:var(--muted);
-  transition:transform 0.2s ease;
-  width:36px;
-  height:36px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:50%;
-}
-.close-btn:hover{
-  background:var(--bg);
-  transform:scale(1.1);
-}
-.via-list{
-  display:flex;
-  flex-direction:column;
-  gap:.8rem;
-}
-.via-btn{
-  display:flex;
-  align-items:center;
-  gap:1rem;
-  padding:1rem;
-  border-radius:10px;
-  background:var(--bg);
-  text-decoration:none;
-  color:var(--text);
-  transition:transform 0.2s ease, background 0.2s ease;
-}
-.via-btn:hover{
-  background:#e7f3ff;
-  transform:translateX(4px);
-}
-body.dark-mode .via-btn:hover{
-  background:#2a2d2e;
-}
-.via-icon{
-  font-size:1.6rem;
-}
-.via-name{
-  flex:1;
-  font-weight:600;
+.modal-overlay{
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
 }
 
-/* ===== MOBILE MENU ===== */
-@media(max-width:800px){
+.modal-overlay.show{
+  display: flex;
+}
+
+.modal-content{
+  background: var(--card);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease;
+  transition: background 0.3s ease;
+}
+
+@keyframes modalSlideIn{
+  from{
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to{
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-header h3{
+  color: var(--text);
+  font-size: 1.3rem;
+}
+
+.modal-close{
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--muted);
+  line-height: 1;
+}
+
+.modal-close:hover{
+  color: var(--text);
+}
+
+.modal-instruction{
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+.via-list{
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.via-btn{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+}
+
+.via-btn:hover{
+  transform: translateX(5px);
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+}
+
+.via-btn .via-icon{
+  font-size: 1.5rem;
+}
+
+.via-btn .via-name{
+  flex: 1;
+  text-align: left;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
   nav{
     position:fixed;
     top:60px;
-    right:0;
+    left:-100%;
+    width:70%;
+    height:100vh;
     background:var(--card);
-    width:250px;
-    height:calc(100vh - 60px);
-    box-shadow:-4px 0 12px rgba(0,0,0,.1);
-    transform:translateX(100%);
-    transition:transform 0.35s ease, background 0.3s ease;
-    z-index:999;
+    padding-top:2rem;
+    transition:.3s;
   }
-  nav.show{
-    transform:translateX(0);
+  nav.show{left:0}
+  nav ul{flex-direction:column;padding-left:1.5rem}
+  
+  .location-grid{
+    grid-template-columns: repeat(3, 1fr);
   }
-  nav ul{
-    flex-direction:column;
-    padding:1.5rem;
-  }
-  nav a{
-    padding:.7rem 0;
-    font-size:1.05rem;
-  }
-  .menu-btn{
-    display:block;
-    opacity:1;
-    pointer-events:auto;
+  
+  .header-right{
+    position:absolute;
+    right:1rem;
   }
 }
 
-/* ===== AUDIO PLAYER ===== */
-.audio-player{
-  position:fixed;
-  bottom:1rem;
-  right:1rem;
-  z-index:900;
-}
-.audio-player audio{
-  width:280px;
-  height:40px;
-  border-radius:20px;
-  box-shadow:0 4px 12px rgba(0,0,0,.15);
+@media(max-width:480px){
+  .location-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 </style>
-
 </head>
+
 <body>
 
+<audio id="bg-music" loop>
+<source src="musik009.mp3" type="audio/mpeg">
+</audio>
+
 <header>
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
   <div class="logo">Nature</div>
-  
   <nav id="menu">
     <ul>
-      <li><a href="#" onclick="goHome()"><img src="iconhome.png" alt="Home" class="menu-icon">Home</a></li>
-      <li><a href="#" onclick="goTo('eksplorasi')"><img src="iconexploration.png" alt="Exploration" class="menu-icon">Exploration</a></li>
-      <li><a href="#" onclick="goTo('galeri')"><img src="icongallery.png" alt="Gallery" class="menu-icon">Gallery</a></li>
-      <li><a href="#" onclick="goTo('location')"><img src="iconlocation.png" alt="Location" class="menu-icon">Location</a></li>
-      <li><a href="#" onclick="goTo('blog')"><img src="icon2026plan.png" alt="2026 Plan" class="menu-icon">2026 Plan</a></li>
-      <li><a href="#" onclick="goTo('information')"><img src="iconinformation.png" alt="Information" class="menu-icon">Information</a></li>
+      <li><a href="#hero" onclick="goHome()"><img src="iconhome.png" class="menu-icon" alt="Home"> Home</a></li>
+      <li><a href="#eksplorasi" onclick="showSingleSection('eksplorasi')"><img src="iconexploration.png" class="menu-icon" alt="Exploration"> Exploration</a></li>
+      <li><a href="#galeri" onclick="showSingleSection('galeri')"><img src="icongallery.png" class="menu-icon" alt="Gallery"> Gallery</a></li>
+      <li><a href="#blog" onclick="showSingleSection('blog')"><img src="icon2026plan.png" class="menu-icon" alt="2026 Plan"> 2026 Plan</a></li>
+      <li><a href="#location" onclick="showSingleSection('location')"><img src="iconlocation.png" class="menu-icon" alt="Location"> Location</a></li>
+      <li><a href="#information" onclick="showSingleSection('information')"><img src="iconinformation.png" class="menu-icon" alt="Information"> Information</a></li>
     </ul>
   </nav>
-
   <div class="header-right">
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">
       <span id="darkModeIcon">🌙</span>
     </button>
-    <div class="menu-btn show" onclick="toggleMenu()">☰</div>
   </div>
 </header>
 
-<div class="hero" id="hero">
+<section id="hero" class="hero">
   <div class="hero-content">
-    <h1>Jelajahi Keindahan Alam</h1>
-    <p>Temukan destinasi menakjubkan di sekitar kita</p>
-    <button class="cta-button" onclick="goTo('eksplorasi')">Mulai Jelajah</button>
+    <h1>Saves steps in frames</h1>
+    <p>Every step has a story.</p>
+    <button class="cta-button" onclick="showExploration()">Explore</button>
+  </div>
+</section>
+
+<!-- ===== EXPLORATION ===== -->
+<section id="eksplorasi" class="section eksplorasi">
+<h2>Exploration</h2>
+
+<div class="explore-tabs">
+  <button onclick="showExplore('talung',this)">Talung</button>
+  <button onclick="showExplore('ramma',this)">Ramma</button>
+  <button onclick="showExplore('slank',this)">Slank</button>
+  <button onclick="showExplore('tanralili',this)">Tanralili</button>
+  <button onclick="showExplore('lohe',this)">Lohe</button>
+  <button onclick="showExplore('Bialo',this)">Bialo</button>
+  <button onclick="showExplore('Kappire',this)">Kappire</button>
+  <button onclick="showExplore('Bulusaraung',this)">Bulusaraung</button>
+  <button onclick="showExplore('Bawakaraeng',this)">Bawakaraeng</button>
+  <button onclick="showExplore('Tomagelli',this)">Tomagelli</button>
+  <button onclick="showExplore('Massimpolongnge',this)">Massimpolongnge</button>
+  <button onclick="showExplore('Maddo',this)">Maddo</button>
+</div>
+
+<div class="card" data-explore="talung">
+  <img src="talung.jpg" alt="Puncak Talung">
+  <h3>Puncak Talung</h3>
+  <p class="card-text">Puncak Talung adalah tempat di mana lelah pendakian terbayar, Puncak Talung adalah salah satu titik tertinggi di jalur pendakian menuju Lembah Ramma. Karakternya yang terbuka menjadikannya titik pandang utama. Dari sini, kontur Lembah Ramma terlihat jelas di bawah, sementara Gunung Bawakaraeng berdiri tegas di hadapan, menghadirkan panorama yang kuat dan berkesan.</p>
+  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
+</div>
+
+<div class="card" data-explore="ramma">
+  <img src="ramma.jpg" alt="Lembah Ramma">
+  <h3>Lembah Ramma</h3>
+  <p class="card-text">Lembah Ramma terletak di kawasan Gunung Bawakaraeng. Area ini dikenal dengan pemandangan lembah yang luas, padang rumput yang indah, dan jalur pendakian yang menantang namun memuaskan ketika mencapai dataran tinggi.</p>
+  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
+</div>
+
+<div class="card" data-explore="slank">
+  <img src="slank.jpg" alt="Danau Slank">
+  <h3>Danau Slank</h3>
+  <p class="card-text">Danau Slank adalah danau alami di Gowa yang menawarkan suasana tenang, air jernih, dan tepi yang cocok untuk istirahat setelah perjalanan. Cocok untuk foto dan menikmati matahari terbit atau terbenam.</p>
+  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
+</div>
+
+<div class="card" data-explore="tanralili">
+  <img src="tanralili.jpg" alt="Danau Tanralili">
+  <h3>Danau Tanralili</h3>
+  <p class="card-text">Danau Tanralili adalah danau berair jernih yang dikelilingi vegetasi yang rimbun, cocok untuk eksplorasi alam dan fotografi landscape.</p>
+  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
+</div>
+
+<div class="card" data-explore="lohe">
+  <img src="lohe.jpg" alt="Lembah Lohe">
+  <h3>Lembah Lohe</h3>
+  <p class="card-text">Lembah Lohe adalah destinasi alam di Gowa yang menawarkan trek yang asri, panorama lembah, dan udara segar khas pegunungan.</p>
+  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
+</div>
+
+<div class="card" data-explore="Bialo">
+  <img src="bialo.jpg" alt="Bulu Bialo">
+  <h3>Bulu Bialo</h3>
+  <p class="card-text">Bulu Bialo terletak di kabupaten Jeneponto, dikenal dengan kawasan berhawa sejuk dan pemandangan perbukitan.</p>
+  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
+</div>
+
+<div class="card" data-explore="Kappire">
+  <img src="kappire.jpg" alt="Mt Kappire">
+  <h3>Mt Kappire</h3>
+  <p class="card-text">Terletak di Kabupaten Barru, Mt Kappire menawarkan jalur pendakian menarik dan pemandangan puncak yang luas.</p>
+  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
+</div>
+
+<div class="card" data-explore="Bulusaraung">
+  <img src="bulusaraung.jpg" alt="BuluSaraung">
+  <h3>BuluSaraung</h3>
+  <p class="card-text">Bulusaraung terletak di kabupaten Pangkajene dan Kepulauan, terkenal dengan formasi karst dan hutan tropisnya.</p>
+  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
+</div>
+
+<div class="card" data-explore="Bawakaraeng">
+  <img src="bawakaraeng.jpg" alt="Mt Bawakaraeng">
+  <h3>Mt Bawakaraeng</h3>
+  <p class="card-text">Bawakaraeng adalah destinasi alam di Kabupaten Sinjai dengan trek yang menantang dan pemandangan puncak yang memukau.</p>
+  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
+</div>
+
+<div class="card" data-explore="Massimpolongnge">
+  <img src="massimpolongnge.jpg" alt="Mt Massimpolongnge">
+  <h3>Mt Massimpolongnge</h3>
+  <p class="card-text">Terletak di kabupaten Soppeng, gunung ini menawarkan suasana hening dan jalur pendakian yang seru.</p>
+  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
+</div>
+
+<div class="card" data-explore="Tomagelli">
+  <img src="tomagelli.jpg" alt="Air Terjun Tomagelli">
+  <h3>Air Terjun Tomagelli</h3>
+  <p class="card-text">Terletak di Kabupaten Barru, air terjun ini memiliki kolam alami yang cocok untuk menyegarkan diri setelah trekking.</p>
+  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
+</div>
+
+<div class="card" data-explore="Maddo">
+  <img src="maddo.jpg" alt="Bukit Maddo">
+  <h3>Bukit Maddo</h3>
+  <p class="card-text">Terletak di Kabupaten Barru, Bukit Maddo menawarkan pemandangan lembah dan sunrise yang indah.</p>
+  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
+</div>
+</section>
+
+<!-- ===== GALLERY (DENGAN TABS BARU) ===== -->
+<section id="galeri" class="section galeri">
+<h2>Gallery</h2>
+
+<!-- TABS UNTUK GALLERY -->
+<div class="gallery-tabs">
+  <button onclick="showGallery('talung',this)" class="active">Talung</button>
+  <button onclick="showGallery('ramma',this)">Ramma</button>
+  <button onclick="showGallery('slank',this)">Slank</button>
+  <button onclick="showGallery('tanralili',this)">Tanralili</button>
+  <button onclick="showGallery('lohe',this)">Lohe</button>
+  <button onclick="showGallery('Bialo',this)">Bialo</button>
+  <button onclick="showGallery('Kappire',this)">Kappire</button>
+  <button onclick="showGallery('Bulusaraung',this)">Bulusaraung</button>
+  <button onclick="showGallery('Bawakaraeng',this)">Bawakaraeng</button>
+  <button onclick="showGallery('Tomagelli',this)">Tomagelli</button>
+  <button onclick="showGallery('Massimpolongnge',this)">Massimpolongnge</button>
+  <button onclick="showGallery('Maddo',this)">Maddo</button>
+</div>
+
+<!-- CAROUSEL UNTUK TALUNG -->
+<div class="carousel show" data-gallery="talung">
+  <div class="carousel-item">
+    <img src="talung01.jpg" alt="">
+    <div class="photo-date" contenteditable="true">01 Jan 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="talung02.jpg" alt="">
+    <div class="photo-date" contenteditable="true">05 Feb 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="talung03.jpg" alt="">
+    <div class="photo-date" contenteditable="true">10 Mar 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="talung04.jpg" alt="">
+    <div class="photo-date" contenteditable="true">18 Apr 2026</div>
   </div>
 </div>
 
-<!-- AUDIO PLAYER -->
-<div class="audio-player">
-  <audio id="bg-music" controls loop>
-    <source src="music.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+<!-- CAROUSEL UNTUK RAMMA -->
+<div class="carousel" data-gallery="ramma">
+  <div class="carousel-item">
+    <img src="ramma01.jpg" alt="">
+    <div class="photo-date" contenteditable="true">02 Jan 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="ramma02.jpg" alt="">
+    <div class="photo-date" contenteditable="true">04 Feb 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="ramma03.jpg" alt="">
+    <div class="photo-date" contenteditable="true">12 Mar 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="ramma04.jpg" alt="">
+    <div class="photo-date" contenteditable="true">20 Apr 2026</div>
+  </div>
 </div>
 
-<!-- ===== EXPLORATION SECTION ===== -->
-<div class="section eksplorasi" id="eksplorasi">
-  <h2>Exploration</h2>
+<!-- CAROUSEL UNTUK SLANK -->
+<div class="carousel" data-gallery="slank">
+  <div class="carousel-item">
+    <img src="slank01.jpg" alt="">
+    <div class="photo-date" contenteditable="true">03 Jan 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="slank02.jpg" alt="">
+    <div class="photo-date" contenteditable="true">07 Feb 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="slank03.jpg" alt="">
+    <div class="photo-date" contenteditable="true">15 Mar 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="slank04.jpg" alt="">
+    <div class="photo-date" contenteditable="true">21 Apr 2026</div>
+  </div>
+</div>
+
+<!-- CAROUSEL UNTUK TANRALILI -->
+<div class="carousel" data-gallery="tanralili">
+  <div class="carousel-item">
+    <img src="tanralili01.jpg" alt="">
+    <div class="photo-date" contenteditable="true">06 Jan 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="tanralili02.jpg" alt="">
+    <div class="photo-date" contenteditable="true">09 Feb 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="tanralili03.jpg" alt="">
+    <div class="photo-date" contenteditable="true">17 Mar 2026</div>
+  </div>
+</div>
+
+<!-- CAROUSEL UNTUK LOHE -->
+<div class="carousel" data-gallery="lohe">
+  <div class="carousel-item">
+    <img src="lohe01.jpg" alt="">
+    <div class="photo-date" contenteditable="true">08 Jan 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="lohe02.jpg" alt="">
+    <div class="photo-date" contenteditable="true">11 Feb 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="lohe03.jpg" alt="">
+    <div class="photo-date" contenteditable="true">19 Mar 2026</div>
+  </div>
+</div>
+
+<!-- CAROUSEL UNTUK BIALO -->
+<div class="carousel" data-gallery="Bialo">
+  <div class="carousel-item">
+    <img src="bialo01.jpg" alt="">
+    <div class="photo-date" contenteditable="true">09 Jan 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="bialo02.jpg" alt="">
+    <div class="photo-date" contenteditable="true">13 Feb 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="bialo03.jpg" alt="">
+    <div class="photo-date" contenteditable="true">22 Mar 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="bialo04.jpg" alt="">
+    <div class="photo-date" contenteditable="true">29 Apr 2026</div>
+  </div>
+</div>
+
+<!-- CAROUSEL UNTUK KAPPIRE -->
+<div class="carousel" data-gallery="Kappire">
+  <div class="carousel-item">
+    <img src="kappire01.jpg" alt="">
+    <div class="photo-date" contenteditable="true">10 Jan 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="kappire02.jpg" alt="">
+    <div class="photo-date" contenteditable="true">14 Feb 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="kappire03.jpg" alt="">
+    <div class="photo-date" contenteditable="true">23 Mar 2026</div>
+  </div>
+</div>
+
+<!-- CAROUSEL UNTUK BULUSARAUNG -->
+<div class="carousel" data-gallery="Bulusaraung">
+  <div class="carousel-item">
+    <img src="bulusaraung01.jpg" alt="">
+    <div class="photo-date" contenteditable="true">11 Jan 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="bulusaraung02.jpg" alt="">
+    <div class="photo-date" contenteditable="true">16 Feb 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="bulusaraung03.jpg" alt="">
+    <div class="photo-date" contenteditable="true">25 Mar 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="bulusaraung04.jpg" alt="">
+    <div class="photo-date" contenteditable="true">02 May 2026</div>
+  </div>
+</div>
+
+<!-- CAROUSEL UNTUK BAWAKARAENG -->
+<div class="carousel" data-gallery="Bawakaraeng">
+  <div class="carousel-item">
+    <img src="bawakaraeng01.jpg" alt="">
+    <div class="photo-date" contenteditable="true">12 Jan 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="bawakaraeng02.jpg" alt="">
+    <div class="photo-date" contenteditable="true">18 Feb 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="bawakaraeng03.jpg" alt="">
+    <div class="photo-date" contenteditable="true">27 Mar 2026</div>
+  </div>
+</div>
+
+<!-- CAROUSEL UNTUK TOMAGELLI -->
+<div class="carousel" data-gallery="Tomagelli">
+  <div class="carousel-item">
+    <img src="tomagelli01.jpg" alt="">
+    <div class="photo-date" contenteditable="true">13 Jan 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="tomagelli02.jpg" alt="">
+    <div class="photo-date" contenteditable="true">20 Feb 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="tomagelli03.jpg" alt="">
+    <div class="photo-date" contenteditable="true">28 Mar 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="tomagelli04.jpg" alt="">
+    <div class="photo-date" contenteditable="true">06 May 2026</div>
+  </div>
+</div>
+
+<!-- CAROUSEL UNTUK MASSIMPOLONGNGE -->
+<div class="carousel" data-gallery="Massimpolongnge">
+  <div class="carousel-item">
+    <img src="massimpolongnge01.jpg" alt="">
+    <div class="photo-date" contenteditable="true">14 Jan 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="massimpolongnge02.jpg" alt="">
+    <div class="photo-date" contenteditable="true">22 Feb 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="massimpolongnge03.jpg" alt="">
+    <div class="photo-date" contenteditable="true">30 Mar 2026</div>
+  </div>
+</div>
+
+<!-- CAROUSEL UNTUK MADDO -->
+<div class="carousel" data-gallery="Maddo">
+  <div class="carousel-item">
+    <img src="maddo01.jpg" alt="">
+    <div class="photo-date" contenteditable="true">15 Jan 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="maddo02.jpg" alt="">
+    <div class="photo-date" contenteditable="true">24 Feb 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="maddo03.jpg" alt="">
+    <div class="photo-date" contenteditable="true">02 Apr 2026</div>
+  </div>
+  <div class="carousel-item">
+    <img src="maddo04.jpg" alt="">
+    <div class="photo-date" contenteditable="true">08 May 2026</div>
+  </div>
+</div>
+
+</section>
+
+<!-- ===== 2026 PLAN ===== -->
+<section id="blog" class="section blog">
+<h2>2026 Plan</h2>
+
+<div class="blog-item show">
+  <img src="FotoPlan01.jpg" alt="">
+  <div>
+    <h3>MT. Latimojong</h3>
+    <p class="blog-text">Target pendakian gunung tertinggi Sulawesi dengan ketinggian 3.478 mdpl. Gunung ini menawarkan tantangan yang sangat menantang namun pemandangan dari puncaknya sangat spektakuler dan memuaskan.</p>
+    <button class="blog-read-more" onclick="toggleBlogReadMore(this)">Read More...</button>
+  </div>
+</div>
+
+<div class="blog-item show">
+  <img src="FotoPlan02.jpg" alt="">
+  <div>
+    <h3>MT. Bahonglangi</h3>
+    <p class="blog-text">Dikenal sebagai Atap Bone dengan pemandangan yang sangat indah dari puncaknya. Gunung ini menjadi salah satu target pendakian favorit di Sulawesi Selatan dengan trek yang menantang.</p>
+    <button class="blog-read-more" onclick="toggleBlogReadMore(this)">Read More...</button>
+  </div>
+</div>
+
+<div class="blog-item show">
+  <img src="FotoPlan03.jpg" alt="">
+  <div>
+    <h3>Bulu Baria</h3>
+    <p class="blog-text">Target pendakian gunung terbersih Sulawesi Selatan yang terkenal dengan keindahan alamnya yang masih sangat alami. Jalur pendakiannya yang menantang memberikan kepuasan tersendiri bagi para pendaki.</p>
+    <button class="blog-read-more" onclick="toggleBlogReadMore(this)">Read More...</button>
+  </div>
+</div>
+
+<div class="blog-item show">
+  <img src="FotoPlan04.jpg" alt="">
+  <div>
+    <h3>Mt. Tondong Karambu</h3>
+    <p class="blog-text">Target pendakian gunung yang terletak di Kabupaten Barru, atau lebih dikenal dengan "Atap Barru". Pemandangan dari puncaknya sangat memukau dengan view laut dan daratan Barru yang indah.</p>
+    <button class="blog-read-more" onclick="toggleBlogReadMore(this)">Read More...</button>
+  </div>
+</div>
+
+<div class="blog-item show">
+  <img src="FotoPlan05.jpg" alt="">
+  <div>
+    <h3>MT. Lompobattang</h3>
+    <p class="blog-text">Target pendakian gunung yang terletak di Kabupaten Jeneponto dengan pemandangan yang sangat indah. Gunung ini menawarkan trek pendakian yang menantang namun sangat memuaskan ketika sampai di puncak.</p>
+    <button class="blog-read-more" onclick="toggleBlogReadMore(this)">Read More...</button>
+  </div>
+</div>
+
+</section>
+
+<!-- ===== LOCATION ===== -->
+<section id="location" class="section location-section">
+<h2>Location</h2>
+
+<div class="location-instruction">
+  📍 Pilih destinasi untuk membuka lokasi di Google Maps
+</div>
+
+<button class="open-destination-btn" onclick="openDestinations()">
+  Open Destinations 🗺️
+</button>
+
+<div class="location-grid" id="locationGrid">
+  <!-- location buttons (kept as before) -->
+  <button class="location-btn mountain" onclick="showViaModal('talung')">
+    <span class="icon">⛰️</span>
+    <span class="name">Puncak Talung</span>
+  </button>
+
+  <button class="location-btn valley" onclick="showViaModal('ramma')">
+    <span class="icon">🏞️</span>
+    <span class="name">Lembah Ramma</span>
+  </button>
+
+  <button class="location-btn lake" onclick="showViaModal('slank')">
+    <span class="icon">🏔️</span>
+    <span class="name">Danau Slank</span>
+  </button>
+
+  <button class="location-btn lake" onclick="showViaModal('tanralili')">
+    <span class="icon">💧</span>
+    <span class="name">Danau Tanralili</span>
+  </button>
+
+  <button class="location-btn valley" onclick="showViaModal('lohe')">
+    <span class="icon">🌲</span>
+    <span class="name">Lembah Lohe</span>
+  </button>
+
+  <button class="location-btn mountain" onclick="showViaModal('bialo')">
+    <span class="icon">⛰️</span>
+    <span class="name">Bulu Bialo</span>
+  </button>
+
+  <button class="location-btn mountain" onclick="showViaModal('kappire')">
+    <span class="icon">🗻</span>
+    <span class="name">Mt Kappire</span>
+  </button>
+
+  <button class="location-btn mountain" onclick="showViaModal('bulusaraung')">
+    <span class="icon">⛰️</span>
+    <span class="name">BuluSaraung</span>
+  </button>
+
+  <button class="location-btn mountain" onclick="showViaModal('bawakaraeng')">
+    <span class="icon">🏔️</span>
+    <span class="name">Mt Bawakaraeng</span>
+  </button>
+
+  <button class="location-btn waterfall" onclick="showViaModal('tomagelli')">
+    <span class="icon">💦</span>
+    <span class="name">Air Terjun Tomagelli</span>
+  </button>
+
+  <button class="location-btn mountain" onclick="showViaModal('massimpolongnge')">
+    <span class="icon">⛰️</span>
+    <span class="name">Mt Massimpolongnge</span>
+  </button>
+
+  <button class="location-btn hill" onclick="showViaModal('maddo')">
+    <span class="icon">🌄</span>
+    <span class="name">Bukit Maddo</span>
+  </button>
+
+  <button class="location-btn mountain" onclick="showViaModal('latimojong')">
+    <span class="icon">🏔️</span>
+    <span class="name">Mt Latimojong</span>
+  </button>
+
+  <button class="location-btn mountain" onclick="showViaModal('pengka')">
+    <span class="icon">⛰️</span>
+    <span class="name">Bulu Pengka</span>
+  </button>
+
+  <button class="location-btn mountain" onclick="showViaModal('lompobattang')">
+    <span class="icon">🗻</span>
+    <span class="name">Mt Lompobattang</span>
+  </button>
+
+  <button class="location-btn mountain" onclick="showViaModal('baria')">
+    <span class="icon">⛰️</span>
+    <span class="name">Bulu Baria</span>
+  </button>
+
+  <button class="location-btn mountain" onclick="showViaModal('buludua')">
+    <span class="icon">⛰️</span>
+    <span class="name">Bulu Dua</span>
+  </button>
+
+  <button class="location-btn mountain" onclick="showViaModal('tondongkarambu')">
+    <span class="icon">🏔️</span>
+    <span class="name">Mt Tondong Karambu</span>
+  </button>
+
+  <button class="location-btn mountain" onclick="showViaModal('saukang')">
+    <span class="icon">⛰️</span>
+    <span class="name">Bulu Saukang</span>
+  </button>
+
+  <button class="location-btn hill" onclick="showViaModal('sumpangbita')">
+    <span class="icon">🏛️</span>
+    <span class="name">Sumpang Bita</span>
+  </button>
+
+  <button class="location-btn hill" onclick="showViaModal('leangleang')">
+    <span class="icon">🏛️</span>
+    <span class="name">Leang-Leang</span>
+  </button>
+
+  <button class="location-btn valley" onclick="showViaModal('bantimurung')">
+    <span class="icon">🦋</span>
+    <span class="name">TN Bantimurung</span>
+  </button>
+
+</div>
+</section>
+
+<!-- ===== INFORMATION ===== -->
+<section id="information" class="section information-section">
+<h2>Information</h2>
+
+<div class="info-content">
+  <p>Bergabung ke Saluran WhatsApp untuk mendapatkan update perjalanan, rencana perjalanan, dan cerita terbaru hheheh</p>
   
-  <div class="explore-tabs">
-    <button class="active" onclick="showExplore('talung',this)">Talung Ramma</button>
-    <button onclick="showExplore('rammang',this)">Rammang-Rammang</button>
-    <button onclick="showExplore('lohe',this)">Lohe</button>
-    <button onclick="showExplore('pute',this)">Pute</button>
-    <button onclick="showExplore('pongka',this)">Pongka</button>
-    <button onclick="showExplore('slank',this)">Slank</button>
-    <button onclick="showExplore('tanralili',this)">Tanralili</button>
-    <button onclick="showExplore('bialo',this)">Bialo</button>
-    <button onclick="showExplore('saukang',this)">Saukang</button>
-  </div>
-
-  <!-- TALUNG RAMMA -->
-  <div class="card show" data-explore="talung">
-    <img src="talung.jpg" alt="Talung Ramma">
-    <h3>Talung Ramma</h3>
-    <p class="card-text">
-Puncak Talung dengan ketinggian 2.776 mdpl menawarkan panorama indah dari Lembah Ramma, Danau Tanralili, dan puncak Bawakaraeng. Medan berat dengan jalur panjang menjadikannya tantangan seru bagi pendaki berpengalaman. Lokasi ini juga cocok untuk camping di lembah yang eksotis.
-    </p>
-    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-  </div>
-
-  <!-- RAMMANG-RAMMANG -->
-  <div class="card" data-explore="rammang">
-    <img src="rammang.jpg" alt="Rammang-Rammang">
-    <h3>Kampoeng Karst Rammang-Rammang</h3>
-    <p class="card-text">
-Kampoeng Karst Rammang-Rammang adalah kawasan karst terbesar ketiga di dunia yang terletak di Kabupaten Maros. Kawasan ini menawarkan pemandangan spektakuler berupa tebing-tebing karst yang menjulang tinggi, sungai jernih yang mengalir tenang, serta kampung-kampung tradisional yang masih mempertahankan budaya lokal. Pengunjung dapat menikmati keindahan alam dengan menyusuri sungai menggunakan perahu sambil menyaksikan formasi batu kapur yang megah. Tempat ini juga menjadi habitat bagi berbagai flora dan fauna endemik Sulawesi.
-    </p>
-    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-  </div>
-
-  <!-- LOHE -->
-  <div class="card" data-explore="lohe">
-    <img src="lohe.jpg" alt="Lembah Lohe">
-    <h3>Lembah Lohe</h3>
-    <p class="card-text">
-Lembah Lohe adalah lembah eksotis yang tersembunyi di balik pegunungan Bawakaraeng. Dengan padang rumput luas, tebing karst, dan sungai kecil yang jernih, lembah ini menjadi spot favorit untuk camping dan fotografi. Akses menuju Lohe cukup menantang, namun pemandangan yang ditawarkan sangat memuaskan. Di musim tertentu, lembah ini dipenuhi bunga liar yang membuatnya semakin cantik.
-    </p>
-    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-  </div>
-
-  <!-- PUTE -->
-  <div class="card" data-explore="pute">
-    <img src="pute.jpg" alt="Bulu Pute">
-    <h3>Bulu Pute</h3>
-    <p class="card-text">
-Bulu Pute adalah destinasi pendakian yang menawarkan pemandangan hamparan savana hijau yang luas dan tebing-tebing karst di sekelilingnya. Puncak ini relatif mudah dijangkau dan cocok untuk pendaki pemula maupun yang ingin menikmati sunrise atau sunset. Dari puncak, pengunjung bisa melihat Gunung Bawakaraeng dan rangkaian pegunungan lainnya. Spot ini juga populer untuk camping dan fotografi landscape.
-    </p>
-    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-  </div>
-
-  <!-- PONGKA -->
-  <div class="card" data-explore="pongka">
-    <img src="pongka.jpg" alt="Bulu Pongka">
-    <h3>Bulu Pongka</h3>
-    <p class="card-text">
-Bulu Pongka merupakan bukit dengan pemandangan 360 derajat yang memukau. Dari sini, pengunjung bisa melihat Kota Makassar, laut, dan pegunungan di kejauhan. Jalur pendakian relatif mudah dan bisa ditempuh dalam waktu singkat, menjadikannya pilihan tepat untuk hiking santai bersama keluarga atau teman. Sunset dan sunrise di Pongka selalu menjadi momen yang dinanti para pengunjung.
-    </p>
-    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-  </div>
-
-  <!-- SLANK -->
-  <div class="card" data-explore="slank">
-    <img src="slank.jpg" alt="Danau Slank">
-    <h3>Danau Slank</h3>
-    <p class="card-text">
-Danau Slank adalah danau alami yang terletak di lereng Gunung Bawakaraeng. Dikelilingi oleh hutan pinus dan tebing batu, danau ini menawarkan suasana tenang dan sejuk. Air danau yang jernih dan dingin menjadi daya tarik utama. Banyak pendaki yang menjadikan danau ini sebagai tempat istirahat atau camping sebelum melanjutkan perjalanan ke puncak. Keindahan alam di sekitar danau membuat siapa saja betah berlama-lama.
-    </p>
-    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-  </div>
-
-  <!-- TANRALILI -->
-  <div class="card" data-explore="tanralili">
-    <img src="tanralili.jpg" alt="Danau Tanralili">
-    <h3>Danau Tanralili</h3>
-    <p class="card-text">
-Danau Tanralili adalah danau alami yang terletak di ketinggian sekitar 2.000 mdpl. Danau ini menjadi salah satu spot terindah di jalur pendakian Bawakaraeng dan Talung. Airnya yang tenang dan jernih mencerminkan langit dan pegunungan di sekelilingnya, menciptakan pemandangan yang memukau. Banyak pendaki yang berhenti sejenak di sini untuk menikmati keindahan dan mengisi ulang persediaan air. Suasana mistis dan damai sering terasa di sekitar danau ini.
-    </p>
-    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-  </div>
-
-  <!-- BIALO -->
-  <div class="card" data-explore="bialo">
-    <img src="bialo.jpg" alt="Bulu Bialo">
-    <h3>Bulu Bialo</h3>
-    <p class="card-text">
-Bulu Bialo adalah bukit dengan pemandangan eksotis yang menyajikan panorama lembah, tebing karst, dan hamparan sawah. Jalur menuju puncak cukup menantang dengan trek berbatu dan curam di beberapa bagian. Namun, semua usaha terbayar dengan pemandangan spektakuler dari atas. Tempat ini cocok untuk hiking dan fotografi, serta sering dijadikan spot untuk menikmati golden hour.
-    </p>
-    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-  </div>
-
-  <!-- SAUKANG -->
-  <div class="card" data-explore="saukang">
-    <img src="saukang.jpg" alt="Bulu Saukang">
-    <h3>Bulu Saukang</h3>
-    <p class="card-text">
-Bulu Saukang adalah destinasi pendakian yang menawarkan pemandangan alam yang memukau dengan hamparan savana dan perbukitan hijau. Terletak di kawasan yang masih alami, tempat ini cocok bagi para petualang yang ingin menikmati keindahan alam Sulawesi Selatan. Jalur pendakian yang menantang membuat pengalaman mendaki semakin berkesan. Dari puncak, pengunjung bisa melihat panorama pegunungan dan lembah yang menakjubkan.
-    </p>
-    <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-  </div>
-
+  <a href="https://whatsapp.com/channel/0029VbBtGZjLCoWw19k6kG0w" target="_blank" class="wa-channel-btn">
+    <span class="wa-icon">💬</span>
+    Bergabung ke Saluran
+  </a>
 </div>
-
-<!-- ===== GALLERY SECTION ===== -->
-<div class="section galeri" id="galeri">
-  <h2>Gallery</h2>
-  
-  <div class="gallery-tabs">
-    <button class="active" onclick="showGallery('talung',this)">Talung</button>
-    <button onclick="showGallery('ramma',this)">Ramma</button>
-    <button onclick="showGallery('lohe',this)">Lohe</button>
-    <button onclick="showGallery('pute',this)">Pute</button>
-    <button onclick="showGallery('pongka',this)">Pongka</button>
-    <button onclick="showGallery('slank',this)">Slank</button>
-    <button onclick="showGallery('tanralili',this)">Tanralili</button>
-    <button onclick="showGallery('bialo',this)">Bialo</button>
-    <button onclick="showGallery('saukang',this)">Saukang</button>
-  </div>
-
-  <!-- Gallery Talung -->
-  <div class="carousel show" data-gallery="talung">
-    <div class="carousel-item">
-      <img src="talung01.jpg" alt="Talung 1">
-      <div class="photo-date" contenteditable="true">15 Agustus 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="talung02.jpg" alt="Talung 2">
-      <div class="photo-date" contenteditable="true">15 Agustus 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="talung03.jpg" alt="Talung 3">
-      <div class="photo-date" contenteditable="true">16 Agustus 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="talung04.jpg" alt="Talung 4">
-      <div class="photo-date" contenteditable="true">16 Agustus 2024</div>
-    </div>
-  </div>
-
-  <!-- Gallery Ramma -->
-  <div class="carousel" data-gallery="ramma">
-    <div class="carousel-item">
-      <img src="ramma01.jpg" alt="Ramma 1">
-      <div class="photo-date" contenteditable="true">10 September 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="ramma02.jpg" alt="Ramma 2">
-      <div class="photo-date" contenteditable="true">10 September 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="ramma03.jpg" alt="Ramma 3">
-      <div class="photo-date" contenteditable="true">10 September 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="ramma04.jpg" alt="Ramma 4">
-      <div class="photo-date" contenteditable="true">10 September 2024</div>
-    </div>
-  </div>
-
-  <!-- Gallery Lohe -->
-  <div class="carousel" data-gallery="lohe">
-    <div class="carousel-item">
-      <img src="lohe01.jpg" alt="Lohe 1">
-      <div class="photo-date" contenteditable="true">5 Juli 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="lohe02.jpg" alt="Lohe 2">
-      <div class="photo-date" contenteditable="true">5 Juli 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="lohe03.jpg" alt="Lohe 3">
-      <div class="photo-date" contenteditable="true">6 Juli 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="lohe04.jpg" alt="Lohe 4">
-      <div class="photo-date" contenteditable="true">6 Juli 2024</div>
-    </div>
-  </div>
-
-  <!-- Gallery Pute -->
-  <div class="carousel" data-gallery="pute">
-    <div class="carousel-item">
-      <img src="pute01.jpg" alt="Pute 1">
-      <div class="photo-date" contenteditable="true">20 Juni 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="pute02.jpg" alt="Pute 2">
-      <div class="photo-date" contenteditable="true">20 Juni 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="pute03.jpg" alt="Pute 3">
-      <div class="photo-date" contenteditable="true">20 Juni 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="pute04.jpg" alt="Pute 4">
-      <div class="photo-date" contenteditable="true">20 Juni 2024</div>
-    </div>
-  </div>
-
-  <!-- Gallery Pongka -->
-  <div class="carousel" data-gallery="pongka">
-    <div class="carousel-item">
-      <img src="pongka01.jpg" alt="Pongka 1">
-      <div class="photo-date" contenteditable="true">12 Mei 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="pongka02.jpg" alt="Pongka 2">
-      <div class="photo-date" contenteditable="true">12 Mei 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="pongka03.jpg" alt="Pongka 3">
-      <div class="photo-date" contenteditable="true">12 Mei 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="pongka04.jpg" alt="Pongka 4">
-      <div class="photo-date" contenteditable="true">12 Mei 2024</div>
-    </div>
-  </div>
-
-  <!-- Gallery Slank -->
-  <div class="carousel" data-gallery="slank">
-    <div class="carousel-item">
-      <img src="slank01.jpg" alt="Slank 1">
-      <div class="photo-date" contenteditable="true">3 April 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="slank02.jpg" alt="Slank 2">
-      <div class="photo-date" contenteditable="true">3 April 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="slank03.jpg" alt="Slank 3">
-      <div class="photo-date" contenteditable="true">4 April 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="slank04.jpg" alt="Slank 4">
-      <div class="photo-date" contenteditable="true">4 April 2024</div>
-    </div>
-  </div>
-
-  <!-- Gallery Tanralili -->
-  <div class="carousel" data-gallery="tanralili">
-    <div class="carousel-item">
-      <img src="tanralili01.jpg" alt="Tanralili 1">
-      <div class="photo-date" contenteditable="true">25 Maret 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="tanralili02.jpg" alt="Tanralili 2">
-      <div class="photo-date" contenteditable="true">25 Maret 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="tanralili03.jpg" alt="Tanralili 3">
-      <div class="photo-date" contenteditable="true">25 Maret 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="tanralili04.jpg" alt="Tanralili 4">
-      <div class="photo-date" contenteditable="true">25 Maret 2024</div>
-    </div>
-  </div>
-
-  <!-- Gallery Bialo -->
-  <div class="carousel" data-gallery="bialo">
-    <div class="carousel-item">
-      <img src="bialo01.jpg" alt="Bialo 1">
-      <div class="photo-date" contenteditable="true">18 Februari 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="bialo02.jpg" alt="Bialo 2">
-      <div class="photo-date" contenteditable="true">18 Februari 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="bialo03.jpg" alt="Bialo 3">
-      <div class="photo-date" contenteditable="true">18 Februari 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="bialo04.jpg" alt="Bialo 4">
-      <div class="photo-date" contenteditable="true">18 Februari 2024</div>
-    </div>
-  </div>
-
-  <!-- Gallery Saukang -->
-  <div class="carousel" data-gallery="saukang">
-    <div class="carousel-item">
-      <img src="saukang01.jpg" alt="Saukang 1">
-      <div class="photo-date" contenteditable="true">30 Januari 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="saukang02.jpg" alt="Saukang 2">
-      <div class="photo-date" contenteditable="true">30 Januari 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="saukang03.jpg" alt="Saukang 3">
-      <div class="photo-date" contenteditable="true">30 Januari 2024</div>
-    </div>
-    <div class="carousel-item">
-      <img src="saukang04.jpg" alt="Saukang 4">
-      <div class="photo-date" contenteditable="true">30 Januari 2024</div>
-    </div>
-  </div>
-
-</div>
-
-<!-- ===== 2026 PLAN SECTION ===== -->
-<div class="section blog" id="blog">
-  <h2>2026 Plan</h2>
-
-  <div class="blog-item show">
-    <img src="plan1.jpg" alt="Plan 1">
-    <div class="blog-item-content">
-      <h3>Mt Bawakaraeng (2.833 mdpl)</h3>
-      <p class="blog-text">Gunung Bawakaraeng adalah gunung tertinggi di Sulawesi Selatan dengan ketinggian 2.833 mdpl. Gunung ini menawarkan pemandangan spektakuler dan berbagai jalur pendakian yang menantang. Puncaknya sering diselimuti kabut dan menawarkan panorama 360 derajat. Target pendakian 2026 adalah menjelajahi semua via pendakian yang ada.</p>
-      <button class="read-more-blog-btn" onclick="toggleBlogReadMore(this)">Read More...</button>
-    </div>
-  </div>
-
-  <div class="blog-item show">
-    <img src="plan2.jpg" alt="Plan 2">
-    <div class="blog-item-content">
-      <h3>Mt Latimojong (3.478 mdpl)</h3>
-      <p class="blog-text">Gunung Latimojong adalah puncak tertinggi di Sulawesi dengan ketinggian 3.478 mdpl. Pendakian ke gunung ini membutuhkan stamina dan persiapan matang karena jalurnya yang panjang dan menantang. Pemandangan dari puncak sangat indah dengan hamparan awan dan pegunungan di bawahnya. Rencana 2026 adalah mencapai puncak melalui berbagai jalur.</p>
-      <button class="read-more-blog-btn" onclick="toggleBlogReadMore(this)">Read More...</button>
-    </div>
-  </div>
-
-  <div class="blog-item show">
-    <img src="plan3.jpg" alt="Plan 3">
-    <div class="blog-item-content">
-      <h3>Mt Lompobattang (2.871 mdpl)</h3>
-      <p class="blog-text">Gunung Lompobattang adalah gunung berapi yang terletak di Kabupaten Gowa. Dengan ketinggian 2.871 mdpl, gunung ini menawarkan jalur pendakian yang cukup menantang dengan pemandangan yang luar biasa. Hutan pinus, savana, dan kawah di puncak menjadi daya tarik utama. Target 2026 adalah eksplorasi lengkap kawasan ini.</p>
-      <button class="read-more-blog-btn" onclick="toggleBlogReadMore(this)">Read More...</button>
-    </div>
-  </div>
-
-</div>
-
-<!-- ===== LOCATION SECTION ===== -->
-<div class="section location-section" id="location">
-  <h2>Location</h2>
-  <p style="color:var(--muted); margin-bottom:1rem;">Temukan lokasi berbagai destinasi alam yang menarik untuk dikunjungi</p>
-  
-  <button class="open-destination-btn" onclick="openDestinations()">Lihat Semua Destinasi</button>
-
-  <div class="location-grid" id="locationGrid">
-    <div class="location-card" onclick="showViaModal('talung')">
-      <div class="icon">🏔️</div>
-      <h3>Puncak Talung</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('ramma')">
-      <div class="icon">🌄</div>
-      <h3>Lembah Ramma</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('slank')">
-      <div class="icon">🏞️</div>
-      <h3>Danau Slank</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('tanralili')">
-      <div class="icon">💧</div>
-      <h3>Danau Tanralili</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('lohe')">
-      <div class="icon">🌾</div>
-      <h3>Lembah Lohe</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('bialo')">
-      <div class="icon">⛰️</div>
-      <h3>Bulu Bialo</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('kappire')">
-      <div class="icon">🗻</div>
-      <h3>Mt Kappire</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('bulusaraung')">
-      <div class="icon">⛰️</div>
-      <h3>BuluSaraung</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('bawakaraeng')">
-      <div class="icon">🏔️</div>
-      <h3>Mt Bawakaraeng</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('tomagelli')">
-      <div class="icon">💦</div>
-      <h3>Air Terjun Tomagelli</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('massimpolongnge')">
-      <div class="icon">⛰️</div>
-      <h3>Mt Massimpolongnge</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('maddo')">
-      <div class="icon">🌄</div>
-      <h3>Bukit Maddo</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('latimojong')">
-      <div class="icon">🗻</div>
-      <h3>Mt Latimojong</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('pengka')">
-      <div class="icon">⛰️</div>
-      <h3>Bulu Pengka</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('lompobattang')">
-      <div class="icon">🌋</div>
-      <h3>Mt Lompobattang</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('baria')">
-      <div class="icon">⛰️</div>
-      <h3>Bulu Baria</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('buludua')">
-      <div class="icon">⛰️</div>
-      <h3>Bulu Dua</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('tondongkarambu')">
-      <div class="icon">🗻</div>
-      <h3>Mt Tondong Karambu</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('saukang')">
-      <div class="icon">⛰️</div>
-      <h3>Bulu Saukang</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('marukuruku')">
-      <div class="icon">🏔️</div>
-      <h3>Mt Maruku-ruku</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('lehe')">
-      <div class="icon">⛰️</div>
-      <h3>Mt Lehe Lompoa</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('sumpangbita')">
-      <div class="icon">🗿</div>
-      <h3>Taman Purbakala Sumpang Bita</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('leangleang')">
-      <div class="icon">🏛️</div>
-      <h3>Taman Arkeologi Leang-Leang</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('bantimurung')">
-      <div class="icon">🦋</div>
-      <h3>TN Bantimurung Bulusaraung</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('rammang')">
-      <div class="icon">🪨</div>
-      <h3>Kampoeng Karst Rammang-Rammang</h3>
-    </div>
-    <div class="location-card" onclick="showViaModal('gallang')">
-      <div class="icon">💦</div>
-      <h3>Air Terjun Bantimurung Gallang</h3>
-    </div>
-  </div>
-</div>
-
-<!-- ===== INFORMATION SECTION ===== -->
-<div class="section information-section" id="information">
-  <h2>Information</h2>
-
-  <div class="info-card">
-    <h3>📍 Lokasi</h3>
-    <p>Sebagian besar destinasi yang kami tampilkan terletak di wilayah Sulawesi Selatan, khususnya di sekitar Kabupaten Gowa, Maros, Enrekang, dan sekitarnya. Setiap lokasi memiliki keunikan dan daya tariknya masing-masing.</p>
-  </div>
-
-  <div class="info-card">
-    <h3>🥾 Persiapan</h3>
-    <p>Pastikan Anda membawa perlengkapan yang memadai seperti sepatu hiking, jaket, air minum, makanan ringan, dan obat-obatan pribadi. Untuk pendakian yang lebih berat, disarankan membawa tenda, sleeping bag, dan perlengkapan camping lainnya.</p>
-  </div>
-
-  <div class="info-card">
-    <h3>⚠️ Keselamatan</h3>
-    <p>Selalu utamakan keselamatan. Cek kondisi cuaca sebelum berangkat, jangan mendaki sendirian, dan selalu beritahu orang terdekat tentang rencana perjalanan Anda. Ikuti arahan pemandu lokal dan jangan meninggalkan sampah di area wisata.</p>
-  </div>
-
-  <div class="info-card">
-    <h3>📞 Kontak</h3>
-    <p>Untuk informasi lebih lanjut, Anda dapat menghubungi komunitas pendaki lokal atau pemandu wisata yang berpengalaman. Jangan ragu untuk bertanya sebelum memulai perjalanan Anda.</p>
-  </div>
-
-</div>
+</section>
 
 <!-- ===== MODAL VIA ===== -->
-<div class="modal" id="viaModal" onclick="closeModal(event)">
-  <div class="modal-content">
+<div id="viaModal" class="modal-overlay" onclick="closeModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
     <div class="modal-header">
-      <h2 id="modalTitle">Pilih Via</h2>
-      <button class="close-btn" onclick="closeModal(event)">×</button>
+      <h3 id="modalTitle">Pilih Jalur</h3>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-instruction">
+      🚶 Pilih via/jalur pendakian
     </div>
     <div class="via-list" id="viaList">
-      <!-- Will be populated by JavaScript -->
+      <!-- Via options akan muncul di sini -->
     </div>
   </div>
+</div>
+
+<!-- ===== SOCIAL ===== -->
+<div class="social-links">
+  <a href="https://instagram.com/rhmtmuhmmdd" target="_blank">Instagram</a>
+  <a href="https://tiktok.com/@rhmtmuhmmdd" target="_blank">TikTok</a>
+  <a href="https://facebook.com/USERNAME" target="_blank">Facebook</a>
 </div>
 
 <script>
-function goTo(section){
+function showExploration(){
   // Hide all sections first
   hideAllSections()
   
-  // Show target section
-  const target = document.getElementById(section)
-  if(target) target.classList.add('show')
+  // Show only Exploration and Gallery
+  document.getElementById('eksplorasi').classList.add('show')
+  document.getElementById('galeri').classList.add('show')
   
-  // Show menu button for non-home sections
-  if(section !== 'hero'){
-    document.querySelector('.menu-btn').classList.add('show')
-  }
+  // Show menu button
+  document.querySelector('.menu-btn').classList.add('show')
   
-  // Scroll to section
-  if(section === 'eksplorasi'){
+  // Play music (try/catch in case autoplay blocked)
+  const music = document.getElementById('bg-music')
+  if(music){ try { music.play().catch(()=>{}) } catch(e){} }
+  
+  // Scroll to exploration
+  document.getElementById('eksplorasi').scrollIntoView({behavior:'smooth'})
+}
+
+function showSingleSection(sectionName){
+  // Hide all sections
+  hideAllSections()
+  
+  // Show menu button
+  document.querySelector('.menu-btn').classList.add('show')
+  
+  // Show only the selected section
+  if(sectionName === 'eksplorasi'){
+    document.getElementById('eksplorasi').classList.add('show')
     document.getElementById('eksplorasi').scrollIntoView({behavior:'smooth'})
-    showExplore('talung', document.querySelector('.explore-tabs button'))
-  }
-  else if(section === 'galeri'){
+  } else if(sectionName === 'galeri'){
+    document.getElementById('galeri').classList.add('show')
     document.getElementById('galeri').scrollIntoView({behavior:'smooth'})
-    showGallery('talung', document.querySelector('.gallery-tabs button'))
-  }
-  else if(section === 'blog'){
+  } else if(sectionName === 'blog'){
+    document.getElementById('blog').classList.add('show')
     document.getElementById('blog').scrollIntoView({behavior:'smooth'})
-  }
-  else if(section === 'location'){
+  } else if(sectionName === 'location'){
+    document.getElementById('location').classList.add('show')
     document.getElementById('location').scrollIntoView({behavior:'smooth'})
-  }
-  else if(section === 'information'){
+  } else if(sectionName === 'information'){
+    document.getElementById('information').classList.add('show')
     document.getElementById('information').scrollIntoView({behavior:'smooth'})
   }
   
