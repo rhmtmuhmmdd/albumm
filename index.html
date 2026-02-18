@@ -2,2086 +2,2343 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>rhmttmuhmmd</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>rhmttmuhmmd — Saves Steps In Frames</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Josefin+Sans:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* =====================================================
-   CSS VARIABLES & RESET
-===================================================== */
+/* =============================================
+   CSS VARIABLES — LIGHT & DARK MODE
+   ============================================= */
 :root {
-  --bg-primary: #f0ede8;
-  --bg-secondary: #e5e0d8;
-  --bg-card: #ffffff;
-  --text-primary: #1a1a1a;
-  --text-secondary: #444444;
-  --text-muted: #777777;
-  --accent: #3d6b4f;
-  --accent-light: #6fa880;
-  --accent-pale: #c8dfd0;
-  --border: rgba(61,107,79,0.2);
-  --shadow: 0 4px 24px rgba(0,0,0,0.10);
-  --shadow-lg: 0 8px 40px rgba(0,0,0,0.15);
-  --footer-bg: #1a2a20;
-  --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
-}
-body.dark-mode {
-  --bg-primary: #0e1a12;
-  --bg-secondary: #162019;
-  --bg-card: #1c2b20;
-  --text-primary: #f5f5f0;
-  --text-secondary: #c8cfc8;
-  --text-muted: #8a9a8a;
-  --accent: #7ec898;
-  --accent-light: #a8d8b8;
-  --accent-pale: #2a4035;
-  --border: rgba(126,200,152,0.2);
-  --shadow: 0 4px 24px rgba(0,0,0,0.4);
-  --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
-  --footer-bg: #0a120d;
+  --bg:         #f3efe3;
+  --bg2:        #e5dfc9;
+  --text:       #1a1a18;
+  --text2:      #5a5648;
+  --accent:     #4a6741;
+  --accent2:    #8bc34a;
+  --card-bg:    #ffffff;
+  --card-shadow:0 4px 28px rgba(0,0,0,0.08);
+  --border:     rgba(74,103,65,0.18);
+  --header-bg:  rgba(243,239,227,0.96);
+  --sidebar-bg: #141e12;
+  --footer-bg:  #141e12;
+  --input-bg:   #ffffff;
+  --input-border:rgba(74,103,65,0.28);
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+body.dark {
+  --bg:         #0d160c;
+  --bg2:        #182415;
+  --text:       #f3efe3;
+  --text2:      #a8a090;
+  --accent:     #8bc34a;
+  --accent2:    #a3d977;
+  --card-bg:    #192416;
+  --card-shadow:0 4px 28px rgba(0,0,0,0.55);
+  --border:     rgba(139,195,74,0.18);
+  --header-bg:  rgba(13,22,12,0.96);
+  --sidebar-bg: #090f08;
+  --footer-bg:  #090f08;
+  --input-bg:   rgba(255,255,255,0.06);
+  --input-border:rgba(139,195,74,0.25);
 }
 
-html {
-  scroll-behavior: smooth;
+/* =============================================
+   RESET & BASE
+   ============================================= */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
-  font-family: 'Josefin Sans', sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  overflow-x: hidden;
-  transition: background var(--transition), color var(--transition);
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.35s ease, color 0.35s ease;
   min-height: 100vh;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
+img { max-width: 100%; display: block; }
 
-a { text-decoration: none; color: inherit; }
+a { text-decoration: none; }
 
-/* =====================================================
-   PERMANENT TOP BAR (Logo + Dark Toggle)
-===================================================== */
-#top-bar {
+/* =============================================
+   FIXED HEADER
+   ============================================= */
+#site-header {
   position: fixed;
   top: 0; left: 0; right: 0;
-  z-index: 1000;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 20px;
-  background: rgba(240,237,232,0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  padding: 0 18px;
+  background: var(--header-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
-  transition: background var(--transition), border-color var(--transition);
-}
-body.dark-mode #top-bar {
-  background: rgba(14,26,18,0.88);
+  z-index: 1000;
+  transition: background 0.35s;
 }
 
-#logo-wrap {
+.header-left {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
+  gap: 3px;
 }
 
-#logo {
-  height: 44px;
+#site-logo {
+  height: 34px;
   width: auto;
   object-fit: contain;
+  display: block;
 }
 
-/* Hamburger — hidden until exploration */
-#hamburger {
+/* Hamburger — hidden by default, shown after Exploration */
+#hamburger-btn {
   display: none;
   flex-direction: column;
   gap: 4px;
+  background: none;
+  border: none;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 6px;
-  transition: background var(--transition);
+  padding: 2px 0;
 }
-#hamburger:hover { background: var(--accent-pale); }
-#hamburger span {
-  display: block;
+
+#hamburger-btn.show { display: flex; }
+
+.ham-line {
   width: 22px;
   height: 2px;
-  background: var(--text-primary);
+  background: var(--accent2);
   border-radius: 2px;
-  transition: background var(--transition);
+  display: block;
+  transition: all 0.3s;
 }
-#hamburger.visible { display: flex; }
 
-/* Dark mode toggle */
 #dark-toggle {
-  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
   border: 1.5px solid var(--border);
-  border-radius: 50px;
-  width: 52px;
-  height: 28px;
+  border-radius: 100px;
+  padding: 7px 16px;
   cursor: pointer;
-  position: relative;
-  transition: background var(--transition), border-color var(--transition);
-  flex-shrink: 0;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.3s;
 }
-#dark-toggle::after {
+
+#dark-toggle:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+/* =============================================
+   SIDEBAR
+   ============================================= */
+#sidebar {
+  position: fixed;
+  top: 0; left: -290px;
+  width: 264px;
+  height: 100%;
+  background: var(--sidebar-bg);
+  z-index: 1100;
+  transition: left 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#sidebar.open { left: 0; }
+
+.sidebar-top {
+  padding: 18px 22px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.sidebar-top img {
+  height: 30px;
+  object-fit: contain;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 10px 0;
+  flex: 1;
+}
+
+.sidebar-menu li a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 22px;
+  color: rgba(243,239,227,0.75);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.sidebar-menu li a:hover,
+.sidebar-menu li a.active {
+  color: var(--accent2);
+  background: rgba(139,195,74,0.1);
+  padding-left: 30px;
+}
+
+.sidebar-menu li a::before {
   content: '';
   position: absolute;
-  top: 3px; left: 3px;
-  width: 20px; height: 20px;
-  border-radius: 50%;
-  background: var(--accent);
-  transition: transform var(--transition), background var(--transition);
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent2);
+  border-radius: 0 3px 3px 0;
+  transform: scaleY(0);
+  transition: transform 0.25s;
 }
-body.dark-mode #dark-toggle::after {
-  transform: translateX(24px);
-  background: var(--accent-light);
-}
-#dark-toggle-icon {
-  position: absolute;
-  font-size: 11px;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 6px;
-  transition: opacity var(--transition);
-  pointer-events: none;
-}
-body.dark-mode #dark-toggle-icon { content: '☀'; right: auto; left: 6px; }
 
-/* =====================================================
-   PERMANENT FOOTER (Social Media)
-===================================================== */
-#site-footer {
+.sidebar-menu li a:hover::before,
+.sidebar-menu li a.active::before { transform: scaleY(1); }
+
+.sidebar-menu li a img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  opacity: 0.65;
+  flex-shrink: 0;
+}
+
+.sidebar-menu li a:hover img,
+.sidebar-menu li a.active img { opacity: 1; }
+
+#sidebar-overlay {
   position: fixed;
-  bottom: 0; left: 0; right: 0;
-  z-index: 999;
+  inset: 0;
+  background: rgba(0,0,0,0.58);
+  z-index: 1050;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+#sidebar-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* =============================================
+   AUDIO (hidden)
+   ============================================= */
+#bg-audio { display: none; }
+
+/* =============================================
+   SOCIAL FOOTER (reusable)
+   ============================================= */
+.social-footer {
   background: var(--footer-bg);
-  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 24px;
+  gap: clamp(10px, 3.5vw, 32px);
+  padding: 16px 16px;
   flex-wrap: wrap;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  transition: background 0.35s;
 }
 
 .social-link {
-  font-family: 'Josefin Sans', sans-serif;
-  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: clamp(12px, 1.8vw, 14px);
   font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 5px 10px;
+  letter-spacing: 0.05em;
+  transition: all 0.3s;
+  padding: 6px 13px;
   border-radius: 20px;
-  transition: opacity 0.25s, transform 0.25s, box-shadow 0.25s;
   border: 1.5px solid transparent;
 }
-.social-link:hover { opacity: 0.8; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-.social-instagram { color: #e1306c; border-color: rgba(225,48,108,0.3); }
-.social-tiktok     { color: #69c9d0; border-color: rgba(105,201,208,0.3); }
-.social-facebook   { color: #1877f2; border-color: rgba(24,119,242,0.3); }
 
-/* =====================================================
-   PAGE SYSTEM
-===================================================== */
-.page {
-  display: none;
-  min-height: 100vh;
-  padding-top: 70px;   /* top-bar height */
-  padding-bottom: 54px; /* footer height */
-  overflow-x: hidden;
+.social-link:hover {
+  transform: translateY(-2px);
+  border-color: currentColor;
 }
-.page.active { display: block; }
 
-/* =====================================================
-   PAGE: COVER / SAMPUL
-===================================================== */
-#page-cover {
+.social-link.instagram { color: #E1306C; }
+.social-link.tiktok    { color: #ffffff; }
+.social-link.facebook  { color: #1877F2; }
+
+/* =============================================
+   COVER PAGE
+   ============================================= */
+#cover-page {
   position: relative;
   min-height: 100vh;
-  padding: 0;
-  overflow: hidden;
-}
-#page-cover.active {
   display: flex;
   flex-direction: column;
 }
 
-#cover-bg {
+.cover-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #0e1a12 0%, #1e3a28 50%, #2d5a3d 100%);
+  background-image: url('sampul1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   z-index: 0;
 }
-#cover-bg img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  opacity: 0.45;
+
+.cover-overlay {
   position: absolute;
   inset: 0;
-}
-/* overlay */
-#cover-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom,
-    rgba(10,20,14,0.55) 0%,
-    rgba(10,20,14,0.30) 40%,
-    rgba(10,20,14,0.70) 100%);
+  background: linear-gradient(155deg, rgba(6,12,6,0.74) 0%, rgba(22,42,16,0.58) 100%);
   z-index: 1;
 }
 
-#cover-content {
+.cover-body {
   position: relative;
   z-index: 2;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: calc(64px + clamp(20px,5vw,60px)) clamp(16px,5vw,60px) clamp(20px,5vw,60px);
+}
+
+.cover-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  flex: 1;
-  padding: 80px 24px 100px;
-  text-align: center;
-  min-height: 100vh;
-}
-
-.cover-tagline {
-  font-family: 'Josefin Sans', sans-serif;
-  font-size: clamp(11px, 2vw, 13px);
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  color: rgba(200,220,210,0.7);
-  margin-bottom: 20px;
+  max-width: 820px;
+  width: 100%;
 }
 
 .cover-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(42px, 8vw, 96px);
+  font-size: clamp(2rem, 7.5vw, 5.5rem);
   font-weight: 700;
-  line-height: 1.05;
-  color: #ffffff;
-  margin-bottom: 16px;
-  text-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  color: #f3efe3;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 30px rgba(0,0,0,0.6);
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.cover-sub {
+  font-size: clamp(0.8rem, 2.4vw, 1.3rem);
+  font-weight: 300;
+  color: rgba(243,239,227,0.78);
+  margin-top: 16px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
   word-break: break-word;
 }
 
-.cover-subtitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(18px, 3.5vw, 32px);
-  font-weight: 300;
-  font-style: italic;
-  color: rgba(220,235,225,0.85);
-  margin-bottom: 56px;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
-}
-
-.btn-explore {
+.explore-btn {
+  margin-top: clamp(28px,5vw,50px);
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  padding: 16px 44px;
+  border: 2px solid rgba(243,239,227,0.72);
+  border-radius: 2px;
   background: transparent;
-  border: 2px solid rgba(255,255,255,0.7);
-  color: #ffffff;
-  font-family: 'Josefin Sans', sans-serif;
-  font-size: clamp(13px, 2vw, 15px);
+  color: #f3efe3;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 4px;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  padding: 16px 48px;
-  border-radius: 0;
   cursor: pointer;
-  transition: all 0.4s;
-  position: relative;
   overflow: hidden;
+  transition: border-color 0.35s, color 0.35s;
 }
-.btn-explore::before {
+
+.explore-btn::after {
   content: '';
   position: absolute;
   inset: 0;
   background: var(--accent);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
-  z-index: -1;
+  transition: transform 0.42s cubic-bezier(0.4,0,0.2,1);
+  z-index: 0;
 }
-.btn-explore:hover { border-color: var(--accent); letter-spacing: 6px; }
-.btn-explore:hover::before { transform: scaleX(1); }
-.btn-explore svg { width: 18px; height: 18px; transition: transform 0.3s; }
-.btn-explore:hover svg { transform: translateX(4px); }
 
-/* =====================================================
-   SIDE MENU (Drawer)
-===================================================== */
-#menu-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 1100;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--transition);
+.explore-btn:hover::after { transform: scaleX(1); }
+.explore-btn:hover { border-color: var(--accent); }
+
+.explore-btn > * { position: relative; z-index: 1; }
+
+.explore-arrow {
+  font-size: 18px;
+  transition: transform 0.3s;
 }
-#menu-overlay.open { opacity: 1; pointer-events: all; }
 
-#side-menu {
-  position: fixed;
-  top: 0; left: 0;
-  width: min(280px, 80vw);
-  height: 100vh;
-  z-index: 1101;
-  background: var(--bg-secondary);
-  transform: translateX(-100%);
-  transition: transform var(--transition);
+.explore-btn:hover .explore-arrow { transform: translateX(6px); }
+
+/* =============================================
+   MAIN APP WRAPPER
+   ============================================= */
+#main-app {
+  display: none;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#main-app.active { display: flex; }
+
+/* =============================================
+   PAGES
+   ============================================= */
+.page {
+  display: none;
+  /* min-height ensures content fills screen above footer */
+  min-height: calc(100vh - 64px - 56px);
+}
+
+.page.active { display: block; }
+
+/* =============================================
+   HOME SECTION (Stats page after Exploration)
+   ============================================= */
+#section-home {
+  display: none; /* overridden by .page.active */
+  padding-top: 64px;
+}
+
+.home-inner {
   display: flex;
   flex-direction: column;
-  padding-top: 70px;
-  box-shadow: 4px 0 32px rgba(0,0,0,0.3);
-}
-body.dark-mode #side-menu { background: #0e1a12; }
-#side-menu.open { transform: translateX(0); }
-
-#menu-close {
-  position: absolute;
-  top: 14px; right: 14px;
-  background: none;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-  color: var(--text-secondary);
-  line-height: 1;
-  padding: 6px;
-  border-radius: 6px;
-  transition: background var(--transition);
-}
-#menu-close:hover { background: var(--accent-pale); }
-
-.menu-nav {
-  list-style: none;
-  padding: 20px 0;
-  flex: 1;
-  overflow-y: auto;
-}
-.menu-nav li { border-bottom: 1px solid var(--border); }
-.menu-nav li:first-child { border-top: 1px solid var(--border); }
-
-.menu-nav a {
-  display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 24px;
-  font-family: 'Josefin Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: background var(--transition), color var(--transition), padding-left var(--transition);
-}
-.menu-nav a:hover, .menu-nav a.active-menu {
-  background: var(--accent-pale);
-  color: var(--accent);
-  padding-left: 34px;
-}
-.menu-nav a img {
-  width: 22px; height: 22px;
-  object-fit: contain;
-  flex-shrink: 0;
-  filter: var(--icon-filter, none);
-}
-body.dark-mode .menu-nav a img { filter: brightness(1.4) saturate(0.8); }
-
-/* =====================================================
-   PAGE: MAIN (after Exploration)
-===================================================== */
-#page-main {
-  background: var(--bg-primary);
+  justify-content: center;
+  min-height: calc(100vh - 64px - 56px);
+  padding: clamp(30px,5vw,80px) clamp(16px,4vw,60px);
+  text-align: center;
 }
 
-.main-hero {
-  min-height: 60vh;
-  display: flex;
-  align-items: flex-end;
-  padding: 0 24px 60px;
-  position: relative;
-  background: linear-gradient(160deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-  overflow: hidden;
-}
-.main-hero::before {
-  content: '';
-  position: absolute;
-  top: -40%; right: -10%;
-  width: 60vw; height: 60vw;
-  max-width: 600px; max-height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--accent-pale) 0%, transparent 70%);
-  opacity: 0.5;
-}
-
-.main-hero-inner {
-  position: relative;
-  z-index: 1;
-  max-width: 800px;
-}
-.main-hero-label {
+.home-eyebrow {
   font-size: 11px;
-  letter-spacing: 5px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent2);
   margin-bottom: 12px;
 }
-.main-hero-title {
+
+.home-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(38px, 7vw, 80px);
+  font-size: clamp(2rem, 5vw, 4rem);
   font-weight: 700;
-  line-height: 1;
-  color: var(--text-primary);
-  margin-bottom: 16px;
-}
-.main-hero-sub {
-  font-size: clamp(14px, 2vw, 16px);
-  color: var(--text-secondary);
-  font-style: italic;
-  font-family: 'Cormorant Garamond', serif;
+  color: var(--text);
+  margin-bottom: 10px;
+  word-break: break-word;
 }
 
-/* Stats Section on Main */
-.stats-section {
-  padding: 60px 24px;
-  max-width: 1100px;
-  margin: 0 auto;
+.home-sub {
+  font-size: clamp(13px, 2vw, 15px);
+  color: var(--text2);
+  margin-bottom: clamp(32px, 5vw, 56px);
 }
+
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 18px;
+  width: 100%;
+  max-width: 860px;
 }
-@media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
 
+/* stat-card base state for animation */
 .stat-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: var(--card-bg);
   border-radius: 16px;
-  padding: 32px 20px;
-  text-align: center;
-  box-shadow: var(--shadow);
-  transition: transform var(--transition), box-shadow var(--transition);
-  animation: fadeUp 0.6s both;
+  padding: clamp(22px,4vw,40px) 18px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  transition: transform 0.3s, box-shadow 0.3s, background 0.35s;
 }
-.stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-.stat-number {
+
+/* home stats start invisible for animation */
+#section-home .stat-card {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+#section-home .stat-card.animated {
+  animation: fadeUp 0.65s ease forwards;
+}
+
+/* journey stats always visible */
+#section-journey .stat-card {
+  opacity: 1;
+  transform: none;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 44px rgba(0,0,0,0.14);
+}
+
+.stat-num {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(36px, 6vw, 64px);
+  font-size: clamp(2.6rem, 6.5vw, 5rem);
   font-weight: 700;
   color: var(--accent);
   line-height: 1;
   margin-bottom: 8px;
   word-break: break-word;
 }
-.stat-label {
-  font-size: clamp(10px, 1.5vw, 12px);
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--text-muted);
+
+.stat-lbl {
+  font-size: clamp(10px, 1.4vw, 12px);
   font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text2);
   line-height: 1.4;
 }
 
 @keyframes fadeUp {
-  from { opacity:0; transform: translateY(30px); }
-  to   { opacity:1; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.stat-card:nth-child(1) { animation-delay: 0.1s; }
-.stat-card:nth-child(2) { animation-delay: 0.2s; }
-.stat-card:nth-child(3) { animation-delay: 0.3s; }
-.stat-card:nth-child(4) { animation-delay: 0.4s; }
 
-/* =====================================================
-   PAGE: JOURNEY
-===================================================== */
-#page-journey {
-  background: linear-gradient(160deg, #0e2018 0%, #1a3a26 60%, #2a5038 100%);
-  color: #f0f5f0;
-  min-height: 100vh;
-}
-body.dark-mode #page-journey { background: linear-gradient(160deg, #070f0a 0%, #0e1a12 100%); }
+/* =============================================
+   JOURNEY SECTION
+   ============================================= */
+#section-journey { padding-top: 64px; background: var(--bg); }
 
 .journey-hero {
-  padding: 60px 24px 40px;
+  background: linear-gradient(155deg, #142e12 0%, #070d07 100%);
+  padding: clamp(48px,7vw,100px) clamp(18px,5vw,60px);
   text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
-}
-.journey-label {
-  font-size: 11px;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  color: #a8cdb8;
-  margin-bottom: 12px;
-}
-.journey-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(52px, 10vw, 100px);
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1;
-  margin-bottom: 20px;
-}
-.journey-divider {
-  width: 80px; height: 1px;
-  background: rgba(168,205,184,0.5);
-  margin: 0 auto 16px;
-}
-.journey-sub {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(16px, 3vw, 22px);
-  font-style: italic;
-  color: rgba(220,240,230,0.7);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Journey Stats */
-.journey-stats {
-  padding: 40px 24px;
-  max-width: 1100px;
-  margin: 0 auto;
+.journey-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(139,195,74,0.18) 0%, transparent 68%);
+  pointer-events: none;
 }
-.journey-stats-title {
+
+.eyebrow {
   font-size: 11px;
-  letter-spacing: 5px;
+  font-weight: 600;
+  letter-spacing: 0.34em;
   text-transform: uppercase;
-  color: #a8cdb8;
-  text-align: center;
-  margin-bottom: 24px;
+  color: var(--accent2);
+  margin-bottom: 18px;
+  display: block;
 }
+
+.hero-big-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.2rem, 10vw, 8rem);
+  font-weight: 700;
+  color: #f3efe3;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  margin-bottom: 22px;
+  word-break: break-word;
+}
+
+.divider {
+  width: 54px;
+  height: 1px;
+  background: rgba(243,239,227,0.24);
+  margin: 18px auto;
+}
+
+.hero-sub {
+  font-size: clamp(12px, 1.8vw, 14px);
+  color: rgba(243,239,227,0.52);
+  letter-spacing: 0.07em;
+}
+
+/* Journey stats */
+.journey-stats-wrap {
+  padding: clamp(40px,6vw,80px) clamp(18px,5vw,60px);
+  background: var(--bg);
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  text-align: center;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.section-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 36px;
+}
+
 .journey-stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 18px;
+  max-width: 980px;
+  margin: 0 auto;
 }
-@media (max-width: 900px) { .journey-stats-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .journey-stats-grid { grid-template-columns: repeat(2, 1fr); } }
 
-.jstat-card {
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 16px;
-  padding: 28px 16px;
-  text-align: center;
-  backdrop-filter: blur(8px);
-  transition: transform var(--transition), background var(--transition);
-  animation: fadeUp 0.6s both;
+@media (max-width: 760px) {
+  .journey-stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
-.jstat-card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.12); }
-.jstat-number {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(40px, 7vw, 72px);
-  font-weight: 700;
-  color: #a8cdb8;
-  line-height: 1;
-  margin-bottom: 8px;
-  word-break: break-word;
-}
-.jstat-label {
-  font-size: clamp(9px, 1.5vw, 11px);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(220,240,230,0.6);
-  font-weight: 600;
-  line-height: 1.4;
-}
-.jstat-card:nth-child(1) { animation-delay:0.1s; }
-.jstat-card:nth-child(2) { animation-delay:0.2s; }
-.jstat-card:nth-child(3) { animation-delay:0.3s; }
-.jstat-card:nth-child(4) { animation-delay:0.4s; }
 
-/* Mountains Section */
-.mountains-section {
-  padding: 40px 0;
+@media (max-width: 400px) {
+  .journey-stats-grid { grid-template-columns: 1fr 1fr; }
 }
-.mountains-header {
-  padding: 0 24px;
-  margin-bottom: 32px;
-  max-width: 1100px;
-  margin-left: auto;
-  margin-right: auto;
+
+/* Expedition cards */
+.expedition-wrap {
+  padding-bottom: clamp(30px,5vw,60px);
+  overflow: hidden;
 }
-.mountains-label {
-  font-size: 11px;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  color: #a8cdb8;
-  margin-bottom: 8px;
+
+.expedition-head {
+  padding: 0 clamp(18px,5vw,60px);
+  margin-bottom: 22px;
+  margin-top: 0;
 }
-.mountains-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(28px, 5vw, 52px);
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 8px;
-}
-.mountains-accent {
-  width: 60px; height: 2px;
-  background: #a8cdb8;
-  margin-bottom: 12px;
-}
-.mountains-scroll-hint {
+
+.expedition-head .section-heading { text-align: left; margin-bottom: 6px; }
+
+.swipe-hint {
   font-size: 12px;
-  color: rgba(200,230,215,0.5);
-  letter-spacing: 2px;
+  color: var(--text2);
+  letter-spacing: 0.07em;
 }
 
-/* Horizontal Scroll Cards */
-.mountains-scroll-wrap {
+.cards-scroll {
+  display: flex;
+  gap: 18px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  padding: 8px 24px 24px;
-  display: flex;
-  gap: 20px;
+  padding: 8px clamp(18px,5vw,60px) 20px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(168,205,184,0.3) transparent;
+  scrollbar-color: var(--accent) transparent;
 }
-.mountains-scroll-wrap::-webkit-scrollbar { height: 4px; }
-.mountains-scroll-wrap::-webkit-scrollbar-track { background: transparent; }
-.mountains-scroll-wrap::-webkit-scrollbar-thumb { background: rgba(168,205,184,0.3); border-radius: 4px; }
 
-.mountain-card {
-  flex: 0 0 260px;
+.cards-scroll::-webkit-scrollbar { height: 4px; }
+.cards-scroll::-webkit-scrollbar-track { background: transparent; }
+.cards-scroll::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+.mt-card {
+  flex: 0 0 clamp(220px, 62vw, 284px);
   scroll-snap-align: start;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 16px;
+  background: var(--card-bg);
+  border-radius: 14px;
   overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
   cursor: pointer;
-  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+  transition: transform 0.38s, box-shadow 0.38s, background 0.35s;
 }
-.mountain-card:hover { transform: translateY(-6px) scale(1.02); background: rgba(255,255,255,0.13); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
 
-.mountain-card-img {
-  width: 100%;
-  aspect-ratio: 16/9;
-  object-fit: cover;
-  background: rgba(168,205,184,0.15);
-  display: block;
+.mt-card:hover {
+  transform: translateY(-7px) scale(1.018);
+  box-shadow: 0 24px 54px rgba(0,0,0,0.18);
+}
+
+.mt-img-wrap {
   position: relative;
-}
-.mountain-card-img-placeholder {
   width: 100%;
-  aspect-ratio: 16/9;
-  background: linear-gradient(135deg, rgba(61,107,79,0.4), rgba(30,58,40,0.6));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.mountain-card-img-placeholder svg {
-  width: 40px; height: 40px;
-  opacity: 0.4;
-  color: #a8cdb8;
-}
-.mountain-card-body { padding: 16px; }
-.mountain-card-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 4px;
-  word-break: break-word;
-}
-.mountain-card-loc {
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(200,230,215,0.55);
-  margin-bottom: 10px;
-}
-.mountain-card-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.mountain-card-year {
-  font-size: 11px;
-  color: rgba(200,230,215,0.5);
-  letter-spacing: 1px;
-}
-.mountain-card-elev {
-  font-size: 13px;
-  font-weight: 700;
-  color: #a8cdb8;
-  letter-spacing: 1px;
-}
-
-/* Mountain Detail */
-#mountain-detail {
-  display: none;
-  padding: 20px 24px 40px;
-  max-width: 900px;
-  margin: 0 auto;
-  animation: fadeUp 0.4s both;
-}
-#mountain-detail.visible { display: block; }
-
-.detail-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-.detail-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(28px, 6vw, 48px);
-  font-weight: 700;
-  color: #ffffff;
-  word-break: break-word;
-}
-.detail-meta-row {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-.detail-badge {
-  background: rgba(168,205,184,0.15);
-  border: 1px solid rgba(168,205,184,0.3);
-  border-radius: 20px;
-  padding: 5px 14px;
-  font-size: 12px;
-  letter-spacing: 1.5px;
-  color: #a8cdb8;
-  text-transform: uppercase;
-}
-.btn-close-detail {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #ffffff;
-  padding: 8px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-family: 'Josefin Sans', sans-serif;
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  transition: background var(--transition);
-  white-space: nowrap;
-}
-.btn-close-detail:hover { background: rgba(255,255,255,0.2); }
-
-/* Gallery Slider */
-.gallery-slider {
-  position: relative;
-  border-radius: 16px;
+  padding-bottom: 56.25%; /* 16:9 */
   overflow: hidden;
-  margin-bottom: 24px;
-  background: rgba(0,0,0,0.3);
-  aspect-ratio: 16/9;
+  background: var(--bg2);
 }
-.gallery-slide {
-  display: none;
-  width: 100%;
-  height: 100%;
+
+.mt-img-wrap img {
   position: absolute;
   inset: 0;
-}
-.gallery-slide.active { display: block; }
-.gallery-slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.gallery-slide-placeholder {
   width: 100%; height: 100%;
-  background: linear-gradient(135deg, rgba(61,107,79,0.4), rgba(30,58,40,0.7));
-  display: flex; align-items: center; justify-content: center;
+  object-fit: cover;
+  transition: transform 0.55s ease;
 }
-.gallery-slide-placeholder span {
-  color: rgba(168,205,184,0.4);
-  font-size: 14px;
-  letter-spacing: 2px;
+
+.mt-card:hover .mt-img-wrap img { transform: scale(1.1); }
+
+.mt-body { padding: 13px 15px 17px; }
+
+.mt-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 5px;
+  word-break: break-word;
 }
-.gallery-btn {
+
+.mt-loc {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin-bottom: 5px;
+}
+
+.mt-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: var(--text2);
+}
+
+/* Mountain detail */
+#mountain-detail {
+  display: none;
+  padding: clamp(28px,5vw,60px) clamp(18px,5vw,60px);
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  overflow: hidden;
+}
+
+#mountain-detail.show {
+  display: block;
+  animation: fadeUp 0.5s ease both;
+}
+
+.detail-close-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 16px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  margin-bottom: 24px;
+  transition: all 0.25s;
+}
+
+.detail-close-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.detail-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+  word-break: break-word;
+}
+
+.detail-meta-row {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+
+.detail-meta-row span {
+  font-size: 13px;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.detail-meta-row span strong { color: var(--accent); }
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .detail-layout { grid-template-columns: 1fr; }
+}
+
+/* Gallery slider */
+.gallery-slider {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #050a05;
+}
+
+.gallery-main {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  cursor: zoom-in;
+  transition: opacity 0.28s;
+}
+
+.gallery-main.fading { opacity: 0; }
+
+.gal-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0,0,0,0.5);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.52);
+  border: none;
   color: #fff;
-  padding: 10px 16px;
+  font-size: 20px;
+  padding: 10px 13px;
   cursor: pointer;
-  font-size: 18px;
-  border-radius: 6px;
-  transition: background var(--transition);
+  border-radius: 4px;
   z-index: 5;
-}
-.gallery-btn:hover { background: rgba(0,0,0,0.75); }
-.gallery-prev { left: 12px; }
-.gallery-next { right: 12px; }
-.gallery-counter {
-  position: absolute;
-  bottom: 12px; right: 12px;
-  background: rgba(0,0,0,0.5);
-  color: rgba(255,255,255,0.8);
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 12px;
-  letter-spacing: 1px;
+  transition: background 0.2s;
+  line-height: 1;
 }
 
-.detail-story {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 16px;
+.gal-btn:hover { background: rgba(0,0,0,0.82); }
+.gal-btn.prev { left: 10px; }
+.gal-btn.next { right: 10px; }
+
+.gal-counter {
+  position: absolute;
+  bottom: 10px;
+  right: 13px;
+  background: rgba(0,0,0,0.52);
+  color: #fff;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
 }
-.detail-story-title {
-  font-size: 10px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: #a8cdb8;
+
+.detail-info h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
   margin-bottom: 10px;
 }
-.detail-story-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(15px, 2vw, 18px);
-  font-style: italic;
-  color: rgba(220,240,230,0.8);
-  line-height: 1.7;
-}
-.detail-highlight {
-  background: rgba(168,205,184,0.1);
-  border-left: 3px solid #a8cdb8;
-  border-radius: 0 12px 12px 0;
-  padding: 14px 18px;
-}
-.detail-highlight-title {
-  font-size: 10px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: #a8cdb8;
-  margin-bottom: 6px;
-}
-.detail-highlight-text {
+
+.detail-info h4 + h4 { margin-top: 20px; }
+
+.detail-info p {
   font-size: 14px;
-  color: rgba(220,240,230,0.7);
-  line-height: 1.6;
+  line-height: 1.88;
+  color: var(--text2);
+  word-break: break-word;
 }
 
-/* =====================================================
-   PAGE: CONTACT
-===================================================== */
-#page-contact {
-  background: linear-gradient(160deg, #0e2018 0%, #1a3a26 60%, #131f17 100%);
-  color: #f0f5f0;
+.highlight-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
 }
-body.dark-mode #page-contact { background: linear-gradient(160deg, #070f0a 0%, #0e1a12 100%); }
+
+.tag {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 13px;
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 500;
+  transition: background 0.35s, border-color 0.35s;
+}
+
+/* Lightbox */
+#lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.94);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+
+#lightbox.show { display: flex; }
+
+#lightbox-img {
+  max-width: 94vw;
+  max-height: 92vh;
+  object-fit: contain;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#lb-close {
+  position: absolute;
+  top: 18px; right: 22px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 32px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* =============================================
+   CONTACT SECTION
+   ============================================= */
+#section-contact {
+  padding: calc(64px + clamp(28px,5vw,56px)) clamp(16px,5vw,60px) clamp(36px,6vw,70px);
+  background: var(--bg);
+}
 
 .contact-hero {
-  padding: 60px 24px 40px;
   text-align: center;
-  max-width: 700px;
-  margin: 0 auto;
+  margin-bottom: 48px;
 }
-.contact-title {
+
+.contact-hero h2 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(28px, 6vw, 56px);
+  font-size: clamp(1.6rem, 4vw, 3.2rem);
   font-weight: 700;
-  color: #ffffff;
-  line-height: 1.1;
+  color: var(--text);
   margin-bottom: 12px;
   word-break: break-word;
-}
-.contact-sub {
-  font-size: clamp(13px, 2vw, 15px);
-  color: rgba(200,230,215,0.6);
-  letter-spacing: 1px;
+  overflow-wrap: break-word;
 }
 
-.contact-layout {
-  max-width: 1000px;
+.contact-hero p {
+  font-size: clamp(13px, 1.9vw, 15px);
+  color: var(--text2);
+  max-width: 520px;
   margin: 0 auto;
-  padding: 0 24px 40px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-}
-@media (max-width: 720px) {
-  .contact-layout { grid-template-columns: 1fr; }
+  line-height: 1.75;
 }
 
-/* Form */
-.contact-form-wrap { }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: clamp(22px, 4vw, 48px);
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+@media (max-width: 680px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
 .form-group {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 15px;
 }
+
 .form-group label {
-  display: block;
-  font-size: 10px;
-  letter-spacing: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(200,230,215,0.6);
-  margin-bottom: 8px;
+  color: var(--text2);
 }
+
 .form-group input,
 .form-group textarea {
-  width: 100%;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(168,205,184,0.2);
+  background: var(--input-bg);
+  border: 1.5px solid var(--input-border);
   border-radius: 10px;
-  color: #f0f5f0;
-  font-family: 'Josefin Sans', sans-serif;
+  padding: 12px 15px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
   font-size: 14px;
-  padding: 14px 16px;
-  transition: border-color 0.3s, background 0.3s;
   outline: none;
-  resize: vertical;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.35s;
+  width: 100%;
   word-break: break-word;
 }
+
 .form-group input:focus,
 .form-group textarea:focus {
-  border-color: rgba(168,205,184,0.6);
-  background: rgba(255,255,255,0.10);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(74,103,65,0.13);
 }
-.form-group input::placeholder,
-.form-group textarea::placeholder { color: rgba(200,230,215,0.3); }
-.form-group textarea { min-height: 100px; }
 
-.contact-btns {
+.form-group textarea {
+  min-height: 115px;
+  resize: vertical;
+}
+
+.form-buttons {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  margin-top: 4px;
 }
-.btn-contact {
+
+.cta-btn {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  background: #3d6b4f;
-  border: none;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 20px;
   border-radius: 10px;
-  color: #ffffff;
-  font-family: 'Josefin Sans', sans-serif;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 14px 22px;
   cursor: pointer;
   transition: all 0.3s;
-  text-decoration: none;
+  color: #fff;
+  flex: 1;
+  min-width: 135px;
   white-space: nowrap;
-  flex-shrink: 0;
 }
-.btn-contact:hover {
-  background: #4e8565;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(61,107,79,0.4);
-}
-.btn-contact img {
+
+.cta-btn img {
   width: 20px; height: 20px;
   object-fit: contain;
   flex-shrink: 0;
 }
 
-/* Contact Info */
-.contact-info-wrap { }
-.contact-info-block {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 16px;
+.btn-email {
+  background: var(--accent);
 }
-.contact-info-row {
+
+.btn-email:hover {
+  background: #3a5232;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(74,103,65,0.38);
+}
+
+.btn-wa {
+  background: #25D366;
+}
+
+.btn-wa:hover {
+  background: #1da851;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(37,211,102,0.38);
+}
+
+.contact-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.info-item {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
-.contact-info-row:last-child { border-bottom: none; }
-.contact-info-icon {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  background: rgba(168,205,184,0.15);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
+
+.info-ico {
+  font-size: 20px;
+  color: var(--accent);
   flex-shrink: 0;
+  margin-top: 1px;
 }
-.contact-info-label {
-  font-size: 9px;
-  letter-spacing: 3px;
+
+.info-txt h4 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #a8cdb8;
+  color: var(--text2);
   margin-bottom: 3px;
 }
-.contact-info-value {
-  font-size: 13px;
-  color: rgba(220,240,230,0.8);
+
+.info-txt p {
+  font-size: 14px;
+  color: var(--text);
   word-break: break-all;
 }
 
-.map-placeholder {
-  background: rgba(255,255,255,0.04);
-  border: 1px dashed rgba(168,205,184,0.25);
+.map-ph {
+  background: var(--card-bg);
   border-radius: 12px;
-  padding: 32px 20px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--text2);
+  border: 1px solid var(--border);
+  margin-top: 8px;
   text-align: center;
-  margin-bottom: 16px;
-}
-.map-placeholder-text {
-  font-size: 12px;
-  letter-spacing: 2px;
-  color: rgba(168,205,184,0.4);
-  text-transform: uppercase;
+  transition: background 0.35s;
 }
 
 .contact-quote {
   text-align: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(14px, 2.5vw, 18px);
   font-style: italic;
-  color: rgba(200,230,215,0.5);
-  padding: 8px 0 0;
+  color: var(--text2);
+  font-size: 14px;
+  margin-top: 42px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.75;
 }
 
-/* =====================================================
-   PAGE: INFORMATION
-===================================================== */
-#page-information {
-  background: linear-gradient(160deg, #0e2018 0%, #1a3a26 60%, #0e1a12 100%);
-  color: #f0f5f0;
+@media (max-width: 480px) {
+  .form-buttons { flex-direction: column; }
+  .cta-btn { flex: none; width: 100%; }
 }
-body.dark-mode #page-information { background: linear-gradient(160deg, #070f0a 0%, #0e1a12 100%); }
 
-.info-hero {
-  padding: 60px 24px 40px;
+/* =============================================
+   INFORMATION SECTION
+   ============================================= */
+#section-information {
+  padding: calc(64px + clamp(28px,5vw,56px)) clamp(16px,5vw,60px) clamp(36px,6vw,70px);
+  background: var(--bg);
   text-align: center;
-  max-width: 700px;
-  margin: 0 auto;
 }
-.info-title {
+
+.info-hero { margin-bottom: 40px; }
+
+.info-hero h2 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(42px, 8vw, 80px);
+  font-size: clamp(1.8rem, 4.5vw, 3.8rem);
   font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 12px;
+  color: var(--text);
+  margin-bottom: 14px;
+  word-break: break-word;
 }
-.info-sub {
-  font-size: clamp(13px, 2vw, 15px);
-  color: rgba(200,230,215,0.6);
-  line-height: 1.7;
-  max-width: 500px;
+
+.info-hero p {
+  font-size: clamp(13px, 1.9vw, 15px);
+  color: var(--text2);
+  line-height: 1.78;
+  max-width: 540px;
   margin: 0 auto;
 }
 
 .info-card {
-  max-width: 640px;
-  margin: 0 auto 40px;
-  padding: 0 24px;
-}
-.info-card-inner {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: var(--card-bg);
   border-radius: 20px;
-  padding: 32px;
-  text-align: center;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  padding: clamp(26px,5vw,48px) clamp(22px,4vw,42px);
+  max-width: 560px;
+  margin: 0 auto;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  text-align: left;
+  transition: background 0.35s;
 }
-.info-card-desc {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(15px, 2.5vw, 20px);
-  font-style: italic;
-  color: rgba(220,240,230,0.75);
-  line-height: 1.7;
-  margin-bottom: 32px;
+
+.info-card > p {
+  font-size: 14px;
+  line-height: 1.88;
+  color: var(--text2);
+  margin-bottom: 28px;
 }
-.info-btns {
+
+.channel-btns {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 13px;
 }
-.btn-info {
-  display: inline-flex;
+
+.ch-btn {
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
+  padding: 15px 22px;
+  border-radius: 12px;
   border: none;
-  border-radius: 14px;
-  font-family: 'Josefin Sans', sans-serif;
-  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
   font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 16px 28px;
   cursor: pointer;
-  text-decoration: none;
-  transition: transform 0.3s, box-shadow 0.3s;
-  word-break: break-word;
+  transition: all 0.3s;
+  color: #fff;
+  width: 100%;
 }
-.btn-info:hover { transform: translateY(-3px); }
-.btn-info img {
+
+.ch-btn img {
   width: 24px; height: 24px;
   object-fit: contain;
   flex-shrink: 0;
 }
-.btn-wa-channel {
-  background: #25d366;
-  color: #ffffff;
-  box-shadow: 0 4px 20px rgba(37,211,102,0.3);
-}
-.btn-wa-channel:hover { box-shadow: 0 8px 28px rgba(37,211,102,0.5); }
-.btn-wa-group {
-  background: transparent;
-  color: #25d366;
-  border: 2px solid #25d366;
-}
-.btn-wa-group:hover { background: rgba(37,211,102,0.1); box-shadow: 0 8px 24px rgba(37,211,102,0.2); }
-.btn-ig-broadcast {
-  background: linear-gradient(135deg, #f58529 0%, #dd2a7b 50%, #8134af 100%);
-  color: #ffffff;
-  box-shadow: 0 4px 20px rgba(221,42,123,0.3);
-}
-.btn-ig-broadcast:hover { box-shadow: 0 8px 28px rgba(221,42,123,0.5); }
 
-/* =====================================================
-   PAGE: ABOUT ME
-===================================================== */
-#page-aboutme {
-  background: var(--bg-primary);
+.ch-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.26);
+}
+
+.ch-btn-wa1 { background: #25D366; }
+.ch-btn-wa2 { background: #128C7E; }
+.ch-btn-ig  { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+
+/* =============================================
+   SHOP SECTION
+   ============================================= */
+#section-shop {
+  padding: calc(64px + clamp(28px,5vw,56px)) clamp(16px,5vw,60px) clamp(36px,6vw,70px);
+  background: var(--bg);
+}
+
+.shop-hero {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.shop-hero h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 5.5vw, 4.5rem);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+  word-break: break-word;
+}
+
+.shop-hero .sub {
+  font-size: clamp(13px, 2vw, 15px);
+  color: var(--text2);
+  margin-bottom: 14px;
+}
+
+.shop-desc {
+  max-width: 560px;
+  margin: 0 auto;
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.76;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+  gap: 22px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.product-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  transition: transform 0.3s, box-shadow 0.3s, background 0.35s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 44px rgba(0,0,0,0.15);
+}
+
+.prod-img-wrap {
+  width: 100%;
+  padding-bottom: 68%;
+  position: relative;
+  background: var(--bg2);
+  overflow: hidden;
+}
+
+.prod-img-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.product-card:hover .prod-img-wrap img { transform: scale(1.06); }
+
+.prod-body { padding: 15px 17px 18px; }
+
+.prod-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 5px;
+  word-break: break-word;
+}
+
+.prod-price {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 7px;
+}
+
+.prod-desc {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.62;
+  margin-bottom: 13px;
+}
+
+.order-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  padding: 11px 15px;
+  background: #25D366;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.order-btn:hover {
+  background: #1da851;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(37,211,102,0.32);
+}
+
+/* =============================================
+   ABOUT ME SECTION
+   ============================================= */
+#section-aboutme {
+  padding: calc(64px + clamp(28px,5vw,56px)) clamp(16px,5vw,60px) clamp(36px,6vw,70px);
+  background: var(--bg);
 }
 
 .about-hero {
-  padding: 60px 24px 40px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-.about-label {
-  font-size: 11px;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 12px;
-}
-.about-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(48px, 9vw, 100px);
-  font-weight: 700;
-  color: var(--text-primary);
-  line-height: 1;
-  margin-bottom: 28px;
-}
-.about-divider {
-  width: 60px; height: 2px;
-  background: var(--accent);
-  margin-bottom: 28px;
-}
-.about-desc {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(16px, 2.5vw, 22px);
-  font-style: italic;
-  color: var(--text-secondary);
-  line-height: 1.8;
-  max-width: 700px;
+  text-align: center;
+  margin-bottom: 44px;
 }
 
-.core-values {
-  padding: 40px 24px 60px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-.core-values-label {
-  font-size: 11px;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  color: var(--accent);
-  text-align: center;
-  margin-bottom: 8px;
-}
-.core-values-title {
+.about-hero h2 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(28px, 5vw, 48px);
+  font-size: clamp(2rem, 5.5vw, 4.5rem);
   font-weight: 700;
-  color: var(--text-primary);
-  text-align: center;
-  margin-bottom: 36px;
+  color: var(--text);
+  margin-bottom: 10px;
+  word-break: break-word;
 }
+
+.about-body {
+  max-width: 660px;
+  margin: 0 auto 58px;
+  text-align: center;
+}
+
+.about-body p {
+  font-size: clamp(13px, 1.9vw, 15px);
+  line-height: 1.92;
+  color: var(--text2);
+  margin-bottom: 14px;
+  word-break: break-word;
+}
+
+.core-values-section { max-width: 880px; margin: 0 auto; }
+
+.core-values-section h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 28px;
+}
+
 .values-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+  gap: 18px;
 }
-@media (max-width: 900px) { .values-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .values-grid { grid-template-columns: 1fr; } }
 
 .value-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: var(--card-bg);
   border-radius: 16px;
-  padding: 28px 22px;
-  text-align: center;
-  box-shadow: var(--shadow);
-  transition: transform var(--transition), box-shadow var(--transition);
-  animation: fadeUp 0.5s both;
+  padding: clamp(22px,3.5vw,34px) 20px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent2);
+  transition: transform 0.3s, background 0.35s;
 }
-.value-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
-.value-card:nth-child(1) { animation-delay:0.1s; }
-.value-card:nth-child(2) { animation-delay:0.2s; }
-.value-card:nth-child(3) { animation-delay:0.3s; }
-.value-card:nth-child(4) { animation-delay:0.4s; }
 
-.value-number {
+.value-card:hover { transform: translateY(-4px); }
+
+.value-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 48px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--accent);
-  opacity: 0.2;
-  line-height: 1;
-  margin-bottom: 12px;
+  margin-bottom: 9px;
 }
-.value-name {
-  font-family: 'Josefin Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--text-primary);
-  margin-bottom: 12px;
-}
+
 .value-desc {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 16px;
-  font-style: italic;
-  color: var(--text-muted);
-  line-height: 1.6;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.76;
 }
-
-/* =====================================================
-   UTILITIES / RESPONSIVE GUARD
-===================================================== */
-* {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-@media (max-width: 400px) {
-  #top-bar { padding: 10px 14px; }
-  #logo { height: 36px; }
-  .contact-btns { flex-direction: column; }
-}
-
-/* Section Separator */
-.sep { width: 100%; height: 1px; background: rgba(255,255,255,0.08); margin: 0 24px; width: calc(100% - 48px); }
-
-/* Scroll to top of page-journey detail */
-#mountain-detail-anchor { scroll-margin-top: 80px; }
-
 </style>
 </head>
 <body>
 
-<!-- =====================================================
-     TOP BAR (Permanent)
-===================================================== -->
-<header id="top-bar" role="banner">
-  <div id="logo-wrap">
-    <img src="logo.png" alt="rhmttmuhmmd logo" id="logo">
-    <!-- Hamburger — shown after exploration -->
-    <div id="hamburger" role="button" aria-label="Open menu" tabindex="0" onclick="openMenu()">
-      <span></span><span></span><span></span>
-    </div>
+<!-- ==================== AUDIO ==================== -->
+<audio id="bg-audio" loop preload="none">
+  <source src="musik1.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ==================== LIGHTBOX ==================== -->
+<div id="lightbox" onclick="handleLightboxClick(event)">
+  <button id="lb-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="Expanded photo">
+</div>
+
+<!-- ==================== SIDEBAR OVERLAY ==================== -->
+<div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ==================== SIDEBAR ==================== -->
+<nav id="sidebar" aria-label="Main navigation">
+  <div class="sidebar-top">
+    <img src="logo.png" alt="rhmttmuhmmd logo">
   </div>
-
-  <button id="dark-toggle" onclick="toggleDark()" aria-label="Toggle dark mode">
-    <span id="dark-toggle-icon">🌙</span>
-  </button>
-</header>
-
-<!-- =====================================================
-     SIDE MENU (Drawer)
-===================================================== -->
-<div id="menu-overlay" onclick="closeMenu()"></div>
-<nav id="side-menu" role="navigation" aria-label="Main navigation">
-  <button id="menu-close" onclick="closeMenu()" aria-label="Close menu">✕</button>
-  <ul class="menu-nav">
-    <li><a onclick="navTo('home')" tabindex="0">
-      <img src="iconhome.png" alt="Home">Home
-    </a></li>
-    <li><a onclick="navTo('journey')" tabindex="0">
-      <img src="iconjourney.png" alt="Journey">Journey
-    </a></li>
-    <li><a onclick="navTo('contact')" tabindex="0">
-      <img src="iconcontact.png" alt="Contact">Contact
-    </a></li>
-    <li><a onclick="navTo('information')" tabindex="0">
-      <img src="iconinformation.png" alt="Information">Information
-    </a></li>
-    <li><a onclick="navTo('aboutme')" tabindex="0">
-      <img src="iconaboutme.png" alt="About Me">About Me
-    </a></li>
+  <ul class="sidebar-menu">
+    <li>
+      <a href="javascript:void(0)" onclick="goHome()" id="nav-home" class="active">
+        <img src="iconhome.png" alt=""> Home
+      </a>
+    </li>
+    <li>
+      <a href="javascript:void(0)" onclick="navigateTo('journey')" id="nav-journey">
+        <img src="iconjourney.png" alt=""> Journey
+      </a>
+    </li>
+    <li>
+      <a href="javascript:void(0)" onclick="navigateTo('contact')" id="nav-contact">
+        <img src="iconcontact.png" alt=""> Contact
+      </a>
+    </li>
+    <li>
+      <a href="javascript:void(0)" onclick="navigateTo('information')" id="nav-information">
+        <img src="iconinformation.png" alt=""> Information
+      </a>
+    </li>
+    <li>
+      <a href="javascript:void(0)" onclick="navigateTo('shop')" id="nav-shop">
+        <img src="iconshop.png" alt=""> Shop
+      </a>
+    </li>
+    <li>
+      <a href="javascript:void(0)" onclick="navigateTo('aboutme')" id="nav-aboutme">
+        <img src="iconaboutme.png" alt=""> About Me
+      </a>
+    </li>
   </ul>
 </nav>
 
-<!-- =====================================================
-     AUDIO (Background Music)
-===================================================== -->
-<audio id="bg-music" src="musik1.mp3" loop preload="none"></audio>
-
-<!-- =====================================================
-     PAGE: COVER / SAMPUL
-===================================================== -->
-<section id="page-cover" class="page active" role="main">
-  <div id="cover-bg">
-    <img src="sampul1.jpg" alt="Cover background" onerror="this.style.display='none'">
-  </div>
-  <div id="cover-content">
-    <p class="cover-tagline">rhmtmuhmmdd</p>
-    <h1 class="cover-title">Saves steps<br>in frames</h1>
-    <p class="cover-subtitle">Every step has a story</p>
-    <button class="btn-explore" onclick="enterExploration()">
-      Exploration
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M5 12h14M12 5l7 7-7 7"/>
-      </svg>
+<!-- ==================== FIXED HEADER ==================== -->
+<header id="site-header">
+  <div class="header-left">
+    <img src="logo.png" alt="rhmttmuhmmd" id="site-logo">
+    <button id="hamburger-btn" onclick="toggleSidebar()" aria-label="Open menu">
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
     </button>
   </div>
-</section>
+  <button id="dark-toggle" onclick="toggleDark()">🌙 Dark</button>
+</header>
 
-<!-- =====================================================
-     PAGE: MAIN (after Exploration)
-===================================================== -->
-<section id="page-main" class="page">
-  <div class="main-hero">
-    <div class="main-hero-inner">
-      <p class="main-hero-label">Welcome to the journey</p>
-      <h1 class="main-hero-title">Every Step<br>Tells a Story</h1>
-      <p class="main-hero-sub">Exploration begins where comfort ends</p>
+<!-- ==================== COVER PAGE ==================== -->
+<div id="cover-page">
+  <div class="cover-bg" aria-hidden="true"></div>
+  <div class="cover-overlay" aria-hidden="true"></div>
+
+  <div class="cover-body">
+    <div class="cover-inner">
+      <h1 class="cover-title">Saves steps in frames</h1>
+      <p class="cover-sub">Every step has a story</p>
+      <button class="explore-btn" onclick="enterApp()" aria-label="Enter exploration">
+        <span>Exploration</span>
+        <span class="explore-arrow" aria-hidden="true">→</span>
+      </button>
     </div>
   </div>
 
-  <div class="stats-section">
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-number">7</div>
-        <div class="stat-label">Summits</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">14</div>
-        <div class="stat-label">Climbing Partners</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">∞</div>
-        <div class="stat-label">Trails Explored</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">2025</div>
-        <div class="stat-label">Journey Began</div>
+  <footer class="social-footer">
+    <a href="https://www.instagram.com/rhmtmuhmmdd" target="_blank" rel="noopener noreferrer" class="social-link instagram" aria-label="Instagram">
+      📷 Instagram
+    </a>
+    <a href="https://tiktok.com/@rhmtmuhmmdd" target="_blank" rel="noopener noreferrer" class="social-link tiktok" aria-label="TikTok">
+      🎵 TikTok
+    </a>
+    <a href="https://www.facebook.com/share/1DmUuGTjn9/" target="_blank" rel="noopener noreferrer" class="social-link facebook" aria-label="Facebook">
+      👍 Facebook
+    </a>
+  </footer>
+</div><!-- /#cover-page -->
+
+<!-- ==================== MAIN APP ==================== -->
+<div id="main-app">
+
+  <!-- ===== HOME SECTION ===== -->
+  <section id="section-home" class="page active">
+    <div class="home-inner">
+      <p class="home-eyebrow">Welcome to the Journey</p>
+      <h2 class="home-title">rhmttmuhmmd</h2>
+      <p class="home-sub">Explorer · Mountaineer · Storyteller</p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">7</div>
+          <div class="stat-lbl">Summits</div>
+        </div>
+        <div class="stat-card" style="animation-delay:0.12s">
+          <div class="stat-num">14</div>
+          <div class="stat-lbl">Climbing Partners</div>
+        </div>
+        <div class="stat-card" style="animation-delay:0.24s">
+          <div class="stat-num">∞</div>
+          <div class="stat-lbl">Trails Explored</div>
+        </div>
+        <div class="stat-card" style="animation-delay:0.36s">
+          <div class="stat-num">2025</div>
+          <div class="stat-lbl">Journey Began</div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- =====================================================
-     PAGE: JOURNEY
-===================================================== -->
-<section id="page-journey" class="page">
-  <!-- Hero -->
-  <div class="journey-hero">
-    <p class="journey-label">Expedition Log</p>
-    <h1 class="journey-title">Journey</h1>
-    <div class="journey-divider"></div>
-    <p class="journey-sub">Every Step Tells a Story</p>
-  </div>
+  <!-- ===== JOURNEY SECTION ===== -->
+  <section id="section-journey" class="page">
 
-  <!-- Stats -->
-  <div class="journey-stats">
-    <p class="journey-stats-title">By the Numbers</p>
-    <div class="journey-stats-grid">
-      <div class="jstat-card">
-        <div class="jstat-number">7</div>
-        <div class="jstat-label">Summits</div>
-      </div>
-      <div class="jstat-card">
-        <div class="jstat-number">14</div>
-        <div class="jstat-label">Climbing Partners</div>
-      </div>
-      <div class="jstat-card">
-        <div class="jstat-number">∞</div>
-        <div class="jstat-label">Trails Explored</div>
-      </div>
-      <div class="jstat-card">
-        <div class="jstat-number">2025</div>
-        <div class="jstat-label">Journey Began</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Mountains Section -->
-  <div class="mountains-section">
-    <div class="mountains-header">
-      <p class="mountains-label">Expeditions</p>
-      <h2 class="mountains-title">Mountains We've Conquered</h2>
-      <div class="mountains-accent"></div>
-      <p class="mountains-scroll-hint">← Swipe to explore →</p>
+    <!-- Hero -->
+    <div class="journey-hero">
+      <span class="eyebrow">Expedition Log</span>
+      <h2 class="hero-big-title">Journey</h2>
+      <div class="divider"></div>
+      <p class="hero-sub">Every Step Tells a Story</p>
     </div>
 
-    <div class="mountains-scroll-wrap" id="mountains-scroll">
-      <!-- Cards rendered by JS -->
+    <!-- Stats -->
+    <div class="journey-stats-wrap">
+      <span class="section-label">By the Numbers</span>
+      <h3 class="section-heading">By the Numbers</h3>
+      <div class="journey-stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">7</div>
+          <div class="stat-lbl">Summits</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">14</div>
+          <div class="stat-lbl">Climbing Partners</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">∞</div>
+          <div class="stat-lbl">Trails Explored</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">2025</div>
+          <div class="stat-lbl">Journey Began</div>
+        </div>
+      </div>
     </div>
 
-    <!-- Detail Section -->
+    <!-- Expedition Cards -->
+    <div class="expedition-wrap">
+      <div class="expedition-head">
+        <span class="eyebrow" style="text-align:left;display:block;">Expeditions</span>
+        <h3 class="section-heading" style="text-align:left;margin-bottom:6px;">Mountains We've Conquered</h3>
+        <div class="divider" style="margin:0 0 8px;"></div>
+        <p class="swipe-hint">← Swipe to explore →</p>
+      </div>
+      <div class="cards-scroll" id="cards-scroll">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Mountain Detail (shown on card click) -->
     <div id="mountain-detail">
-      <div class="detail-header">
-        <div>
-          <h2 class="detail-name" id="detail-name"></h2>
-          <div class="detail-meta-row" id="detail-meta"></div>
+      <button class="detail-close-btn" onclick="closeDetail()">← Back to All</button>
+      <h2 class="detail-title" id="detail-title"></h2>
+      <div class="detail-meta-row" id="detail-meta-row"></div>
+      <div class="detail-layout">
+        <!-- Gallery -->
+        <div class="gallery-slider">
+          <img class="gallery-main" id="gallery-img" src="" alt="Mountain photo" onclick="openLightbox(this.src)">
+          <button class="gal-btn prev" onclick="galleryNav(-1)" aria-label="Previous photo">&#8249;</button>
+          <button class="gal-btn next" onclick="galleryNav(1)" aria-label="Next photo">&#8250;</button>
+          <span class="gal-counter" id="gal-counter">1 / 4</span>
         </div>
-        <button class="btn-close-detail" onclick="closeDetail()">✕ Close</button>
-      </div>
-
-      <!-- Gallery Slider -->
-      <div class="gallery-slider" id="gallery-slider">
-        <!-- slides injected by JS -->
-        <button class="gallery-btn gallery-prev" onclick="galleryPrev()">&#8249;</button>
-        <button class="gallery-btn gallery-next" onclick="galleryNext()">&#8250;</button>
-        <div class="gallery-counter" id="gallery-counter">1 / 4</div>
-      </div>
-
-      <!-- Story & Highlight -->
-      <div class="detail-story">
-        <p class="detail-story-title">Story</p>
-        <p class="detail-story-text" id="detail-story-text"></p>
-      </div>
-      <div class="detail-highlight">
-        <p class="detail-highlight-title">Highlight Moment</p>
-        <p class="detail-highlight-text" id="detail-highlight-text"></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- =====================================================
-     PAGE: CONTACT
-===================================================== -->
-<section id="page-contact" class="page">
-  <div class="contact-hero">
-    <h1 class="contact-title">Let's Connect &amp; Explore Together</h1>
-    <p class="contact-sub">We're open for collaboration, questions, and shared adventures.</p>
-  </div>
-
-  <div class="contact-layout">
-    <!-- Form -->
-    <div class="contact-form-wrap">
-      <div class="form-group">
-        <label for="c-name">Name</label>
-        <input type="text" id="c-name" placeholder="Your name">
-      </div>
-      <div class="form-group">
-        <label for="c-subject">Subject</label>
-        <input type="text" id="c-subject" placeholder="What is this about?">
-      </div>
-      <div class="form-group">
-        <label for="c-msg">Message</label>
-        <textarea id="c-msg" placeholder="Write your message here..."></textarea>
-      </div>
-      <div class="contact-btns">
-        <button id="btn-email" class="btn-contact" onclick="sendEmail()">
-          <img src="iconemail.png" alt="Email" onerror="this.style.display='none'">
-          Send via Email
-        </button>
-        <button id="btn-wa" class="btn-contact" onclick="sendWA()">
-          <img src="iconwhatsapp.png" alt="WhatsApp" onerror="this.style.display='none'">
-          Chat via WhatsApp
-        </button>
+        <!-- Info -->
+        <div class="detail-info" id="detail-info"></div>
       </div>
     </div>
 
-    <!-- Info -->
-    <div class="contact-info-wrap">
-      <div class="contact-info-block">
-        <div class="contact-info-row">
-          <div class="contact-info-icon">📍</div>
-          <div>
-            <p class="contact-info-label">Location</p>
-            <p class="contact-info-value">Sulawesi Selatan, Indonesia</p>
-          </div>
-        </div>
-        <div class="contact-info-row">
-          <div class="contact-info-icon">✉️</div>
-          <div>
-            <p class="contact-info-label">Email</p>
-            <p class="contact-info-value">rhmtmuhmmdd@gmail.com</p>
-          </div>
-        </div>
-        <div class="contact-info-row">
-          <div class="contact-info-icon">📞</div>
-          <div>
-            <p class="contact-info-label">WhatsApp</p>
-            <p class="contact-info-value">+62 856 5722 8559</p>
-          </div>
-        </div>
-      </div>
+  </section><!-- /#section-journey -->
 
-      <div class="map-placeholder">
-        <p class="map-placeholder-text">🗺 Map Location – Indonesia</p>
-      </div>
-
-      <p class="contact-quote">"Every great journey begins with a single message."</p>
+  <!-- ===== CONTACT SECTION ===== -->
+  <section id="section-contact" class="page">
+    <div class="contact-hero">
+      <span class="eyebrow">Get In Touch</span>
+      <h2>Let's Connect &amp; Explore Together</h2>
+      <p>Have a question, want to collaborate, or just want to talk about adventures? Reach out — we're always open for new connections.</p>
     </div>
-  </div>
-</section>
 
-<!-- =====================================================
-     PAGE: INFORMATION
-===================================================== -->
-<section id="page-information" class="page">
-  <div class="info-hero">
-    <h1 class="info-title">Stay Connected</h1>
-    <p class="info-sub">Get updates on upcoming climbs, recent explorations, and personal milestones through our available channels.</p>
-  </div>
+    <div class="contact-grid">
+      <!-- Form -->
+      <div>
+        <div class="form-group">
+          <label for="c-name">Your Name</label>
+          <input type="text" id="c-name" placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+          <label for="c-subject">Subject</label>
+          <input type="text" id="c-subject" placeholder="What's this about?">
+        </div>
+        <div class="form-group">
+          <label for="c-message">Message</label>
+          <textarea id="c-message" placeholder="Write your message here..."></textarea>
+        </div>
+        <div class="form-buttons">
+          <button onclick="sendEmail()" class="cta-btn btn-email">
+            <img src="iconemail.png" alt=""> Send via Email
+          </button>
+          <button onclick="sendWhatsApp()" class="cta-btn btn-wa">
+            <img src="iconwhatsapp.png" alt=""> Chat via WhatsApp
+          </button>
+        </div>
+      </div>
 
-  <div class="info-card">
-    <div class="info-card-inner">
-      <p class="info-card-desc">
-        "Get updates on upcoming climbs, recent explorations, and personal milestones through the available channels."
-      </p>
-      <div class="info-btns">
-        <a href="https://whatsapp.com/channel/YOUR_CHANNEL_LINK" target="_blank" rel="noopener" class="btn-info btn-wa-channel">
-          <img src="iconsaluranwhatsapp.png" alt="WhatsApp Channel" onerror="this.style.display='none'">
-          Join WhatsApp Channel
+      <!-- Info -->
+      <div class="contact-info-col">
+        <div class="info-item">
+          <span class="info-ico">📍</span>
+          <div class="info-txt">
+            <h4>Location</h4>
+            <p>Sulawesi Selatan, Indonesia</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-ico">✉️</span>
+          <div class="info-txt">
+            <h4>Email</h4>
+            <p>rhmtmuhmmdd@gmail.com</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-ico">📱</span>
+          <div class="info-txt">
+            <h4>WhatsApp</h4>
+            <p>+62 856-5722-8559</p>
+          </div>
+        </div>
+        <div class="map-ph">🗺️ Map Location — Indonesia</div>
+        <div style="display:flex;gap:12px;margin-top:4px;flex-wrap:wrap;">
+          <a href="https://www.instagram.com/rhmtmuhmmdd" target="_blank" rel="noopener" class="social-link instagram" style="font-size:13px;padding:5px 12px;">📷 Instagram</a>
+          <a href="https://tiktok.com/@rhmtmuhmmdd" target="_blank" rel="noopener" class="social-link tiktok" style="font-size:13px;padding:5px 12px;">🎵 TikTok</a>
+          <a href="https://www.facebook.com/share/1DmUuGTjn9/" target="_blank" rel="noopener" class="social-link facebook" style="font-size:13px;padding:5px 12px;">👍 Facebook</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="contact-quote">"Every great journey begins with a single message."</p>
+  </section><!-- /#section-contact -->
+
+  <!-- ===== INFORMATION SECTION ===== -->
+  <section id="section-information" class="page">
+    <div class="info-hero">
+      <span class="eyebrow">Keep Up With Us</span>
+      <h2>Stay Connected</h2>
+      <p>Get updates on upcoming climbs, recent explorations, and personal milestones. Follow the channels below to stay in the loop.</p>
+    </div>
+
+    <div class="info-card">
+      <p>Get updates on upcoming climbs, recent explorations, and personal milestones through the available channels. Every channel is a window into the journey — follow the one that fits your style.</p>
+      <div class="channel-btns">
+        <a href="https://whatsapp.com/channel/LINK_SALURAN_WA_DISINI" target="_blank" rel="noopener" class="ch-btn ch-btn-wa1">
+          <img src="iconsaluranwhatsapp.png" alt="WhatsApp Channel"> Join WhatsApp Channel
         </a>
-        <a href="https://chat.whatsapp.com/YOUR_GROUP_LINK" target="_blank" rel="noopener" class="btn-info btn-wa-group">
-          <img src="icongrupwhatsapp.png" alt="WhatsApp Group" onerror="this.style.display='none'">
-          Join WhatsApp Group
+        <a href="https://chat.whatsapp.com/LINK_GRUP_WA_DISINI" target="_blank" rel="noopener" class="ch-btn ch-btn-wa2">
+          <img src="icongrupwhatsapp.png" alt="WhatsApp Group"> Join WhatsApp Group
         </a>
-        <a href="https://www.instagram.com/YOUR_IG_BROADCAST" target="_blank" rel="noopener" class="btn-info btn-ig-broadcast">
-          <img src="iconsaluraninstagram.png" alt="Instagram Broadcast" onerror="this.style.display='none'">
-          Follow Instagram Broadcast
+        <a href="https://www.instagram.com/rhmtmuhmmdd" target="_blank" rel="noopener" class="ch-btn ch-btn-ig">
+          <img src="iconsaluraninstagram.png" alt="Instagram Broadcast"> Follow Instagram Broadcast
         </a>
       </div>
     </div>
-  </div>
-</section>
+  </section><!-- /#section-information -->
 
-<!-- =====================================================
-     PAGE: ABOUT ME
-===================================================== -->
-<section id="page-aboutme" class="page">
-  <div class="about-hero">
-    <p class="about-label">Personal</p>
-    <h1 class="about-title">About Me</h1>
-    <div class="about-divider"></div>
-    <p class="about-desc">
-      I am deeply interested in mountain exploration and natural landscapes.
-      For me, exploration is built on preparation, discipline, and the willingness to keep improving with every experience.
-      Each journey reflects a commitment to responsibility, respect for nature, and long-term growth.
-    </p>
-  </div>
+  <!-- ===== SHOP SECTION ===== -->
+  <section id="section-shop" class="page">
+    <div class="shop-hero">
+      <span class="eyebrow">Available Items</span>
+      <h2>Shop</h2>
+      <p class="sub">Selected items available for purchase.</p>
+      <p class="shop-desc">These are curated items relevant to exploration and outdoor activities — chosen with care and available for direct order.</p>
+    </div>
 
-  <div class="core-values">
-    <p class="core-values-label">Philosophy</p>
-    <h2 class="core-values-title">Core Values</h2>
-    <div class="values-grid">
-      <div class="value-card">
-        <div class="value-number">01</div>
-        <div class="value-name">Discipline</div>
-        <p class="value-desc">Consistency, preparation, and mental strength in every climb.</p>
+    <div class="products-grid">
+      <!--
+        ============================================================
+        CARA TAMBAH PRODUK BARU:
+        Duplikasi satu blok .product-card di bawah ini,
+        lalu ganti: src gambar, nama produk, harga, deskripsi,
+        dan nama produk di link WhatsApp (ganti +%20di+URL).
+        ============================================================
+      -->
+
+      <!-- PRODUK 1 -->
+      <div class="product-card">
+        <div class="prod-img-wrap">
+          <img src="produk1.jpg" alt="Explorer T-Shirt">
+        </div>
+        <div class="prod-body">
+          <p class="prod-name">Explorer T-Shirt</p>
+          <p class="prod-price">Rp 150.000</p>
+          <p class="prod-desc">Kaos outdoor nyaman untuk petualangan. Tersedia dalam berbagai ukuran.</p>
+          <a href="https://wa.me/6285657228559?text=Hello%2C%20I%27m%20interested%20in%20Explorer%20T-Shirt.%20Is%20it%20available%3F"
+             target="_blank" rel="noopener" class="order-btn">💬 Order via WhatsApp</a>
+        </div>
       </div>
-      <div class="value-card">
-        <div class="value-number">02</div>
-        <div class="value-name">Responsibility</div>
-        <p class="value-desc">Respecting nature and understanding the impact of every action.</p>
+
+      <!-- PRODUK 2 -->
+      <div class="product-card">
+        <div class="prod-img-wrap">
+          <img src="produk2.jpg" alt="Mountain Cap">
+        </div>
+        <div class="prod-body">
+          <p class="prod-name">Mountain Cap</p>
+          <p class="prod-price">Rp 85.000</p>
+          <p class="prod-desc">Topi adjustable dengan bordir logo. Ringan dan tahan lama untuk hiking.</p>
+          <a href="https://wa.me/6285657228559?text=Hello%2C%20I%27m%20interested%20in%20Mountain%20Cap.%20Is%20it%20available%3F"
+             target="_blank" rel="noopener" class="order-btn">💬 Order via WhatsApp</a>
+        </div>
       </div>
-      <div class="value-card">
-        <div class="value-number">03</div>
-        <div class="value-name">Resilience</div>
-        <p class="value-desc">Staying strong through challenges, weather, and uncertainty.</p>
+
+      <!-- PRODUK 3 -->
+      <div class="product-card">
+        <div class="prod-img-wrap">
+          <img src="produk3.jpg" alt="Trail Sticker Pack">
+        </div>
+        <div class="prod-body">
+          <p class="prod-name">Trail Sticker Pack</p>
+          <p class="prod-price">Rp 35.000</p>
+          <p class="prod-desc">Set 5 stiker vinyl berkualitas tinggi menampilkan ekspedisi trail kami.</p>
+          <a href="https://wa.me/6285657228559?text=Hello%2C%20I%27m%20interested%20in%20Trail%20Sticker%20Pack.%20Is%20it%20available%3F"
+             target="_blank" rel="noopener" class="order-btn">💬 Order via WhatsApp</a>
+        </div>
       </div>
-      <div class="value-card">
-        <div class="value-number">04</div>
-        <div class="value-name">Growth</div>
-        <p class="value-desc">Learning from every trail, every summit, and every experience.</p>
+
+    </div>
+  </section><!-- /#section-shop -->
+
+  <!-- ===== ABOUT ME SECTION ===== -->
+  <section id="section-aboutme" class="page">
+    <div class="about-hero">
+      <span class="eyebrow">Who I Am</span>
+      <h2>About Me</h2>
+    </div>
+
+    <div class="about-body">
+      <p>I am deeply interested in mountain exploration and natural landscapes.</p>
+      <p>For me, exploration is built on preparation, discipline, and the willingness to keep improving with every experience.</p>
+      <p>Each journey reflects a commitment to responsibility, respect for nature, and long-term growth.</p>
+    </div>
+
+    <div class="core-values-section">
+      <h3>Core Values</h3>
+      <div class="values-grid">
+        <div class="value-card">
+          <p class="value-title">Discipline</p>
+          <p class="value-desc">Consistency, preparation, and mental strength in every climb.</p>
+        </div>
+        <div class="value-card">
+          <p class="value-title">Responsibility</p>
+          <p class="value-desc">Respecting nature and understanding the impact of every action.</p>
+        </div>
+        <div class="value-card">
+          <p class="value-title">Resilience</p>
+          <p class="value-desc">Staying strong through challenges, weather, and uncertainty.</p>
+        </div>
+        <div class="value-card">
+          <p class="value-title">Growth</p>
+          <p class="value-desc">Learning from every trail, every summit, and every experience.</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section><!-- /#section-aboutme -->
 
-<!-- =====================================================
-     PERMANENT FOOTER
-===================================================== -->
-<footer id="site-footer" role="contentinfo">
-  <a href="https://www.instagram.com/rhmtmuhmmdd?igsh=emc4czg2ajQxajh2" target="_blank" rel="noopener" class="social-link social-instagram">Instagram</a>
-  <a href="https://www.tiktok.com/@rhmtmuhmmdd" target="_blank" rel="noopener" class="social-link social-tiktok">TikTok</a>
-  <a href="https://www.facebook.com/share/1DmUuGTjn9/" target="_blank" rel="noopener" class="social-link social-facebook">Facebook</a>
-</footer>
+  <!-- FOOTER inside app -->
+  <footer class="social-footer">
+    <a href="https://www.instagram.com/rhmtmuhmmdd" target="_blank" rel="noopener noreferrer" class="social-link instagram">📷 Instagram</a>
+    <a href="https://tiktok.com/@rhmtmuhmmdd" target="_blank" rel="noopener noreferrer" class="social-link tiktok">🎵 TikTok</a>
+    <a href="https://www.facebook.com/share/1DmUuGTjn9/" target="_blank" rel="noopener noreferrer" class="social-link facebook">👍 Facebook</a>
+  </footer>
 
-<!-- =====================================================
+</div><!-- /#main-app -->
+
+<!-- =============================================
      JAVASCRIPT
-===================================================== -->
+     ============================================= -->
 <script>
-/* --------------------------------------------------
-   MOUNTAIN DATA — add new mountains here easily
--------------------------------------------------- */
-const mountains = [
+/* ==============================================
+   MOUNTAIN DATA
+   =============================================
+   Untuk tambah gunung baru: tambahkan satu object baru
+   di array ini mengikuti format yang sama.
+   Untuk tambah foto: tambahkan nama file di array photos[].
+   ============================================== */
+var mountains = [
   {
-    id: 'puncaktalung',
-    name: 'Puncak Talung',
-    location: 'Sulawesi Selatan',
-    elevation: '2,871 m',
-    year: '2024',
-    photos: ['talung01.jpg','talung02.jpg','talung03.jpg','talung04.jpg'],
-    story: 'A breathtaking summit that rewards the climb with vast open views and cool alpine winds.',
-    highlight: 'Sunrise from the summit ridge, painting the sky in layers of amber and rose.'
+    name:      'Puncak Talung',
+    location:  'Sulawesi Selatan',
+    elevation: '2.871 mdpl',
+    year:      '2025',
+    cover:     'puncaktalung.jpg',
+    photos:    ['puncaktalung01.jpg','puncaktalung02.jpg','puncaktalung03.jpg','puncaktalung04.jpg'],
+    story:     'Puncak Talung menawarkan pemandangan panoramik dari lembah-lembah di sekitarnya. Summit ini menguji ketahanan dan memberikan pemandangan yang tak tertandingi sebagai hadiahnya.',
+    highlights:['Sunrise view','Dense forest trail','Steep ridgeline']
   },
   {
-    id: 'lembahramma',
-    name: 'Lembah Ramma',
-    location: 'Sulawesi Selatan',
-    elevation: '2,300 m',
-    year: '2024',
-    photos: ['ramma01.jpg','ramma02.jpg','ramma03.jpg','ramma04.jpg'],
-    story: 'A lush valley carved by ancient rivers, rich with biodiversity and serene atmosphere.',
-    highlight: 'Morning mist slowly lifting to reveal the full valley in golden light.'
+    name:      'Lembah Ramma',
+    location:  'Sulawesi Selatan',
+    elevation: '1.800 mdpl',
+    year:      '2025',
+    cover:     'lembahramma.jpg',
+    photos:    ['lembahramma01.jpg','lembahramma02.jpg','lembahramma03.jpg','lembahramma04.jpg'],
+    story:     'Lembah Ramma dikenal dengan suasananya yang tenang dan flora yang beragam. Tempat yang sempurna untuk fotografi alam dan refleksi damai.',
+    highlights:['River crossing','Wildflowers','Bird diversity']
   },
   {
-    id: 'danauslank',
-    name: 'Danau Slank',
-    location: 'Sulawesi Selatan',
-    elevation: '2,100 m',
-    year: '2024',
-    photos: ['slank01.jpg','slank02.jpg','slank03.jpg','slank04.jpg'],
-    story: 'A crater lake of deep blue stillness, surrounded by mossy banks and silence.',
-    highlight: 'Reflection of the surrounding peaks mirrored perfectly in the calm waters.'
+    name:      'Danau Slank',
+    location:  'Sulawesi Selatan',
+    elevation: '2.100 mdpl',
+    year:      '2025',
+    cover:     'slank.jpg',
+    photos:    ['danauslank01.jpg','danauslank02.jpg','danauslank03.jpg','danauslank04.jpg'],
+    story:     'Danau kawah dengan air jernih yang memantulkan puncak-puncak di sekitarnya. Salah satu permata tersembunyi alam yang paling spektakuler.',
+    highlights:['Crater lake','Misty mornings','Rocky terrain']
   },
   {
-    id: 'danautanralili',
-    name: 'Danau Tanralili',
-    location: 'Sulawesi Selatan',
-    elevation: '2,200 m',
-    year: '2024',
-    photos: ['tanralili01.jpg','tanralili02.jpg','tanralili03.jpg','tanralili04.jpg'],
-    story: 'A hidden gem of highland waters, accessible only to those who earn it on foot.',
-    highlight: "Stars reflecting in the lake's surface on a cloudless night."
+    name:      'Danau Tanralili',
+    location:  'Sulawesi Selatan',
+    elevation: '2.300 mdpl',
+    year:      '2025',
+    cover:     'tanralili.jpg',
+    photos:    ['danautanralili01.jpg','danautanralili02.jpg','danautanralili03.jpg','danautanralili04.jpg'],
+    story:     'Danau dataran tinggi yang duduk di ketinggian luar biasa, menawarkan pelarian tenang dikelilingi perbukitan hijau dan hutan hijau zamrud.',
+    highlights:['Highland lake','Camping ground','Cool temperature']
   },
   {
-    id: 'lembahlohe',
-    name: 'Lembah Lohe',
-    location: 'Sulawesi Selatan',
-    elevation: '2,000 m',
-    year: '2024',
-    photos: ['lohe01.jpg','lohe02.jpg','lohe03.jpg','lohe04.jpg'],
-    story: 'A valley of tall grasses and cool streams, perfect for rest and reflection.',
-    highlight: 'Wind moving in waves through the tall highland grass.'
+    name:      'Lembah Lohe',
+    location:  'Sulawesi Selatan',
+    elevation: '1.600 mdpl',
+    year:      '2025',
+    cover:     'lembahlohe.jpg',
+    photos:    ['lembahlohe01.jpg','lembahlohe02.jpg','lembahlohe03.jpg','lembahlohe04.jpg'],
+    story:     'Lembah yang damai dengan keanekaragaman hayati yang kaya. Aliran sungai yang lembut dan angin sejuk menjadikan ini destinasi ekspedisi yang menyegarkan.',
+    highlights:['Gentle streams','Biodiversity','Bamboo forest']
   },
   {
-    id: 'bulubialo',
-    name: 'Bulu Bialo',
-    location: 'Sulawesi Selatan',
-    elevation: '2,073 m',
-    year: '2024',
-    photos: ['bialo01.jpg','bialo02.jpg','bialo03.jpg','bialo04.jpg'],
-    story: 'A rewarding trail through dense highland forest leading to a panoramic open ridge.',
-    highlight: 'Looking down from the ridge onto a sea of clouds below.'
+    name:      'Bulu Bialo',
+    location:  'Sulawesi Selatan',
+    elevation: '2.400 mdpl',
+    year:      '2025',
+    cover:     'bulubialo.jpg',
+    photos:    ['bulubialo01.jpg','bulubialo02.jpg','bulubialo03.jpg','bulubialo04.jpg'],
+    story:     'Gunung berbatu dengan pendakian yang menantang. Puncaknya mengungkapkan pemandangan luas dari pegunungan sekitar dan garis pantai yang jauh.',
+    highlights:['Challenging trail','360° view','Open summit']
   },
   {
-    id: 'mtkappire',
-    name: 'MT. Kappire',
-    location: 'Sulawesi Selatan',
-    elevation: '1,800 m',
-    year: '2024',
-    photos: ['kappire01.jpg','kappire02.jpg','kappire03.jpg','kappire04.jpg'],
-    story: 'A mountain of character — rugged terrain and rocky outcrops define every step.',
-    highlight: 'Reaching the peak after a challenging final scramble, completely worth it.'
+    name:      'MT. Kappire',
+    location:  'Sulawesi Selatan',
+    elevation: '2.900 mdpl',
+    year:      '2025',
+    cover:     'kappire.jpg',
+    photos:    ['kappire01.jpg','kappire02.jpg','kappire03.jpg','kappire04.jpg'],
+    story:     'Salah satu yang tertinggi di kawasan ini, MT. Kappire menuntut persiapan matang. Jalurnya berat namun puncaknya sebanding dengan setiap langkah.',
+    highlights:['High altitude','Dense vegetation','Cloud forest']
   },
   {
-    id: 'bulusaraung',
-    name: 'Bulu Saraung',
-    location: 'Sulawesi Selatan',
-    elevation: '2,472 m',
-    year: '2024',
-    photos: ['bulusaraung01.jpg','bulusaraung02.jpg','bulusaraung03.jpg','bulusaraung04.jpg'],
-    story: 'A towering formation with sharp ridges and breathtaking views of the southern highlands.',
-    highlight: 'Summit winds that carry the scent of pine and open sky.'
+    name:      'Bulu Saraung',
+    location:  'Sulawesi Selatan',
+    elevation: '2.600 mdpl',
+    year:      '2025',
+    cover:     'bulusaraung.jpg',
+    photos:    ['bulusaraung01.jpg','bulusaraung02.jpg','bulusaraung03.jpg','bulusaraung04.jpg'],
+    story:     'Gunung indah yang diselimuti kabut di pagi hari. Bulu Saraung dikenal dengan pemandangan ridge walk-nya yang memukau.',
+    highlights:['Ridge walk','Morning mist','Local flora']
   },
   {
-    id: 'mtbawakaraeng',
-    name: 'MT. Bawakaraeng',
-    location: 'Sulawesi Selatan',
-    elevation: '2,830 m',
-    year: '2024',
-    photos: ['bawakaraeng01.jpg','bawakaraeng02.jpg','bawakaraeng03.jpg','bawakaraeng04.jpg'],
-    story: 'An iconic peak revered by local culture, with trails that test both body and spirit.',
-    highlight: 'First light on the sacred peak — a moment of pure stillness.'
+    name:      'MT. Bawakaraeng',
+    location:  'Sulawesi Selatan',
+    elevation: '2.833 mdpl',
+    year:      '2025',
+    cover:     'bawakaraeng.jpg',
+    photos:    ['bawakaraeng01.jpg','bawakaraeng02.jpg','bawakaraeng03.jpg','bawakaraeng04.jpg'],
+    story:     'Gunung yang sakral dan ikonik di Sulawesi Selatan. Puncaknya adalah pencapaian spiritual dan fisik bagi setiap pendaki di kawasan ini.',
+    highlights:['Sacred mountain','Spiritual landmark','Panoramic summit']
   },
   {
-    id: 'bulusaukang',
-    name: 'Bulu Saukang',
-    location: 'Sulawesi Selatan',
-    elevation: '1,900 m',
-    year: '2024',
-    photos: ['saukang01.jpg','saukang02.jpg','saukang03.jpg','saukang04.jpg'],
-    story: 'A quiet ridge with sweeping views over lowland forests and river deltas far below.',
-    highlight: 'Evening colors turning the sky into a canvas of orange and indigo.'
+    name:      'Bulu Saukang',
+    location:  'Sulawesi Selatan',
+    elevation: '2.200 mdpl',
+    year:      '2025',
+    cover:     'saukang.jpg',
+    photos:    ['saukang01.jpg','saukang02.jpg','saukang03.jpg','saukang04.jpg'],
+    story:     'Gunung dengan tingkat kesulitan sedang dan ekosistem beragam sepanjang jalurnya. Cocok untuk pemula maupun pendaki berpengalaman.',
+    highlights:['Diverse ecosystem','Moderate difficulty','Nature trail']
   },
   {
-    id: 'mtlatimojong',
-    name: 'MT. Latimojong',
-    location: 'Sulawesi Selatan',
-    elevation: '3,478 m',
-    year: '2024',
-    photos: ['mtlatimojong01.jpg','mtlatimojong02.jpg','mtlatimojong03.jpg','mtlatimojong04.jpg'],
-    story: 'The highest peak in Sulawesi — demanding, remote, and absolutely extraordinary.',
-    highlight: 'Summiting Rante Mario and standing above the entire island.'
+    name:      'Bukit Maddo',
+    location:  'Sulawesi Selatan',
+    elevation: '1.900 mdpl',
+    year:      '2025',
+    cover:     'maddo.jpg',
+    photos:    ['maddo01.jpg','maddo02.jpg','maddo03.jpg','maddo04.jpg'],
+    story:     'Bukit pemandangan dengan pandangan luas ke dataran sekitarnya. Sempurna untuk pendakian satu hari dengan panorama indah di puncaknya.',
+    highlights:['Day hike','Sweeping views','Grassland trail']
   },
   {
-    id: 'mtlompobattang',
-    name: 'MT. Lompobattang',
-    location: 'Sulawesi Selatan',
-    elevation: '2,874 m',
-    year: '2024',
-    photos: ['mtlompobattang01.jpg','mtlompobattang02.jpg','mtlompobattang03.jpg','mtlompobattang04.jpg'],
-    story: 'A majestic volcano standing tall over South Sulawesi, with rich highland ecosystems.',
-    highlight: 'Cloud inversions below the summit creating an ocean of white below.'
+    name:      'Air Terjun Tomagellie',
+    location:  'Sulawesi Selatan',
+    elevation: '1.500 mdpl',
+    year:      '2025',
+    cover:     'tomagelli.jpg',
+    photos:    ['tomagelli01.jpg','tomagelli02.jpg','tomagelli03.jpg','tomagelli04.jpg'],
+    story:     'Air terjun menakjubkan yang tersembunyi di dalam hutan tropis. Suara air yang mengalir deras dan kabut sejuk menciptakan suasana yang magis.',
+    highlights:['Hidden waterfall','Tropical forest','Cool mist']
   },
   {
-    id: 'bulubaria',
-    name: 'Bulu Baria',
-    location: 'Sulawesi Selatan',
-    elevation: '2,060 m',
-    year: '2024',
-    photos: ['bulubaria01.jpg','bulubaria02.jpg','bulubaria03.jpg','bulubaria04.jpg'],
-    story: 'A lesser-known ridge that rewards explorers with solitude and unspoiled nature.',
-    highlight: 'Complete silence at the summit — just wind and the view.'
+    name:      'MT. Latimojong',
+    location:  'Sulawesi Selatan',
+    elevation: '3.478 mdpl',
+    year:      '2025',
+    cover:     'latimojong.jpg',
+    photos:    ['latimojong01.jpg','latimojong02.jpg','latimojong03.jpg','latimojong04.jpg'],
+    story:     'Puncak tertinggi di Sulawesi — mahkota permata bagi para pendaki. MT. Latimojong adalah tantangan pamungkas yang membalas setiap usaha dengan pemandangan tiada tara.',
+    highlights:['Highest peak in Sulawesi','Multi-day trek','Alpine zone']
   },
   {
-    id: 'mtbahonglangi',
-    name: 'MT. Bahonglangi',
-    location: 'Sulawesi Selatan',
-    elevation: '2,111 m',
-    year: '2024',
-    photos: ['mtbahonglangi01.jpg','mtbahonglangi02.jpg','mtbahonglangi03.jpg','mtbahonglangi04.jpg'],
-    story: 'A forested mountain trail offering rich biodiversity and sweeping highland vistas.',
-    highlight: 'Discovering a hidden waterfall mid-trail, cold and refreshing.'
+    name:      'MT. Lompobattang',
+    location:  'Sulawesi Selatan',
+    elevation: '2.871 mdpl',
+    year:      '2025',
+    cover:     'lompobattang.jpg',
+    photos:    ['lompobattang01.jpg','lompobattang02.jpg','lompobattang03.jpg','lompobattang04.jpg'],
+    story:     'Gunung kembar yang megah berdiri kokoh di Sulawesi Selatan. Jalurnya melewati berbagai lanskap mulai dari hutan dataran rendah hingga puncak terbuka.',
+    highlights:['Twin peak','Coastal view','Historical trails']
   },
   {
-    id: 'tondongkarambu',
-    name: 'Tondong Karambu',
-    location: 'Sulawesi Selatan',
-    elevation: '2,100 m',
-    year: '2024',
-    photos: ['tondongkarambu01.jpg','tondongkarambu02.jpg','tondongkarambu03.jpg','tondongkarambu04.jpg'],
-    story: 'A dramatic peak with rugged character and expansive views over the eastern highland belt.',
-    highlight: 'Golden sunset light casting long shadows across the valley below.'
+    name:      'Bulu Baria',
+    location:  'Sulawesi Selatan',
+    elevation: '2.150 mdpl',
+    year:      '2025',
+    cover:     'bulubaria.jpg',
+    photos:    ['bulubaria01.jpg','bulubaria02.jpg','bulubaria03.jpg','bulubaria04.jpg'],
+    story:     'Gunung yang belum banyak dijelajahi dengan jalur yang masih pristine. Bulu Baria menawarkan ketenangan dan alam yang belum tersentuh.',
+    highlights:['Pristine trail','Untouched nature','Solitude']
+  },
+  {
+    name:      'MT. Bahonglangi',
+    location:  'Sulawesi Selatan',
+    elevation: '2.700 mdpl',
+    year:      '2025',
+    cover:     'bahonglangi.jpg',
+    photos:    ['bahonglangi01.jpg','bahonglangi02.jpg','bahonglangi03.jpg','bahonglangi04.jpg'],
+    story:     'Gunung dramatis dengan dinding curam dan formasi geologi yang mengesankan. Punggungnya yang terbuka menjadikan pendakian ini sangat menggembirakan.',
+    highlights:['Steep ridges','Rock formations','Challenging ascent']
+  },
+  {
+    name:      'Tondong Karambu',
+    location:  'Sulawesi Selatan',
+    elevation: '2.050 mdpl',
+    year:      '2025',
+    cover:     'tondongkarambu.jpg',
+    photos:    ['tondongkarambu01.jpg','tondongkarambu02.jpg','tondongkarambu03.jpg','tondongkarambu04.jpg'],
+    story:     'Gunung dengan makna budaya yang kuat dan lanskap indah. Tondong Karambu memadukan keindahan alam dengan warisan lokal yang kaya.',
+    highlights:['Cultural heritage','Scenic trail','Unique landscape']
   }
 ];
 
-/* --------------------------------------------------
+/* ==============================================
    STATE
--------------------------------------------------- */
-let explorationStarted = false;
-let currentMountain = null;
-let currentSlide = 0;
-let totalSlides = 0;
+   ============================================== */
+var isDark = false;
+var appEntered = false;
+var currentSection = 'home';
+var currentGalleryPhotos = [];
+var currentGalleryIdx = 0;
 
-/* --------------------------------------------------
-   PAGE NAVIGATION
--------------------------------------------------- */
-function showPage(pageId) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const target = document.getElementById('page-' + pageId);
-  if (target) target.classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  updateActiveMenu(pageId);
-  closeMenu();
-}
-
-function navTo(dest) {
-  if (dest === 'home') {
-    // Go back to cover (no music)
-    stopMusic();
-    explorationStarted = false;
-    document.getElementById('hamburger').classList.remove('visible');
-    showPage('cover');
-    return;
-  }
-  showPage(dest);
-}
-
-function updateActiveMenu(pageId) {
-  document.querySelectorAll('.menu-nav a').forEach(a => a.classList.remove('active-menu'));
-  const map = { main:'home', journey:'journey', contact:'contact', information:'information', aboutme:'aboutme' };
-  const key = Object.keys(map).find(k => k === pageId);
-  if (key) {
-    const idx = Object.keys(map).indexOf(key);
-    const links = document.querySelectorAll('.menu-nav a');
-    if (links[idx]) links[idx].classList.add('active-menu');
-  }
-}
-
-/* --------------------------------------------------
-   EXPLORATION ENTRY
--------------------------------------------------- */
-function enterExploration() {
-  explorationStarted = true;
-  showPage('main');
-  document.getElementById('hamburger').classList.add('visible');
-  playMusic();
+/* ==============================================
+   INIT
+   ============================================== */
+document.addEventListener('DOMContentLoaded', function() {
   renderMountainCards();
-}
+});
 
-/* --------------------------------------------------
-   MUSIC
--------------------------------------------------- */
-function playMusic() {
-  const music = document.getElementById('bg-music');
-  music.volume = 0.4;
-  const promise = music.play();
-  if (promise !== undefined) {
-    promise.catch(() => {
-      // autoplay blocked — will play on next user interaction
-      document.addEventListener('click', () => music.play(), { once: true });
-    });
-  }
-}
-function stopMusic() {
-  const music = document.getElementById('bg-music');
-  music.pause();
-  music.currentTime = 0;
-}
-
-/* --------------------------------------------------
+/* ==============================================
    DARK MODE
--------------------------------------------------- */
+   ============================================== */
 function toggleDark() {
-  document.body.classList.toggle('dark-mode');
-  const icon = document.getElementById('dark-toggle-icon');
-  icon.textContent = document.body.classList.contains('dark-mode') ? '☀' : '🌙';
-  localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+  isDark = !isDark;
+  document.body.classList.toggle('dark', isDark);
+  document.getElementById('dark-toggle').textContent = isDark ? '☀️ Light' : '🌙 Dark';
 }
-// Restore preference
-(function() {
-  const saved = localStorage.getItem('darkMode');
-  if (saved === 'true') {
-    document.body.classList.add('dark-mode');
-    const icon = document.getElementById('dark-toggle-icon');
-    if (icon) icon.textContent = '☀';
+
+/* ==============================================
+   ENTER APP (Exploration button)
+   ============================================== */
+function enterApp() {
+  if (appEntered) return;
+  appEntered = true;
+
+  // Hide cover
+  var cover = document.getElementById('cover-page');
+  cover.style.display = 'none';
+
+  // Show app
+  var app = document.getElementById('main-app');
+  app.classList.add('active');
+
+  // Show hamburger menu icon
+  document.getElementById('hamburger-btn').classList.add('show');
+
+  // Play background music
+  var audio = document.getElementById('bg-audio');
+  audio.volume = 0.45;
+  audio.play().catch(function() {
+    // Autoplay may be blocked by browser — silent fail
+  });
+
+  // Animate home stat cards
+  setTimeout(function() {
+    var cards = document.querySelectorAll('#section-home .stat-card');
+    cards.forEach(function(card, i) {
+      setTimeout(function() {
+        card.classList.add('animated');
+      }, i * 130);
+    });
+  }, 180);
+
+  // Ensure home section is active
+  setActiveSection('home', true);
+}
+
+/* ==============================================
+   GO HOME (sidebar Home button — returns to cover)
+   ============================================== */
+function goHome() {
+  closeSidebar();
+
+  if (!appEntered) return;
+
+  appEntered = false;
+
+  // Stop music
+  var audio = document.getElementById('bg-audio');
+  audio.pause();
+  audio.currentTime = 0;
+
+  // Hide app
+  document.getElementById('main-app').classList.remove('active');
+
+  // Hide hamburger
+  document.getElementById('hamburger-btn').classList.remove('show');
+
+  // Show cover
+  document.getElementById('cover-page').style.display = 'flex';
+
+  // Reset all sidebar active states
+  document.querySelectorAll('.sidebar-menu a').forEach(function(a) {
+    a.classList.remove('active');
+  });
+  document.getElementById('nav-home').classList.add('active');
+
+  // Reset home stat cards for next entry animation
+  document.querySelectorAll('#section-home .stat-card').forEach(function(card) {
+    card.classList.remove('animated');
+    // Force reflow
+    void card.offsetWidth;
+  });
+
+  window.scrollTo({ top: 0 });
+}
+
+/* ==============================================
+   NAVIGATE TO SECTION
+   ============================================== */
+function navigateTo(sectionId) {
+  closeSidebar();
+  setActiveSection(sectionId, false);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setActiveSection(sectionId, skipScroll) {
+  // Hide all sections
+  document.querySelectorAll('#main-app .page').forEach(function(p) {
+    p.classList.remove('active');
+  });
+
+  // Show target section
+  var target = document.getElementById('section-' + sectionId);
+  if (target) {
+    target.classList.add('active');
   }
-})();
 
-/* --------------------------------------------------
-   MENU DRAWER
--------------------------------------------------- */
-function openMenu() {
-  document.getElementById('side-menu').classList.add('open');
-  document.getElementById('menu-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeMenu() {
-  document.getElementById('side-menu').classList.remove('open');
-  document.getElementById('menu-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+  // Update sidebar active state
+  document.querySelectorAll('.sidebar-menu a').forEach(function(a) {
+    a.classList.remove('active');
+  });
+  var navEl = document.getElementById('nav-' + sectionId);
+  if (navEl) navEl.classList.add('active');
 
-/* --------------------------------------------------
-   MOUNTAIN CARDS RENDER
--------------------------------------------------- */
+  currentSection = sectionId;
+
+  // Re-animate home stats when navigating to home from within app
+  if (sectionId === 'home') {
+    setTimeout(function() {
+      var cards = document.querySelectorAll('#section-home .stat-card');
+      cards.forEach(function(card) {
+        card.classList.remove('animated');
+        void card.offsetWidth;
+      });
+      cards.forEach(function(card, i) {
+        setTimeout(function() {
+          card.classList.add('animated');
+        }, i * 130);
+      });
+    }, 120);
+  }
+
+  if (!skipScroll) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+/* ==============================================
+   SIDEBAR
+   ============================================== */
+function toggleSidebar() {
+  var sidebar = document.getElementById('sidebar');
+  var overlay = document.getElementById('sidebar-overlay');
+  var isOpen = sidebar.classList.contains('open');
+  if (isOpen) {
+    closeSidebar();
+  } else {
+    sidebar.classList.add('open');
+    overlay.classList.add('active');
+  }
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('active');
+}
+
+/* ==============================================
+   RENDER MOUNTAIN CARDS
+   ============================================== */
 function renderMountainCards() {
-  const wrap = document.getElementById('mountains-scroll');
-  if (!wrap || wrap.children.length > 0) return;
+  var container = document.getElementById('cards-scroll');
+  if (!container) return;
+  container.innerHTML = '';
 
-  mountains.forEach((m, i) => {
-    const card = document.createElement('div');
-    card.className = 'mountain-card';
-    card.setAttribute('tabindex', '0');
+  mountains.forEach(function(mt, idx) {
+    var card = document.createElement('div');
+    card.className = 'mt-card';
     card.setAttribute('role', 'button');
-    card.setAttribute('aria-label', 'View ' + m.name);
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', 'View details for ' + mt.name);
+    card.innerHTML =
+      '<div class="mt-img-wrap">' +
+        '<img src="' + mt.cover + '" alt="' + mt.name + '" loading="lazy">' +
+      '</div>' +
+      '<div class="mt-body">' +
+        '<p class="mt-name">' + mt.name + '</p>' +
+        '<p class="mt-loc">📍 ' + mt.location + '</p>' +
+        '<div class="mt-meta">' +
+          '<span>📅 ' + mt.year + '</span>' +
+          '<span>⛰️ ' + mt.elevation + '</span>' +
+        '</div>' +
+      '</div>';
 
-    // Image container
-    const imgWrap = document.createElement('div');
-    imgWrap.className = 'mountain-card-img-placeholder';
-    imgWrap.style.position = 'relative';
-    imgWrap.style.overflow = 'hidden';
+    card.addEventListener('click', function() { openDetail(idx); });
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') openDetail(idx);
+    });
 
-    // fallback SVG
-    const svgFallback = document.createElementNS('http://www.w3.org/2000/svg','svg');
-    svgFallback.setAttribute('viewBox','0 0 24 24');
-    svgFallback.setAttribute('fill','none');
-    svgFallback.setAttribute('stroke','#a8cdb8');
-    svgFallback.setAttribute('stroke-width','1.5');
-    svgFallback.innerHTML = '<path d="M3 20l5-10 4 6 3-4 6 8H3z"/><circle cx="18" cy="6" r="2"/>';
-    svgFallback.style.cssText = 'width:40px;height:40px;opacity:0.4;';
-    imgWrap.appendChild(svgFallback);
-
-    const cardImg = new Image();
-    cardImg.alt = m.name;
-    cardImg.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0;';
-    cardImg.onload = () => {
-      svgFallback.style.display = 'none';
-      imgWrap.appendChild(cardImg);
-    };
-    cardImg.onerror = () => { /* keep SVG fallback */ };
-    cardImg.src = m.photos[0];
-
-    const body = document.createElement('div');
-    body.className = 'mountain-card-body';
-    body.innerHTML = `
-      <p class="mountain-card-name">${m.name}</p>
-      <p class="mountain-card-loc">${m.location}</p>
-      <div class="mountain-card-meta">
-        <span class="mountain-card-year">${m.year}</span>
-        <span class="mountain-card-elev">${m.elevation}</span>
-      </div>
-    `;
-
-    card.appendChild(imgWrap);
-    card.appendChild(body);
-
-    card.addEventListener('click', () => openDetail(i));
-    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openDetail(i); });
-    wrap.appendChild(card);
+    container.appendChild(card);
   });
 }
 
-/* --------------------------------------------------
+/* ==============================================
    MOUNTAIN DETAIL
--------------------------------------------------- */
+   ============================================== */
 function openDetail(idx) {
-  const m = mountains[idx];
-  currentMountain = m;
-  currentSlide = 0;
-  totalSlides = m.photos.length;
+  var mt = mountains[idx];
+  if (!mt) return;
 
-  document.getElementById('detail-name').textContent = m.name;
-  document.getElementById('detail-meta').innerHTML = `
-    <span class="detail-badge">📍 ${m.location}</span>
-    <span class="detail-badge">⛰ ${m.elevation}</span>
-    <span class="detail-badge">📅 ${m.year}</span>
-  `;
-  document.getElementById('detail-story-text').textContent = m.story;
-  document.getElementById('detail-highlight-text').textContent = m.highlight;
+  currentGalleryPhotos = mt.photos;
+  currentGalleryIdx = 0;
 
-  // Build slides
-  const slider = document.getElementById('gallery-slider');
-  // Remove old slides
-  slider.querySelectorAll('.gallery-slide').forEach(s => s.remove());
-  const prevBtn = slider.querySelector('.gallery-prev');
-  const nextBtn = slider.querySelector('.gallery-next');
-  const counter = slider.querySelector('.gallery-counter');
+  // Set title
+  document.getElementById('detail-title').textContent = mt.name;
 
-  m.photos.forEach((photo, i) => {
-    const slide = document.createElement('div');
-    slide.className = 'gallery-slide' + (i === 0 ? ' active' : '');
+  // Set meta
+  document.getElementById('detail-meta-row').innerHTML =
+    '<span>📍 <strong>' + mt.location + '</strong></span>' +
+    '<span>⛰️ <strong>' + mt.elevation + '</strong></span>' +
+    '<span>📅 <strong>' + mt.year + '</strong></span>';
 
-    // placeholder shown until image loads
-    const placeholder = document.createElement('div');
-    placeholder.className = 'gallery-slide-placeholder';
-    placeholder.innerHTML = `<span>${m.name} — Photo ${i+1}</span>`;
-    slide.appendChild(placeholder);
+  // Set gallery
+  updateGalleryImage();
 
-    const img = new Image();
-    img.alt = m.name + ' photo ' + (i+1);
-    img.style.width = '100%';
-    img.style.height = '100%';
-    img.style.objectFit = 'cover';
-    img.style.display = 'block';
-    img.onload = () => {
-      placeholder.style.display = 'none';
-      slide.appendChild(img);
-    };
-    img.onerror = () => { /* keep placeholder */ };
-    img.src = photo;
+  // Set info
+  var tagsHtml = mt.highlights.map(function(h) {
+    return '<span class="tag">' + h + '</span>';
+  }).join('');
 
-    slider.insertBefore(slide, prevBtn);
-  });
+  document.getElementById('detail-info').innerHTML =
+    '<h4>About This Expedition</h4>' +
+    '<p>' + mt.story + '</p>' +
+    '<h4>Highlights</h4>' +
+    '<div class="highlight-tags">' + tagsHtml + '</div>';
 
-  updateGalleryCounter();
+  // Show detail with animation
+  var detailEl = document.getElementById('mountain-detail');
+  detailEl.classList.remove('show');
+  void detailEl.offsetWidth; // trigger reflow for re-animation
+  detailEl.classList.add('show');
 
-  const detail = document.getElementById('mountain-detail');
-  detail.classList.add('visible');
-  setTimeout(() => {
-    detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 100);
+  // Smooth scroll to detail
+  setTimeout(function() {
+    detailEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 80);
 }
 
 function closeDetail() {
-  document.getElementById('mountain-detail').classList.remove('visible');
-  currentMountain = null;
+  document.getElementById('mountain-detail').classList.remove('show');
+  // Scroll back to expedition cards
+  var wrap = document.querySelector('.expedition-wrap');
+  if (wrap) {
+    wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
-function galleryPrev() {
-  if (!currentMountain) return;
-  currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-  updateGallerySlide();
-}
-function galleryNext() {
-  if (!currentMountain) return;
-  currentSlide = (currentSlide + 1) % totalSlides;
-  updateGallerySlide();
-}
-function updateGallerySlide() {
-  const slider = document.getElementById('gallery-slider');
-  const slides = slider.querySelectorAll('.gallery-slide');
-  slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
-  updateGalleryCounter();
-}
-function updateGalleryCounter() {
-  document.getElementById('gallery-counter').textContent = (currentSlide+1) + ' / ' + totalSlides;
+function updateGalleryImage() {
+  var photos = currentGalleryPhotos;
+  if (!photos || photos.length === 0) return;
+
+  var imgEl = document.getElementById('gallery-img');
+  var counter = document.getElementById('gal-counter');
+
+  // Fade out
+  imgEl.classList.add('fading');
+
+  setTimeout(function() {
+    imgEl.src = photos[currentGalleryIdx];
+    imgEl.alt = 'Photo ' + (currentGalleryIdx + 1) + ' of ' + mt_name_for_gallery();
+    // Fade in
+    imgEl.classList.remove('fading');
+  }, 240);
+
+  counter.textContent = (currentGalleryIdx + 1) + ' / ' + photos.length;
 }
 
-/* --------------------------------------------------
-   CONTACT ACTIONS
--------------------------------------------------- */
+function mt_name_for_gallery() {
+  // Helper to get current mountain name for alt text
+  for (var i = 0; i < mountains.length; i++) {
+    if (mountains[i].photos === currentGalleryPhotos) return mountains[i].name;
+  }
+  return '';
+}
+
+function galleryNav(dir) {
+  var len = currentGalleryPhotos.length;
+  if (len === 0) return;
+  currentGalleryIdx = ((currentGalleryIdx + dir) % len + len) % len;
+  updateGalleryImage();
+}
+
+/* ==============================================
+   LIGHTBOX
+   ============================================== */
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('show');
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('show');
+  document.getElementById('lightbox-img').src = '';
+}
+
+function handleLightboxClick(e) {
+  // Close if clicking background (not the image itself)
+  if (e.target === document.getElementById('lightbox') || e.target === document.getElementById('lb-close')) {
+    closeLightbox();
+  }
+}
+
+/* ==============================================
+   CONTACT FUNCTIONS
+   ============================================== */
 function sendEmail() {
-  const name = document.getElementById('c-name').value || '';
-  const subject = document.getElementById('c-subject').value || 'Inquiry from rhmttmuhmmd Website';
-  const msg = document.getElementById('c-msg').value || '';
-  const body = `Hello rhmttmuhmmd Team,\n\nMy name is ${name}.\n\n${msg}\n\nBest regards,\n${name}`;
-  const mailto = `mailto:rhmtmuhmmdd@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  var name    = document.getElementById('c-name').value.trim();
+  var subject = document.getElementById('c-subject').value.trim() || 'Inquiry from rhmtmuhmmdd Website';
+  var message = document.getElementById('c-message').value.trim();
+
+  var body = 'Hello rhmttmuhmmd,\n\n';
+  if (name) body += 'My name is ' + name + '.\n\n';
+  if (message) body += message + '\n\n';
+  body += 'Best regards,\n' + (name || 'Visitor');
+
+  var mailto = 'mailto:rhmtmuhmmdd@gmail.com'
+    + '?subject=' + encodeURIComponent(subject)
+    + '&body='    + encodeURIComponent(body);
+
   window.location.href = mailto;
 }
-function sendWA() {
-  const name = document.getElementById('c-name').value || '';
-  const msg = document.getElementById('c-msg').value || '';
-  const text = `Hello rhmttmuhmmd Team, I'm interested in your expedition.${name ? ' My name is ' + name + '.' : ''}${msg ? '\n\n' + msg : ''}`;
-  const waUrl = `https://wa.me/6285657228559?text=${encodeURIComponent(text)}`;
-  window.open(waUrl, '_blank');
+
+function sendWhatsApp() {
+  var name    = document.getElementById('c-name').value.trim();
+  var message = document.getElementById('c-message').value.trim();
+
+  var fullMsg = "Hello, I'm interested in your expedition.";
+  if (name && message) {
+    fullMsg = 'Hello, my name is ' + name + '. ' + message;
+  } else if (name) {
+    fullMsg = 'Hello, my name is ' + name + ". I'm interested in your expedition.";
+  } else if (message) {
+    fullMsg = message;
+  }
+
+  window.open('https://wa.me/6285657228559?text=' + encodeURIComponent(fullMsg), '_blank');
 }
 
-/* --------------------------------------------------
-   HAMBURGER KEYBOARD
--------------------------------------------------- */
-document.getElementById('hamburger').addEventListener('keydown', e => {
-  if (e.key === 'Enter' || e.key === ' ') openMenu();
-});
-
-/* --------------------------------------------------
-   INIT: Render mountains if page is already journey
--------------------------------------------------- */
-document.addEventListener('DOMContentLoaded', () => {
-  // Nothing needed on load — cover shows first
+/* ==============================================
+   KEYBOARD ACCESSIBILITY
+   ============================================== */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeSidebar();
+    closeLightbox();
+  }
 });
 </script>
 </body>
 </html>
-
