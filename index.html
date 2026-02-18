@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>rhmttmuhmmd — Saves Steps In Frames</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" id="viewport-meta">
+<title>rhmtmuhmmdd — Saves Steps In Frames</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -424,7 +424,6 @@ a { text-decoration: none; }
    HOME SECTION (Stats page after Exploration)
    ============================================= */
 #section-home {
-  display: none; /* overridden by .page.active */
   padding-top: 64px;
 }
 
@@ -1480,13 +1479,13 @@ a { text-decoration: none; }
 
   <footer class="social-footer">
     <a href="https://www.instagram.com/rhmtmuhmmdd" target="_blank" rel="noopener noreferrer" class="social-link instagram" aria-label="Instagram">
-      📷 Instagram
+       INSTAGRAM
     </a>
     <a href="https://tiktok.com/@rhmtmuhmmdd" target="_blank" rel="noopener noreferrer" class="social-link tiktok" aria-label="TikTok">
-      🎵 TikTok
+       TIKTOK
     </a>
     <a href="https://www.facebook.com/share/1DmUuGTjn9/" target="_blank" rel="noopener noreferrer" class="social-link facebook" aria-label="Facebook">
-      👍 Facebook
+       FACEBOOK
     </a>
   </footer>
 </div><!-- /#cover-page -->
@@ -1827,7 +1826,7 @@ var mountains = [
     location:  'Sulawesi Selatan',
     elevation: '2.100 mdpl',
     year:      '2025',
-    cover:     'slank.jpg',
+    cover:     'danauslank.jpg',
     photos:    ['danauslank01.jpg','danauslank02.jpg','danauslank03.jpg','danauslank04.jpg'],
     story:     'Danau kawah dengan air jernih yang memantulkan puncak-puncak di sekitarnya. Salah satu permata tersembunyi alam yang paling spektakuler.',
     highlights:['Crater lake','Misty mornings','Rocky terrain']
@@ -1837,7 +1836,7 @@ var mountains = [
     location:  'Sulawesi Selatan',
     elevation: '2.300 mdpl',
     year:      '2025',
-    cover:     'tanralili.jpg',
+    cover:     'danautanralili.jpg',
     photos:    ['danautanralili01.jpg','danautanralili02.jpg','danautanralili03.jpg','danautanralili04.jpg'],
     story:     'Danau dataran tinggi yang duduk di ketinggian luar biasa, menawarkan pelarian tenang dikelilingi perbukitan hijau dan hutan hijau zamrud.',
     highlights:['Highland lake','Camping ground','Cool temperature']
@@ -1897,8 +1896,8 @@ var mountains = [
     location:  'Sulawesi Selatan',
     elevation: '2.200 mdpl',
     year:      '2025',
-    cover:     'saukang.jpg',
-    photos:    ['saukang01.jpg','saukang02.jpg','saukang03.jpg','saukang04.jpg'],
+    cover:     'bulusaukang.jpg',
+    photos:    ['bulusaukang01.jpg','bulusaukang02.jpg','bulusaukang03.jpg','bulusaukang04.jpg'],
     story:     'Gunung dengan tingkat kesulitan sedang dan ekosistem beragam sepanjang jalurnya. Cocok untuk pemula maupun pendaki berpengalaman.',
     highlights:['Diverse ecosystem','Moderate difficulty','Nature trail']
   },
@@ -1907,8 +1906,8 @@ var mountains = [
     location:  'Sulawesi Selatan',
     elevation: '1.900 mdpl',
     year:      '2025',
-    cover:     'maddo.jpg',
-    photos:    ['maddo01.jpg','maddo02.jpg','maddo03.jpg','maddo04.jpg'],
+    cover:     'bukitmaddo.jpg',
+    photos:    ['bukitmaddo01.jpg','bukitmaddo02.jpg','bukitmaddo03.jpg','bukitmaddo04.jpg'],
     story:     'Bukit pemandangan dengan pandangan luas ke dataran sekitarnya. Sempurna untuk pendakian satu hari dengan panorama indah di puncaknya.',
     highlights:['Day hike','Sweeping views','Grassland trail']
   },
@@ -2278,11 +2277,17 @@ function galleryNav(dir) {
    LIGHTBOX
    ============================================== */
 function openLightbox(src) {
+  // Enable pinch-zoom only inside lightbox
+  document.getElementById('viewport-meta').setAttribute('content',
+    'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
   document.getElementById('lightbox-img').src = src;
   document.getElementById('lightbox').classList.add('show');
 }
 
 function closeLightbox() {
+  // Disable zoom again after closing lightbox
+  document.getElementById('viewport-meta').setAttribute('content',
+    'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
   document.getElementById('lightbox').classList.remove('show');
   document.getElementById('lightbox-img').src = '';
 }
@@ -2342,3 +2347,4 @@ document.addEventListener('keydown', function(e) {
 </script>
 </body>
 </html>
+
