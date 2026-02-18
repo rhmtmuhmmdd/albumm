@@ -1,1679 +1,2087 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nature</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>rhmttmuhmmd</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Josefin+Sans:wght@200;300;400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --fb-blue:#1877f2;
-  --bg:#f0f2f5;
-  --card:#ffffff;
-  --text:#050505;
-  --muted:#65676b;
-  --radius:12px;
+/* =====================================================
+   CSS VARIABLES & RESET
+===================================================== */
+:root {
+  --bg-primary: #f0ede8;
+  --bg-secondary: #e5e0d8;
+  --bg-card: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #444444;
+  --text-muted: #777777;
+  --accent: #3d6b4f;
+  --accent-light: #6fa880;
+  --accent-pale: #c8dfd0;
+  --border: rgba(61,107,79,0.2);
+  --shadow: 0 4px 24px rgba(0,0,0,0.10);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.15);
+  --footer-bg: #1a2a20;
+  --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+body.dark-mode {
+  --bg-primary: #0e1a12;
+  --bg-secondary: #162019;
+  --bg-card: #1c2b20;
+  --text-primary: #f5f5f0;
+  --text-secondary: #c8cfc8;
+  --text-muted: #8a9a8a;
+  --accent: #7ec898;
+  --accent-light: #a8d8b8;
+  --accent-pale: #2a4035;
+  --border: rgba(126,200,152,0.2);
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+  --footer-bg: #0a120d;
 }
 
-/* Dark Mode Variables */
-body.dark-mode{
-  --bg:#18191a;
-  --card:#242526;
-  --text:#e4e6eb;
-  --muted:#b0b3b8;
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-*{margin:0;padding:0;box-sizing:border-box}
-
-body{
-  font-family:'Montserrat',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  transition: background 0.35s ease, color 0.35s ease;
+html {
+  scroll-behavior: smooth;
 }
 
-/* ===== HEADER ===== */
-header{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:var(--card);
-  border-bottom:1px solid #ddd;
-  z-index:1000;
-  padding:.7rem 1rem;
-  display:flex;
-  align-items:center;
-  gap:1rem;
-  transition: background 0.3s ease;
+body {
+  font-family: 'Josefin Sans', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  transition: background var(--transition), color var(--transition);
+  min-height: 100vh;
 }
 
-.logo{
-  color:var(--fb-blue);
-  font-weight:700;
-  font-size:1.3rem;
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-.header-right{
-  margin-left:auto;
-  display:flex;
-  align-items:center;
-  gap:1rem;
+a { text-decoration: none; color: inherit; }
+
+/* =====================================================
+   PERMANENT TOP BAR (Logo + Dark Toggle)
+===================================================== */
+#top-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: rgba(240,237,232,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition), border-color var(--transition);
+}
+body.dark-mode #top-bar {
+  background: rgba(14,26,18,0.88);
 }
 
-.dark-mode-toggle{
-  background:none;
-  border:2px solid var(--muted);
-  color:var(--text);
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  cursor:pointer;
-  font-size:1.2rem;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition: all 0.25s ease;
+#logo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
 }
 
-.dark-mode-toggle:hover{
-  transform:scale(1.08);
-  border-color:var(--fb-blue);
+#logo {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
 }
 
-.menu-btn{
-  font-size:1.9rem;
-  cursor:pointer;
-  display:none;
-  opacity:0;
-  pointer-events:none;
-  transition: transform 0.25s ease;
-}
-.menu-btn.show{
-  display:block;
-  opacity:1;
-  pointer-events:auto;
-}
-.menu-btn:hover{
-  transform: scale(1.06);
-}
-
-nav ul{
-  list-style:none;
-  display:flex;
-  gap:1.5rem;
-}
-nav a{
-  color:var(--muted);
-  font-weight:600;
-  text-decoration:none;
-  display:flex;
-  align-items:center;
-  gap:0.5rem;
-  transition: all 0.22s ease;
-}
-nav a:hover{
-  color:var(--fb-blue);
-  transform: translateY(-2px);
-}
-
-.menu-icon{
-  font-size:1.1rem;
-}
-
-img.menu-icon{
-  width:20px;
-  height:20px;
-  object-fit:contain;
-  vertical-align:middle;
-}
-
-/* ===== HERO ===== */
-.hero{
-  margin-top:65px;
-  height:60vh;
-  background:url('Foto01.jpg') center/cover no-repeat;
-  position:relative;
-  display:flex;
-  align-items:flex-end;
-}
-.hero::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:linear-gradient(to top,rgba(0,0,0,.6),rgba(0,0,0,.1));
-}
-.hero-content{
-  position:relative;
-  color:#fff;
-  padding:2rem;
-}
-.hero p{
-  opacity:.9;
-  margin:1rem 0 1.8rem;
-}  
-.cta-button{
-  background:var(--fb-blue);
-  color:#fff;
-  border:none;
-  padding:.6rem 1.5rem;
-  border-radius:999px;
-  font-weight:600;
-  cursor:pointer;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
-}
-.cta-button:hover{ transform: translateY(-3px); box-shadow: 0 8px 20px rgba(24,119,242,0.18); }
-
-/* ===== SECTION ===== */
-.section{
-  max-width:720px;
-  margin:auto;
-  padding:2rem 1rem;
-}
-.section h2{
-  color:var(--muted);
-  margin-bottom:1rem;
-}
-
-/* ===== VISIBILITY CONTROL ===== */
-/* Keep display control but add entry animation when .show is added */
-.eksplorasi,.galeri,.blog,.location-section,.information-section{display:none; opacity:0; transform:translateY(8px); transition:opacity 0.35s ease, transform 0.35s ease;}
-.eksplorasi.show,.galeri.show,.blog.show,.location-section.show,.information-section.show{display:block; opacity:1; transform:translateY(0)}
-
-/* ===== EXPLORE TABS ===== */
-.explore-tabs{
-  display:flex;
-  gap:.6rem;
-  overflow-x:auto;
-  padding-bottom:.8rem;
-}
-.explore-tabs button{
-  border:none;
-  background:#e4e6eb;
-  padding:.45rem 1.1rem;
-  border-radius:999px;
-  font-weight:600;
-  cursor:pointer;
-  white-space:nowrap;
-  transition: background 0.22s ease, transform 0.18s ease;
-}
-.explore-tabs button.active{
-  background:var(--fb-blue);
-  color:#fff;
-}
-.explore-tabs button:active{ transform: scale(0.99); }
-
-/* ===== GALLERY TABS (BARU) ===== */
-.gallery-tabs{
-  display:flex;
-  gap:.6rem;
-  overflow-x:auto;
-  padding-bottom:.8rem;
-  margin-bottom:1rem;
-}
-.gallery-tabs button{
-  border:none;
-  background:#e4e6eb;
-  padding:.45rem 1.1rem;
-  border-radius:999px;
-  font-weight:600;
-  cursor:pointer;
-  white-space:nowrap;
-  transition: background 0.22s ease, transform 0.18s ease;
-}
-.gallery-tabs button.active{
-  background:var(--fb-blue);
-  color:#fff;
-}
-.gallery-tabs button:active{ transform: scale(0.99); }
-
-/* ===== CARD ===== */
-.card{
-  background:var(--card);
-  border-radius:12px;
-  margin-top:1rem;
-  box-shadow:0 1px 2px rgba(0,0,0,.08);
-  overflow:hidden;
-  transition: opacity 0.35s ease, transform 0.35s ease, background 0.3s ease;
-  opacity:0;
-  transform:translateY(10px);
-  display:none;
-}
-.card.show{display:block; opacity:1; transform:translateY(0)}
-.card img{
-  width:100%;
-  background:#000;
-}
-.card h3{padding:1rem .9rem .3rem;color:var(--text)}
-.card p{padding:0 .9rem 1rem;color:var(--muted)}
-
-.card-text{
-  max-height:4.5em;
-  overflow:hidden;
-  line-height:1.5em;
-  transition:max-height 0.4s ease;
-  margin-bottom:0.5rem;
-}
-
-.card-text.expanded{
-  max-height:1000px;
-}
-
-.read-more-btn{
-  background:none;
-  border:none;
-  color:var(--fb-blue);
-  font-weight:600;
-  cursor:pointer;
-  padding:0 .9rem .8rem;
-  font-size:0.9rem;
-  transition:all 0.2s ease;
-  display:block;
-  text-align:left;
-}
-
-.read-more-btn:hover{
-  text-decoration:underline;
-}
-
-/* ===== GALLERY ===== */
-.carousel{
-  display:none;
-  gap:.8rem;
-  overflow-x:auto;
-  transition: opacity 0.35s ease, transform 0.35s ease;
-  opacity:0;
-  transform:translateX(8px);
-}
-.carousel.show{
-  display:flex;
-  opacity:1;
-  transform:translateX(0);
-}
-.carousel-item{
-  display:flex;
-  flex-direction:column;
-  gap:0.4rem;
-  flex: 0 0 auto;
-  width:230px;
-}
-.carousel-item img{
-  width:100%;
-  height:auto;
-  border-radius:10px;
-}
-.photo-date{
-  font-size:0.75rem;
-  color:var(--muted);
-  text-align:center;
-  font-style:italic;
-  user-select:text;
-}
-
-/* Make the date look editable but neat */
-.photo-date[contenteditable="true"]{
-  outline: none;
-  padding: 2px 4px;
-  border-radius: 6px;
-  transition: background 0.18s ease;
-}
-.photo-date[contenteditable="true"]:focus{
-  background: rgba(24,119,242,0.06);
-  color: var(--text);
-}
-
-/* ===== BLOG ===== */
-.blog-item{
-  background:var(--card);
-  border-radius:12px;
-  padding:1rem;
-  display:flex;
-  gap:1rem;
-  margin-bottom:1.2rem;
-  transition: background 0.3s ease, opacity 0.35s ease, transform 0.35s ease;
-  opacity:0;
-  transform:translateY(10px);
-}
-.blog-item.show{
-  opacity:1;
-  transform:translateY(0);
-}
-.blog-item img{
-  width:120px;
-  height:90px;
-  object-fit:cover;
-  border-radius:10px;
-  flex-shrink:0;
-}
-.blog-item h3{
-  color:var(--text);
-  margin-bottom:0.5rem;
-}
-.blog-item p{
-  color:var(--muted);
-}
-
-.blog-text{
-  max-height:4em;
-  overflow:hidden;
-  line-height:1.35em;
-  transition:max-height 0.4s ease;
-  margin-bottom:0.5rem;
-}
-
-.blog-text.expanded{
-  max-height:1000px;
-}
-
-.blog-read-more{
-  background:none;
-  border:none;
-  color:var(--fb-blue);
-  font-weight:600;
-  cursor:pointer;
-  padding:0.3rem 0 0;
-  font-size:0.85rem;
-  transition:all 0.3s ease;
-  display:block;
-}
-
-.blog-read-more:hover{
-  text-decoration:underline;
-}
-
-/* ===== SOCIAL ===== */
-.social-links{
-  text-align:center;
-  padding:2rem 0;
-}
-.social-links a{
-  margin:0 .7rem;
-  font-weight:600;
-  text-decoration:none;
-  transition: transform 0.2s;
-}
-.social-links a:hover{
-  transform: translateY(-2px);
-}
-
-/* Instagram - Gradient Pink-Ungu-Orange */
-.social-links a:nth-child(1){
-  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* TikTok - Hitam dengan hint pink-cyan */
-.social-links a:nth-child(2){
-  color: #000;
-  text-shadow: 2px 2px 0 #fe2c55, -2px -2px 0 #00f2ea;
-}
-
-/* Facebook - Biru */
-.social-links a:nth-child(3){
-  color: var(--fb-blue);
-}
-
-/* ===== LOCATION SECTION ===== */
-.location-instruction{
-  text-align: center;
-  color: var(--muted);
-  font-size: 0.95rem;
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: var(--card);
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.1);
-  transition: background 0.3s ease;
-}
-
-.open-destination-btn{
-  display:block;
-  margin:2rem auto;
-  background:var(--fb-blue);
-  color:#fff;
-  border:none;
-  padding:1rem 2.5rem;
-  border-radius:999px;
-  font-weight:600;
-  font-size:1rem;
-  cursor:pointer;
-  box-shadow:0 4px 15px rgba(24,119,242,0.4);
-  transition:all 0.3s ease;
-}
-
-.open-destination-btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 6px 20px rgba(24,119,242,0.6);
-}
-
-.location-grid{
+/* Hamburger — hidden until exploration */
+#hamburger {
   display: none;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.6rem;
-  margin-top: 1rem;
-}
-
-.location-grid.show{
-  display:grid;
-}
-
-.location-btn{
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
-  border: none;
-  padding: 0.6rem 0.4rem;
-  border-radius: 10px;
-  font-weight: 600;
+  flex-direction: column;
+  gap: 4px;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
-  transition: all 0.3s ease;
+  padding: 4px;
+  border-radius: 6px;
+  transition: background var(--transition);
+}
+#hamburger:hover { background: var(--accent-pale); }
+#hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: background var(--transition);
+}
+#hamburger.visible { display: flex; }
+
+/* Dark mode toggle */
+#dark-toggle {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: 50px;
+  width: 52px;
+  height: 28px;
+  cursor: pointer;
+  position: relative;
+  transition: background var(--transition), border-color var(--transition);
+  flex-shrink: 0;
+}
+#dark-toggle::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  transition: transform var(--transition), background var(--transition);
+}
+body.dark-mode #dark-toggle::after {
+  transform: translateX(24px);
+  background: var(--accent-light);
+}
+#dark-toggle-icon {
+  position: absolute;
+  font-size: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 6px;
+  transition: opacity var(--transition);
+  pointer-events: none;
+}
+body.dark-mode #dark-toggle-icon { content: '☀'; right: auto; left: 6px; }
+
+/* =====================================================
+   PERMANENT FOOTER (Social Media)
+===================================================== */
+#site-footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 999;
+  background: var(--footer-bg);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 20px;
+  transition: opacity 0.25s, transform 0.25s, box-shadow 0.25s;
+  border: 1.5px solid transparent;
+}
+.social-link:hover { opacity: 0.8; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.social-instagram { color: #e1306c; border-color: rgba(225,48,108,0.3); }
+.social-tiktok     { color: #69c9d0; border-color: rgba(105,201,208,0.3); }
+.social-facebook   { color: #1877f2; border-color: rgba(24,119,242,0.3); }
+
+/* =====================================================
+   PAGE SYSTEM
+===================================================== */
+.page {
+  display: none;
+  min-height: 100vh;
+  padding-top: 70px;   /* top-bar height */
+  padding-bottom: 54px; /* footer height */
+  overflow-x: hidden;
+}
+.page.active { display: block; }
+
+/* =====================================================
+   PAGE: COVER / SAMPUL
+===================================================== */
+#page-cover {
+  position: relative;
+  min-height: 100vh;
+  padding: 0;
+  overflow: hidden;
+}
+#page-cover.active {
+  display: flex;
+  flex-direction: column;
+}
+
+#cover-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #0e1a12 0%, #1e3a28 50%, #2d5a3d 100%);
+  z-index: 0;
+}
+#cover-bg img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.45;
+  position: absolute;
+  inset: 0;
+}
+/* overlay */
+#cover-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(10,20,14,0.55) 0%,
+    rgba(10,20,14,0.30) 40%,
+    rgba(10,20,14,0.70) 100%);
+  z-index: 1;
+}
+
+#cover-content {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
-  text-decoration: none;
+  justify-content: center;
+  flex: 1;
+  padding: 80px 24px 100px;
+  text-align: center;
+  min-height: 100vh;
 }
 
-.location-btn:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+.cover-tagline {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: clamp(11px, 2vw, 13px);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: rgba(200,220,210,0.7);
+  margin-bottom: 20px;
 }
 
-/* Colors for types omitted for brevity (kept same as before) */
-
-/* ===== INFORMATION SECTION ===== */
-.info-content{
-  background:var(--card);
-  border-radius:15px;
-  padding:2rem;
-  text-align:center;
-  box-shadow:0 2px 10px rgba(0,0,0,.1);
-  margin-top:1rem;
-  transition:background 0.3s ease;
+.cover-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(42px, 8vw, 96px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: #ffffff;
+  margin-bottom: 16px;
+  text-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  word-break: break-word;
 }
 
-.info-content p{
-  color:var(--text);
-  font-size:1rem;
-  line-height:1.6;
-  margin-bottom:2rem;
+.cover-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 3.5vw, 32px);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(220,235,225,0.85);
+  margin-bottom: 56px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
 }
 
-.wa-channel-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:0.7rem;
-  background:linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-  color:#fff;
-  border:none;
-  padding:1rem 2rem;
-  border-radius:999px;
-  font-weight:600;
-  font-size:1rem;
-  cursor:pointer;
-  text-decoration:none;
-  box-shadow:0 4px 15px rgba(37,211,102,0.4);
-  transition:all 0.3s ease;
+.btn-explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.7);
+  color: #ffffff;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: clamp(13px, 2vw, 15px);
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  padding: 16px 48px;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
 }
-
-.wa-channel-btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 6px 20px rgba(37,211,102,0.6);
+.btn-explore::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  z-index: -1;
 }
+.btn-explore:hover { border-color: var(--accent); letter-spacing: 6px; }
+.btn-explore:hover::before { transform: scaleX(1); }
+.btn-explore svg { width: 18px; height: 18px; transition: transform 0.3s; }
+.btn-explore:hover svg { transform: translateX(4px); }
 
-.wa-icon{
-  font-size:1.5rem;
-}
-
-/* ===== MODAL VIA ===== */
-.modal-overlay{
-  display: none;
+/* =====================================================
+   SIDE MENU (Drawer)
+===================================================== */
+#menu-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
+}
+#menu-overlay.open { opacity: 1; pointer-events: all; }
+
+#side-menu {
+  position: fixed;
+  top: 0; left: 0;
+  width: min(280px, 80vw);
+  height: 100vh;
+  z-index: 1101;
+  background: var(--bg-secondary);
+  transform: translateX(-100%);
+  transition: transform var(--transition);
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px;
+  box-shadow: 4px 0 32px rgba(0,0,0,0.3);
+}
+body.dark-mode #side-menu { background: #0e1a12; }
+#side-menu.open { transform: translateX(0); }
+
+#menu-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  line-height: 1;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background var(--transition);
+}
+#menu-close:hover { background: var(--accent-pale); }
+
+.menu-nav {
+  list-style: none;
+  padding: 20px 0;
+  flex: 1;
+  overflow-y: auto;
+}
+.menu-nav li { border-bottom: 1px solid var(--border); }
+.menu-nav li:first-child { border-top: 1px solid var(--border); }
+
+.menu-nav a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 24px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), padding-left var(--transition);
+}
+.menu-nav a:hover, .menu-nav a.active-menu {
+  background: var(--accent-pale);
+  color: var(--accent);
+  padding-left: 34px;
+}
+.menu-nav a img {
+  width: 22px; height: 22px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: var(--icon-filter, none);
+}
+body.dark-mode .menu-nav a img { filter: brightness(1.4) saturate(0.8); }
+
+/* =====================================================
+   PAGE: MAIN (after Exploration)
+===================================================== */
+#page-main {
+  background: var(--bg-primary);
+}
+
+.main-hero {
+  min-height: 60vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 24px 60px;
+  position: relative;
+  background: linear-gradient(160deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+  overflow: hidden;
+}
+.main-hero::before {
+  content: '';
+  position: absolute;
+  top: -40%; right: -10%;
+  width: 60vw; height: 60vw;
+  max-width: 600px; max-height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-pale) 0%, transparent 70%);
+  opacity: 0.5;
+}
+
+.main-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+}
+.main-hero-label {
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.main-hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(38px, 7vw, 80px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+.main-hero-sub {
+  font-size: clamp(14px, 2vw, 16px);
+  color: var(--text-secondary);
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* Stats Section on Main */
+.stats-section {
+  padding: 60px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+@media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+  animation: fadeUp 0.6s both;
+}
+.stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.stat-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+.stat-label {
+  font-size: clamp(10px, 1.5vw, 12px);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(30px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* =====================================================
+   PAGE: JOURNEY
+===================================================== */
+#page-journey {
+  background: linear-gradient(160deg, #0e2018 0%, #1a3a26 60%, #2a5038 100%);
+  color: #f0f5f0;
+  min-height: 100vh;
+}
+body.dark-mode #page-journey { background: linear-gradient(160deg, #070f0a 0%, #0e1a12 100%); }
+
+.journey-hero {
+  padding: 60px 24px 40px;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.journey-label {
+  font-size: 11px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: #a8cdb8;
+  margin-bottom: 12px;
+}
+.journey-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 10vw, 100px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+.journey-divider {
+  width: 80px; height: 1px;
+  background: rgba(168,205,184,0.5);
+  margin: 0 auto 16px;
+}
+.journey-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(16px, 3vw, 22px);
+  font-style: italic;
+  color: rgba(220,240,230,0.7);
+}
+
+/* Journey Stats */
+.journey-stats {
+  padding: 40px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.journey-stats-title {
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #a8cdb8;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.journey-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+@media (max-width: 900px) { .journey-stats-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .journey-stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.jstat-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 28px 16px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  transition: transform var(--transition), background var(--transition);
+  animation: fadeUp 0.6s both;
+}
+.jstat-card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.12); }
+.jstat-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 7vw, 72px);
+  font-weight: 700;
+  color: #a8cdb8;
+  line-height: 1;
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+.jstat-label {
+  font-size: clamp(9px, 1.5vw, 11px);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(220,240,230,0.6);
+  font-weight: 600;
+  line-height: 1.4;
+}
+.jstat-card:nth-child(1) { animation-delay:0.1s; }
+.jstat-card:nth-child(2) { animation-delay:0.2s; }
+.jstat-card:nth-child(3) { animation-delay:0.3s; }
+.jstat-card:nth-child(4) { animation-delay:0.4s; }
+
+/* Mountains Section */
+.mountains-section {
+  padding: 40px 0;
+}
+.mountains-header {
+  padding: 0 24px;
+  margin-bottom: 32px;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.mountains-label {
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #a8cdb8;
+  margin-bottom: 8px;
+}
+.mountains-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+.mountains-accent {
+  width: 60px; height: 2px;
+  background: #a8cdb8;
+  margin-bottom: 12px;
+}
+.mountains-scroll-hint {
+  font-size: 12px;
+  color: rgba(200,230,215,0.5);
+  letter-spacing: 2px;
+}
+
+/* Horizontal Scroll Cards */
+.mountains-scroll-wrap {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px 24px 24px;
+  display: flex;
+  gap: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168,205,184,0.3) transparent;
+}
+.mountains-scroll-wrap::-webkit-scrollbar { height: 4px; }
+.mountains-scroll-wrap::-webkit-scrollbar-track { background: transparent; }
+.mountains-scroll-wrap::-webkit-scrollbar-thumb { background: rgba(168,205,184,0.3); border-radius: 4px; }
+
+.mountain-card {
+  flex: 0 0 260px;
+  scroll-snap-align: start;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+}
+.mountain-card:hover { transform: translateY(-6px) scale(1.02); background: rgba(255,255,255,0.13); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+
+.mountain-card-img {
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 2000;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  background: rgba(168,205,184,0.15);
+  display: block;
+  position: relative;
+}
+.mountain-card-img-placeholder {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: linear-gradient(135deg, rgba(61,107,79,0.4), rgba(30,58,40,0.6));
+  display: flex;
   align-items: center;
   justify-content: center;
 }
-
-.modal-overlay.show{
-  display: flex;
+.mountain-card-img-placeholder svg {
+  width: 40px; height: 40px;
+  opacity: 0.4;
+  color: #a8cdb8;
 }
-
-.modal-content{
-  background: var(--card);
-  border-radius: 20px;
-  padding: 2rem;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  animation: modalSlideIn 0.3s ease;
-  transition: background 0.3s ease;
+.mountain-card-body { padding: 16px; }
+.mountain-card-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 4px;
+  word-break: break-word;
 }
-
-@keyframes modalSlideIn{
-  from{
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  to{
-    transform: translateY(0);
-    opacity: 1;
-  }
+.mountain-card-loc {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(200,230,215,0.55);
+  margin-bottom: 10px;
 }
-
-.modal-header{
+.mountain-card-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+}
+.mountain-card-year {
+  font-size: 11px;
+  color: rgba(200,230,215,0.5);
+  letter-spacing: 1px;
+}
+.mountain-card-elev {
+  font-size: 13px;
+  font-weight: 700;
+  color: #a8cdb8;
+  letter-spacing: 1px;
 }
 
-.modal-header h3{
-  color: var(--text);
-  font-size: 1.3rem;
+/* Mountain Detail */
+#mountain-detail {
+  display: none;
+  padding: 20px 24px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+  animation: fadeUp 0.4s both;
 }
+#mountain-detail.visible { display: block; }
 
-.modal-close{
-  background: none;
-  border: none;
-  font-size: 1.8rem;
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.detail-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 6vw, 48px);
+  font-weight: 700;
+  color: #ffffff;
+  word-break: break-word;
+}
+.detail-meta-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.detail-badge {
+  background: rgba(168,205,184,0.15);
+  border: 1px solid rgba(168,205,184,0.3);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  color: #a8cdb8;
+  text-transform: uppercase;
+}
+.btn-close-detail {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #ffffff;
+  padding: 8px 20px;
+  border-radius: 8px;
   cursor: pointer;
-  color: var(--muted);
-  line-height: 1;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: background var(--transition);
+  white-space: nowrap;
+}
+.btn-close-detail:hover { background: rgba(255,255,255,0.2); }
+
+/* Gallery Slider */
+.gallery-slider {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  background: rgba(0,0,0,0.3);
+  aspect-ratio: 16/9;
+}
+.gallery-slide {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+.gallery-slide.active { display: block; }
+.gallery-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gallery-slide-placeholder {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, rgba(61,107,79,0.4), rgba(30,58,40,0.7));
+  display: flex; align-items: center; justify-content: center;
+}
+.gallery-slide-placeholder span {
+  color: rgba(168,205,184,0.4);
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+.gallery-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 6px;
+  transition: background var(--transition);
+  z-index: 5;
+}
+.gallery-btn:hover { background: rgba(0,0,0,0.75); }
+.gallery-prev { left: 12px; }
+.gallery-next { right: 12px; }
+.gallery-counter {
+  position: absolute;
+  bottom: 12px; right: 12px;
+  background: rgba(0,0,0,0.5);
+  color: rgba(255,255,255,0.8);
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  letter-spacing: 1px;
 }
 
-.modal-close:hover{
-  color: var(--text);
+.detail-story {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.detail-story-title {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #a8cdb8;
+  margin-bottom: 10px;
+}
+.detail-story-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(15px, 2vw, 18px);
+  font-style: italic;
+  color: rgba(220,240,230,0.8);
+  line-height: 1.7;
+}
+.detail-highlight {
+  background: rgba(168,205,184,0.1);
+  border-left: 3px solid #a8cdb8;
+  border-radius: 0 12px 12px 0;
+  padding: 14px 18px;
+}
+.detail-highlight-title {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #a8cdb8;
+  margin-bottom: 6px;
+}
+.detail-highlight-text {
+  font-size: 14px;
+  color: rgba(220,240,230,0.7);
+  line-height: 1.6;
 }
 
-.modal-instruction{
-  color: var(--muted);
-  font-size: 0.9rem;
-  margin-bottom: 1.2rem;
+/* =====================================================
+   PAGE: CONTACT
+===================================================== */
+#page-contact {
+  background: linear-gradient(160deg, #0e2018 0%, #1a3a26 60%, #131f17 100%);
+  color: #f0f5f0;
+}
+body.dark-mode #page-contact { background: linear-gradient(160deg, #070f0a 0%, #0e1a12 100%); }
+
+.contact-hero {
+  padding: 60px 24px 40px;
   text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.contact-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 6vw, 56px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+  margin-bottom: 12px;
+  word-break: break-word;
+}
+.contact-sub {
+  font-size: clamp(13px, 2vw, 15px);
+  color: rgba(200,230,215,0.6);
+  letter-spacing: 1px;
 }
 
-.via-list{
+.contact-layout {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+@media (max-width: 720px) {
+  .contact-layout { grid-template-columns: 1fr; }
+}
+
+/* Form */
+.contact-form-wrap { }
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(200,230,215,0.6);
+  margin-bottom: 8px;
+}
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(168,205,184,0.2);
+  border-radius: 10px;
+  color: #f0f5f0;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  padding: 14px 16px;
+  transition: border-color 0.3s, background 0.3s;
+  outline: none;
+  resize: vertical;
+  word-break: break-word;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: rgba(168,205,184,0.6);
+  background: rgba(255,255,255,0.10);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: rgba(200,230,215,0.3); }
+.form-group textarea { min-height: 100px; }
+
+.contact-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.btn-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #3d6b4f;
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 14px 22px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.btn-contact:hover {
+  background: #4e8565;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(61,107,79,0.4);
+}
+.btn-contact img {
+  width: 20px; height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Contact Info */
+.contact-info-wrap { }
+.contact-info-block {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.contact-info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.contact-info-row:last-child { border-bottom: none; }
+.contact-info-icon {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(168,205,184,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.contact-info-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #a8cdb8;
+  margin-bottom: 3px;
+}
+.contact-info-value {
+  font-size: 13px;
+  color: rgba(220,240,230,0.8);
+  word-break: break-all;
+}
+
+.map-placeholder {
+  background: rgba(255,255,255,0.04);
+  border: 1px dashed rgba(168,205,184,0.25);
+  border-radius: 12px;
+  padding: 32px 20px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.map-placeholder-text {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: rgba(168,205,184,0.4);
+  text-transform: uppercase;
+}
+
+.contact-quote {
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-style: italic;
+  color: rgba(200,230,215,0.5);
+  padding: 8px 0 0;
+}
+
+/* =====================================================
+   PAGE: INFORMATION
+===================================================== */
+#page-information {
+  background: linear-gradient(160deg, #0e2018 0%, #1a3a26 60%, #0e1a12 100%);
+  color: #f0f5f0;
+}
+body.dark-mode #page-information { background: linear-gradient(160deg, #070f0a 0%, #0e1a12 100%); }
+
+.info-hero {
+  padding: 60px 24px 40px;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.info-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(42px, 8vw, 80px);
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+.info-sub {
+  font-size: clamp(13px, 2vw, 15px);
+  color: rgba(200,230,215,0.6);
+  line-height: 1.7;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.info-card {
+  max-width: 640px;
+  margin: 0 auto 40px;
+  padding: 0 24px;
+}
+.info-card-inner {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 32px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.info-card-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(15px, 2.5vw, 20px);
+  font-style: italic;
+  color: rgba(220,240,230,0.75);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+.info-btns {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 16px;
 }
-
-.via-btn{
-  display: flex;
+.btn-info {
+  display: inline-flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
+  justify-content: center;
+  gap: 12px;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
   font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 16px 28px;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+  word-break: break-word;
+}
+.btn-info:hover { transform: translateY(-3px); }
+.btn-info img {
+  width: 24px; height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.btn-wa-channel {
+  background: #25d366;
+  color: #ffffff;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+}
+.btn-wa-channel:hover { box-shadow: 0 8px 28px rgba(37,211,102,0.5); }
+.btn-wa-group {
+  background: transparent;
+  color: #25d366;
+  border: 2px solid #25d366;
+}
+.btn-wa-group:hover { background: rgba(37,211,102,0.1); box-shadow: 0 8px 24px rgba(37,211,102,0.2); }
+.btn-ig-broadcast {
+  background: linear-gradient(135deg, #f58529 0%, #dd2a7b 50%, #8134af 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 20px rgba(221,42,123,0.3);
+}
+.btn-ig-broadcast:hover { box-shadow: 0 8px 28px rgba(221,42,123,0.5); }
+
+/* =====================================================
+   PAGE: ABOUT ME
+===================================================== */
+#page-aboutme {
+  background: var(--bg-primary);
 }
 
-.via-btn:hover{
-  transform: translateX(5px);
-  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+.about-hero {
+  padding: 60px 24px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.about-label {
+  font-size: 11px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.about-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(48px, 9vw, 100px);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: 28px;
+}
+.about-divider {
+  width: 60px; height: 2px;
+  background: var(--accent);
+  margin-bottom: 28px;
+}
+.about-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  max-width: 700px;
 }
 
-.via-btn .via-icon{
-  font-size: 1.5rem;
+.core-values {
+  padding: 40px 24px 60px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.core-values-label {
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 8px;
+}
+.core-values-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 36px;
+}
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+@media (max-width: 900px) { .values-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .values-grid { grid-template-columns: 1fr; } }
+
+.value-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 22px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+  animation: fadeUp 0.5s both;
+}
+.value-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+.value-card:nth-child(1) { animation-delay:0.1s; }
+.value-card:nth-child(2) { animation-delay:0.2s; }
+.value-card:nth-child(3) { animation-delay:0.3s; }
+.value-card:nth-child(4) { animation-delay:0.4s; }
+
+.value-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--accent);
+  opacity: 0.2;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.value-name {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+.value-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.6;
 }
 
-.via-btn .via-name{
-  flex: 1;
-  text-align: left;
+/* =====================================================
+   UTILITIES / RESPONSIVE GUARD
+===================================================== */
+* {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+@media (max-width: 400px) {
+  #top-bar { padding: 10px 14px; }
+  #logo { height: 36px; }
+  .contact-btns { flex-direction: column; }
 }
 
-/* ===== MOBILE ===== */
-@media(max-width:768px){
-  nav{
-    position:fixed;
-    top:60px;
-    left:-100%;
-    width:70%;
-    height:100vh;
-    background:var(--card);
-    padding-top:2rem;
-    transition:.3s;
-  }
-  nav.show{left:0}
-  nav ul{flex-direction:column;padding-left:1.5rem}
-  
-  .location-grid{
-    grid-template-columns: repeat(3, 1fr);
-  }
-  
-  .header-right{
-    position:absolute;
-    right:1rem;
-  }
-}
+/* Section Separator */
+.sep { width: 100%; height: 1px; background: rgba(255,255,255,0.08); margin: 0 24px; width: calc(100% - 48px); }
 
-@media(max-width:480px){
-  .location-grid{
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
+/* Scroll to top of page-journey detail */
+#mountain-detail-anchor { scroll-margin-top: 80px; }
+
 </style>
 </head>
-
 <body>
 
-<audio id="bg-music" loop>
-<source src="musik009.mp3" type="audio/mpeg">
-</audio>
-
-<header>
-  <div class="menu-btn" onclick="toggleMenu()">☰</div>
-  <div class="logo">Nature</div>
-  <nav id="menu">
-    <ul>
-      <li><a href="#hero" onclick="goHome()"><img src="iconhome.png" class="menu-icon" alt="Home"> Home</a></li>
-      <li><a href="#eksplorasi" onclick="showSingleSection('eksplorasi')"><img src="iconexploration.png" class="menu-icon" alt="Exploration"> Exploration</a></li>
-      <li><a href="#galeri" onclick="showSingleSection('galeri')"><img src="icongallery.png" class="menu-icon" alt="Gallery"> Gallery</a></li>
-      <li><a href="#blog" onclick="showSingleSection('blog')"><img src="icon2026plan.png" class="menu-icon" alt="2026 Plan"> 2026 Plan</a></li>
-      <li><a href="#location" onclick="showSingleSection('location')"><img src="iconlocation.png" class="menu-icon" alt="Location"> Location</a></li>
-      <li><a href="#information" onclick="showSingleSection('information')"><img src="iconinformation.png" class="menu-icon" alt="Information"> Information</a></li>
-    </ul>
-  </nav>
-  <div class="header-right">
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">
-      <span id="darkModeIcon">🌙</span>
-    </button>
+<!-- =====================================================
+     TOP BAR (Permanent)
+===================================================== -->
+<header id="top-bar" role="banner">
+  <div id="logo-wrap">
+    <img src="logo.png" alt="rhmttmuhmmd logo" id="logo">
+    <!-- Hamburger — shown after exploration -->
+    <div id="hamburger" role="button" aria-label="Open menu" tabindex="0" onclick="openMenu()">
+      <span></span><span></span><span></span>
+    </div>
   </div>
+
+  <button id="dark-toggle" onclick="toggleDark()" aria-label="Toggle dark mode">
+    <span id="dark-toggle-icon">🌙</span>
+  </button>
 </header>
 
-<section id="hero" class="hero">
-  <div class="hero-content">
-    <h1>Saves steps in frames</h1>
-    <p>Every step has a story.</p>
-    <button class="cta-button" onclick="showExploration()">Explore</button>
+<!-- =====================================================
+     SIDE MENU (Drawer)
+===================================================== -->
+<div id="menu-overlay" onclick="closeMenu()"></div>
+<nav id="side-menu" role="navigation" aria-label="Main navigation">
+  <button id="menu-close" onclick="closeMenu()" aria-label="Close menu">✕</button>
+  <ul class="menu-nav">
+    <li><a onclick="navTo('home')" tabindex="0">
+      <img src="iconhome.png" alt="Home">Home
+    </a></li>
+    <li><a onclick="navTo('journey')" tabindex="0">
+      <img src="iconjourney.png" alt="Journey">Journey
+    </a></li>
+    <li><a onclick="navTo('contact')" tabindex="0">
+      <img src="iconcontact.png" alt="Contact">Contact
+    </a></li>
+    <li><a onclick="navTo('information')" tabindex="0">
+      <img src="iconinformation.png" alt="Information">Information
+    </a></li>
+    <li><a onclick="navTo('aboutme')" tabindex="0">
+      <img src="iconaboutme.png" alt="About Me">About Me
+    </a></li>
+  </ul>
+</nav>
+
+<!-- =====================================================
+     AUDIO (Background Music)
+===================================================== -->
+<audio id="bg-music" src="musik1.mp3" loop preload="none"></audio>
+
+<!-- =====================================================
+     PAGE: COVER / SAMPUL
+===================================================== -->
+<section id="page-cover" class="page active" role="main">
+  <div id="cover-bg">
+    <img src="sampul1.jpg" alt="Cover background" onerror="this.style.display='none'">
+  </div>
+  <div id="cover-content">
+    <p class="cover-tagline">rhmttmuhmmd</p>
+    <h1 class="cover-title">Saves steps<br>in frames</h1>
+    <p class="cover-subtitle">Every step has a story</p>
+    <button class="btn-explore" onclick="enterExploration()">
+      Exploration
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </button>
   </div>
 </section>
 
-<!-- ===== EXPLORATION ===== -->
-<section id="eksplorasi" class="section eksplorasi">
-<h2>Exploration</h2>
-
-<div class="explore-tabs">
-  <button onclick="showExplore('talung',this)">Talung</button>
-  <button onclick="showExplore('ramma',this)">Ramma</button>
-  <button onclick="showExplore('slank',this)">Slank</button>
-  <button onclick="showExplore('tanralili',this)">Tanralili</button>
-  <button onclick="showExplore('lohe',this)">Lohe</button>
-  <button onclick="showExplore('Bialo',this)">Bialo</button>
-  <button onclick="showExplore('Kappire',this)">Kappire</button>
-  <button onclick="showExplore('Bulusaraung',this)">Bulusaraung</button>
-  <button onclick="showExplore('Bawakaraeng',this)">Bawakaraeng</button>
-  <button onclick="showExplore('Tomagelli',this)">Tomagelli</button>
-  <button onclick="showExplore('Massimpolongnge',this)">Massimpolongnge</button>
-  <button onclick="showExplore('Saukang',this)">Saukang</button>
-  <button onclick="showExplore('Maddo',this)">Maddo</button>
-</div>
-
-<div class="card" data-explore="talung">
-  <img src="talung.jpg" alt="Puncak Talung">
-  <h3>Puncak Talung</h3>
-  <p class="card-text">Puncak Talung adalah tempat di mana lelah pendakian terbayar, Puncak Talung adalah salah satu titik tertinggi di jalur pendakian menuju Lembah Ramma. Karakternya yang terbuka menjadikannya titik pandang utama. Dari sini, kontur Lembah Ramma terlihat jelas di bawah, sementara Gunung Bawakaraeng berdiri tegas di hadapan, menghadirkan panorama yang kuat dan berkesan.</p>
-  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-</div>
-
-<div class="card" data-explore="ramma">
-  <img src="ramma.jpg" alt="Lembah Ramma">
-  <h3>Lembah Ramma</h3>
-  <p class="card-text">Lembah Ramma terletak di kawasan Gunung Bawakaraeng. Area ini dikenal dengan pemandangan lembah yang luas, padang rumput yang indah, dan jalur pendakian yang menantang namun memuaskan ketika mencapai dataran tinggi.</p>
-  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-</div>
-
-<div class="card" data-explore="slank">
-  <img src="slank.jpg" alt="Danau Slank">
-  <h3>Danau Slank</h3>
-  <p class="card-text">Danau Slank adalah danau alami di Gowa yang menawarkan suasana tenang, air jernih, dan tepi yang cocok untuk istirahat setelah perjalanan. Cocok untuk foto dan menikmati matahari terbit atau terbenam.</p>
-  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-</div>
-
-<div class="card" data-explore="tanralili">
-  <img src="tanralili.jpg" alt="Danau Tanralili">
-  <h3>Danau Tanralili</h3>
-  <p class="card-text">Danau Tanralili adalah danau berair jernih yang dikelilingi vegetasi yang rimbun, cocok untuk eksplorasi alam dan fotografi landscape.</p>
-  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-</div>
-
-<div class="card" data-explore="lohe">
-  <img src="lohe.jpg" alt="Lembah Lohe">
-  <h3>Lembah Lohe</h3>
-  <p class="card-text">Lembah Lohe adalah destinasi alam di Gowa yang menawarkan trek yang asri, panorama lembah, dan udara segar khas pegunungan.</p>
-  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-</div>
-
-<div class="card" data-explore="Bialo">
-  <img src="bialo.jpg" alt="Bulu Bialo">
-  <h3>Bulu Bialo</h3>
-  <p class="card-text">Bulu Bialo terletak di kabupaten Jeneponto, dikenal dengan kawasan berhawa sejuk dan pemandangan perbukitan.</p>
-  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-</div>
-
-<div class="card" data-explore="Kappire">
-  <img src="kappire.jpg" alt="Mt Kappire">
-  <h3>Mt Kappire</h3>
-  <p class="card-text">Terletak di Kabupaten Barru, Mt Kappire menawarkan jalur pendakian menarik dan pemandangan puncak yang luas.</p>
-  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-</div>
-
-<div class="card" data-explore="Bulusaraung">
-  <img src="bulusaraung.jpg" alt="BuluSaraung">
-  <h3>BuluSaraung</h3>
-  <p class="card-text">Bulusaraung terletak di kabupaten Pangkajene dan Kepulauan, terkenal dengan formasi karst dan hutan tropisnya.</p>
-  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-</div>
-
-<div class="card" data-explore="Bawakaraeng">
-  <img src="bawakaraeng.jpg" alt="Mt Bawakaraeng">
-  <h3>Mt Bawakaraeng</h3>
-  <p class="card-text">Bawakaraeng adalah destinasi alam di Kabupaten Sinjai dengan trek yang menantang dan pemandangan puncak yang memukau.</p>
-  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-</div>
-
-<div class="card" data-explore="Massimpolongnge">
-  <img src="massimpolongnge.jpg" alt="Mt Massimpolongnge">
-  <h3>Mt Massimpolongnge</h3>
-  <p class="card-text">Terletak di kabupaten Soppeng, gunung ini menawarkan suasana hening dan jalur pendakian yang seru.</p>
-  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-</div>
-
-<div class="card" data-explore="Tomagelli">
-  <img src="tomagelli.jpg" alt="Air Terjun Tomagelli">
-  <h3>Air Terjun Tomagelli</h3>
-  <p class="card-text">Terletak di Kabupaten Barru, air terjun ini memiliki kolam alami yang cocok untuk menyegarkan diri setelah trekking.</p>
-  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-</div>
-
-<div class="card" data-explore="Saukang">
-  <img src="saukang.jpg" alt="Bulu Saukang">
-  <h3>Bulu Saukang</h3>
-  <p class="card-text">Terletak di Kabupaten Maros, Bulu saukang menawarkan pemandangan lembah dan sunrise yang indah.</p>
-  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-</div>
-
-  <div class="card" data-explore="Maddo">
-  <img src="maddo.jpg" alt="Bukit Maddo">
-  <h3>Bukit Maddo</h3>
-  <p class="card-text">Terletak di Kabupaten Barru, Bukit Maddo menawarkan pemandangan lembah dan sunrise yang indah.</p>
-  <button class="read-more-btn" onclick="toggleReadMore(this)">Read More...</button>
-</div>
-</section>
-
-<!-- ===== GALLERY (DENGAN TABS BARU) ===== -->
-<section id="galeri" class="section galeri">
-<h2>Gallery</h2>
-
-<!-- TABS UNTUK GALLERY -->
-<div class="gallery-tabs">
-  <button onclick="showGallery('talung',this)" class="active">Talung</button>
-  <button onclick="showGallery('ramma',this)">Ramma</button>
-  <button onclick="showGallery('slank',this)">Slank</button>
-  <button onclick="showGallery('tanralili',this)">Tanralili</button>
-  <button onclick="showGallery('lohe',this)">Lohe</button>
-  <button onclick="showGallery('Bialo',this)">Bialo</button>
-  <button onclick="showGallery('Kappire',this)">Kappire</button>
-  <button onclick="showGallery('Bulusaraung',this)">Bulusaraung</button>
-  <button onclick="showGallery('Bawakaraeng',this)">Bawakaraeng</button>
-  <button onclick="showGallery('Tomagelli',this)">Tomagelli</button>
-  <button onclick="showGallery('Massimpolongnge',this)">Massimpolongnge</button>
-  <button onclick="showGallery('Saukang',this)">Saukang</button>
-  <button onclick="showGallery('Maddo',this)">Maddo</button>
-</div>
-
-<!-- CAROUSEL UNTUK TALUNG -->
-<div class="carousel show" data-gallery="talung">
-  <div class="carousel-item">
-    <img src="talung01.jpg" alt="">
-    <div class="photo-date" contenteditable="true">01 Jan 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="talung02.jpg" alt="">
-    <div class="photo-date" contenteditable="true">05 Feb 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="talung03.jpg" alt="">
-    <div class="photo-date" contenteditable="true">10 Mar 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="talung04.jpg" alt="">
-    <div class="photo-date" contenteditable="true">18 Apr 2026</div>
-  </div>
-</div>
-
-<!-- CAROUSEL UNTUK RAMMA -->
-<div class="carousel" data-gallery="ramma">
-  <div class="carousel-item">
-    <img src="ramma01.jpg" alt="">
-    <div class="photo-date" contenteditable="true">02 Jan 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="ramma02.jpg" alt="">
-    <div class="photo-date" contenteditable="true">04 Feb 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="ramma03.jpg" alt="">
-    <div class="photo-date" contenteditable="true">12 Mar 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="ramma04.jpg" alt="">
-    <div class="photo-date" contenteditable="true">20 Apr 2026</div>
-  </div>
-</div>
-
-<!-- CAROUSEL UNTUK SLANK -->
-<div class="carousel" data-gallery="slank">
-  <div class="carousel-item">
-    <img src="slank01.jpg" alt="">
-    <div class="photo-date" contenteditable="true">03 Jan 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="slank02.jpg" alt="">
-    <div class="photo-date" contenteditable="true">07 Feb 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="slank03.jpg" alt="">
-    <div class="photo-date" contenteditable="true">15 Mar 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="slank04.jpg" alt="">
-    <div class="photo-date" contenteditable="true">21 Apr 2026</div>
-  </div>
-</div>
-
-<!-- CAROUSEL UNTUK TANRALILI -->
-<div class="carousel" data-gallery="tanralili">
-  <div class="carousel-item">
-    <img src="tanralili01.jpg" alt="">
-    <div class="photo-date" contenteditable="true">06 Jan 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="tanralili02.jpg" alt="">
-    <div class="photo-date" contenteditable="true">09 Feb 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="tanralili03.jpg" alt="">
-    <div class="photo-date" contenteditable="true">17 Mar 2026</div>
-  </div>
-</div>
-
-<!-- CAROUSEL UNTUK LOHE -->
-<div class="carousel" data-gallery="lohe">
-  <div class="carousel-item">
-    <img src="lohe01.jpg" alt="">
-    <div class="photo-date" contenteditable="true">08 Jan 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="lohe02.jpg" alt="">
-    <div class="photo-date" contenteditable="true">11 Feb 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="lohe03.jpg" alt="">
-    <div class="photo-date" contenteditable="true">19 Mar 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="lohe04.jpg" alt="">
-    <div class="photo-date" contenteditable="true">19 Mar 2026</div>
-  </div>
-</div>
-
-<!-- CAROUSEL UNTUK BIALO -->
-<div class="carousel" data-gallery="Bialo">
-  <div class="carousel-item">
-    <img src="bialo01.jpg" alt="">
-    <div class="photo-date" contenteditable="true">09 Jan 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="bialo02.jpg" alt="">
-    <div class="photo-date" contenteditable="true">13 Feb 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="bialo03.jpg" alt="">
-    <div class="photo-date" contenteditable="true">22 Mar 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="bialo04.jpg" alt="">
-    <div class="photo-date" contenteditable="true">29 Apr 2026</div>
-  </div>
-</div>
-
-<!-- CAROUSEL UNTUK KAPPIRE -->
-<div class="carousel" data-gallery="Kappire">
-  <div class="carousel-item">
-    <img src="kappire01.jpg" alt="">
-    <div class="photo-date" contenteditable="true">10 Jan 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="kappire02.jpg" alt="">
-    <div class="photo-date" contenteditable="true">14 Feb 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="kappire03.jpg" alt="">
-    <div class="photo-date" contenteditable="true">23 Mar 2026</div>
-  </div>
-</div>
-
-<!-- CAROUSEL UNTUK BULUSARAUNG -->
-<div class="carousel" data-gallery="Bulusaraung">
-  <div class="carousel-item">
-    <img src="bulusaraung01.jpg" alt="">
-    <div class="photo-date" contenteditable="true">11 Jan 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="bulusaraung02.jpg" alt="">
-    <div class="photo-date" contenteditable="true">16 Feb 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="bulusaraung03.jpg" alt="">
-    <div class="photo-date" contenteditable="true">25 Mar 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="bulusaraung04.jpg" alt="">
-    <div class="photo-date" contenteditable="true">02 May 2026</div>
-  </div>
-</div>
-
-<!-- CAROUSEL UNTUK BAWAKARAENG -->
-<div class="carousel" data-gallery="Bawakaraeng">
-  <div class="carousel-item">
-    <img src="bawakaraeng01.jpg" alt="">
-    <div class="photo-date" contenteditable="true">12 Jan 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="bawakaraeng02.jpg" alt="">
-    <div class="photo-date" contenteditable="true">18 Feb 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="bawakaraeng03.jpg" alt="">
-    <div class="photo-date" contenteditable="true">27 Mar 2026</div>
-  </div>
-</div>
-
-<!-- CAROUSEL UNTUK TOMAGELLI -->
-<div class="carousel" data-gallery="Tomagelli">
-  <div class="carousel-item">
-    <img src="tomagelli01.jpg" alt="">
-    <div class="photo-date" contenteditable="true">13 Jan 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="tomagelli02.jpg" alt="">
-    <div class="photo-date" contenteditable="true">20 Feb 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="tomagelli03.jpg" alt="">
-    <div class="photo-date" contenteditable="true">28 Mar 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="tomagelli04.jpg" alt="">
-    <div class="photo-date" contenteditable="true">06 May 2026</div>
-  </div>
-</div>
-
-<!-- CAROUSEL UNTUK MASSIMPOLONGNGE -->
-<div class="carousel" data-gallery="Massimpolongnge">
-  <div class="carousel-item">
-    <img src="massimpolongnge01.jpg" alt="">
-    <div class="photo-date" contenteditable="true">14 Jan 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="massimpolongnge02.jpg" alt="">
-    <div class="photo-date" contenteditable="true">22 Feb 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="massimpolongnge03.jpg" alt="">
-    <div class="photo-date" contenteditable="true">30 Mar 2026</div>
-  </div>
-</div>
-
-<!-- CAROUSEL UNTUK SAUKANG -->
-<div class="carousel" data-gallery="Saukang">
-  <div class="carousel-item">
-    <img src="saukang01.jpg" alt="">
-    <div class="photo-date" contenteditable="true">15 Jan 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="saukang02.jpg" alt="">
-    <div class="photo-date" contenteditable="true">24 Feb 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="saukang03.jpg" alt="">
-    <div class="photo-date" contenteditable="true">02 Apr 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="saukang04.jpg" alt="">
-    <div class="photo-date" contenteditable="true">08 May 2026</div>
-  </div>
-</div>
-  
-<!-- CAROUSEL UNTUK MADDO -->
-<div class="carousel" data-gallery="Maddo">
-  <div class="carousel-item">
-    <img src="maddo01.jpg" alt="">
-    <div class="photo-date" contenteditable="true">15 Jan 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="maddo02.jpg" alt="">
-    <div class="photo-date" contenteditable="true">24 Feb 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="maddo03.jpg" alt="">
-    <div class="photo-date" contenteditable="true">02 Apr 2026</div>
-  </div>
-  <div class="carousel-item">
-    <img src="maddo04.jpg" alt="">
-    <div class="photo-date" contenteditable="true">08 May 2026</div>
-  </div>
-</div>
-
-</section>
-
-<!-- ===== 2026 PLAN ===== -->
-<section id="blog" class="section blog">
-<h2>2026 Plan</h2>
-
-<div class="blog-item show">
-  <img src="FotoPlan01.jpg" alt="">
-  <div>
-    <h3>MT. Latimojong</h3>
-    <p class="blog-text">Target pendakian gunung tertinggi Sulawesi dengan ketinggian 3.478 mdpl. Gunung ini menawarkan tantangan yang sangat menantang namun pemandangan dari puncaknya sangat spektakuler dan memuaskan.</p>
-    <button class="blog-read-more" onclick="toggleBlogReadMore(this)">Read More...</button>
-  </div>
-</div>
-
-<div class="blog-item show">
-  <img src="FotoPlan02.jpg" alt="">
-  <div>
-    <h3>MT. Bahonglangi</h3>
-    <p class="blog-text">Dikenal sebagai Atap Bone dengan pemandangan yang sangat indah dari puncaknya. Gunung ini menjadi salah satu target pendakian favorit di Sulawesi Selatan dengan trek yang menantang.</p>
-    <button class="blog-read-more" onclick="toggleBlogReadMore(this)">Read More...</button>
-  </div>
-</div>
-
-<div class="blog-item show">
-  <img src="FotoPlan03.jpg" alt="">
-  <div>
-    <h3>Bulu Baria</h3>
-    <p class="blog-text">Target pendakian gunung terbersih Sulawesi Selatan yang terkenal dengan keindahan alamnya yang masih sangat alami. Jalur pendakiannya yang menantang memberikan kepuasan tersendiri bagi para pendaki.</p>
-    <button class="blog-read-more" onclick="toggleBlogReadMore(this)">Read More...</button>
-  </div>
-</div>
-
-<div class="blog-item show">
-  <img src="FotoPlan04.jpg" alt="">
-  <div>
-    <h3>Mt. Tondong Karambu</h3>
-    <p class="blog-text">Target pendakian gunung yang terletak di Kabupaten Barru, atau lebih dikenal dengan "Atap Barru". Pemandangan dari puncaknya sangat memukau dengan view laut dan daratan Barru yang indah.</p>
-    <button class="blog-read-more" onclick="toggleBlogReadMore(this)">Read More...</button>
-  </div>
-</div>
-
-<div class="blog-item show">
-  <img src="FotoPlan05.jpg" alt="">
-  <div>
-    <h3>MT. Lompobattang</h3>
-    <p class="blog-text">Target pendakian gunung yang terletak di Kabupaten Jeneponto dengan pemandangan yang sangat indah. Gunung ini menawarkan trek pendakian yang menantang namun sangat memuaskan ketika sampai di puncak.</p>
-    <button class="blog-read-more" onclick="toggleBlogReadMore(this)">Read More...</button>
-  </div>
-</div>
-
-</section>
-
-<!-- ===== LOCATION ===== -->
-<section id="location" class="section location-section">
-<h2>Location</h2>
-
-<div class="location-instruction">
-  📍 Pilih destinasi untuk membuka lokasi di Google Maps
-</div>
-
-<button class="open-destination-btn" onclick="openDestinations()">
-  Open Destinations 🗺️
-</button>
-
-<div class="location-grid" id="locationGrid">
-  <!-- location buttons (kept as before) -->
-  <button class="location-btn mountain" onclick="showViaModal('talung')">
-    <span class="icon">⛰️</span>
-    <span class="name">Puncak Talung</span>
-  </button>
-
-  <button class="location-btn valley" onclick="showViaModal('ramma')">
-    <span class="icon">🏞️</span>
-    <span class="name">Lembah Ramma</span>
-  </button>
-
-  <button class="location-btn lake" onclick="showViaModal('slank')">
-    <span class="icon">🏔️</span>
-    <span class="name">Danau Slank</span>
-  </button>
-
-  <button class="location-btn lake" onclick="showViaModal('tanralili')">
-    <span class="icon">💧</span>
-    <span class="name">Danau Tanralili</span>
-  </button>
-
-  <button class="location-btn valley" onclick="showViaModal('lohe')">
-    <span class="icon">🌲</span>
-    <span class="name">Lembah Lohe</span>
-  </button>
-
-  <button class="location-btn mountain" onclick="showViaModal('bialo')">
-    <span class="icon">⛰️</span>
-    <span class="name">Bulu Bialo</span>
-  </button>
-
-  <button class="location-btn mountain" onclick="showViaModal('kappire')">
-    <span class="icon">🗻</span>
-    <span class="name">Mt Kappire</span>
-  </button>
-
-  <button class="location-btn mountain" onclick="showViaModal('bulusaraung')">
-    <span class="icon">⛰️</span>
-    <span class="name">BuluSaraung</span>
-  </button>
-
-  <button class="location-btn mountain" onclick="showViaModal('bawakaraeng')">
-    <span class="icon">🏔️</span>
-    <span class="name">Mt Bawakaraeng</span>
-  </button>
-
-  <button class="location-btn waterfall" onclick="showViaModal('tomagelli')">
-    <span class="icon">💦</span>
-    <span class="name">Air Terjun Tomagelli</span>
-  </button>
-
-  <button class="location-btn mountain" onclick="showViaModal('massimpolongnge')">
-    <span class="icon">⛰️</span>
-    <span class="name">Mt Massimpolongnge</span>
-  </button>
-
-  <button class="location-btn hill" onclick="showViaModal('maddo')">
-    <span class="icon">🌄</span>
-    <span class="name">Bukit Maddo</span>
-  </button>
-
-  <button class="location-btn mountain" onclick="showViaModal('latimojong')">
-    <span class="icon">🏔️</span>
-    <span class="name">Mt Latimojong</span>
-  </button>
-
-  <button class="location-btn mountain" onclick="showViaModal('pengka')">
-    <span class="icon">⛰️</span>
-    <span class="name">Bulu Pengka</span>
-  </button>
-
-  <button class="location-btn mountain" onclick="showViaModal('lompobattang')">
-    <span class="icon">🗻</span>
-    <span class="name">Mt Lompobattang</span>
-  </button>
-
-  <button class="location-btn mountain" onclick="showViaModal('baria')">
-    <span class="icon">⛰️</span>
-    <span class="name">Bulu Baria</span>
-  </button>
-
-  <button class="location-btn mountain" onclick="showViaModal('buludua')">
-    <span class="icon">⛰️</span>
-    <span class="name">Bulu Dua</span>
-  </button>
-
-  <button class="location-btn mountain" onclick="showViaModal('tondongkarambu')">
-    <span class="icon">🏔️</span>
-    <span class="name">Mt Tondong Karambu</span>
-  </button>
-
-  <button class="location-btn mountain" onclick="showViaModal('saukang')">
-    <span class="icon">⛰️</span>
-    <span class="name">Bulu Saukang</span>
-  </button>
-
-  <button class="location-btn hill" onclick="showViaModal('sumpangbita')">
-    <span class="icon">🏛️</span>
-    <span class="name">Sumpang Bita</span>
-  </button>
-
-  <button class="location-btn hill" onclick="showViaModal('leangleang')">
-    <span class="icon">🏛️</span>
-    <span class="name">Leang-Leang</span>
-  </button>
-
-  <button class="location-btn valley" onclick="showViaModal('bantimurung')">
-    <span class="icon">🦋</span>
-    <span class="name">TN Bantimurung</span>
-  </button>
-
-</div>
-</section>
-
-<!-- ===== INFORMATION ===== -->
-<section id="information" class="section information-section">
-<h2>Information</h2>
-
-<div class="info-content">
-  <p>Bergabung ke Saluran WhatsApp untuk mendapatkan update perjalanan, rencana perjalanan, dan cerita terbaru hheheh</p>
-  
-  <a href="https://whatsapp.com/channel/0029VbBtGZjLCoWw19k6kG0w" target="_blank" class="wa-channel-btn">
-    <span class="wa-icon">💬</span>
-    Bergabung ke Saluran
-  </a>
-</div>
-</section>
-
-<!-- ===== MODAL VIA ===== -->
-<div id="viaModal" class="modal-overlay" onclick="closeModal(event)">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <div class="modal-header">
-      <h3 id="modalTitle">Pilih Jalur</h3>
-      <button class="modal-close" onclick="closeModal()">&times;</button>
-    </div>
-    <div class="modal-instruction">
-      🚶 Pilih via/jalur pendakian
-    </div>
-    <div class="via-list" id="viaList">
-      <!-- Via options akan muncul di sini -->
+<!-- =====================================================
+     PAGE: MAIN (after Exploration)
+===================================================== -->
+<section id="page-main" class="page">
+  <div class="main-hero">
+    <div class="main-hero-inner">
+      <p class="main-hero-label">Welcome to the journey</p>
+      <h1 class="main-hero-title">Every Step<br>Tells a Story</h1>
+      <p class="main-hero-sub">Exploration begins where comfort ends</p>
     </div>
   </div>
-</div>
 
-<!-- ===== SOCIAL ===== -->
-<div class="social-links">
-  <a href="https://instagram.com/rhmtmuhmmdd" target="_blank">Instagram</a>
-  <a href="https://tiktok.com/@rhmtmuhmmdd" target="_blank">TikTok</a>
-  <a href="https://facebook.com/USERNAME" target="_blank">Facebook</a>
-</div>
+  <div class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">7</div>
+        <div class="stat-label">Summits</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">14</div>
+        <div class="stat-label">Climbing Partners</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">∞</div>
+        <div class="stat-label">Trails Explored</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">2025</div>
+        <div class="stat-label">Journey Began</div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- =====================================================
+     PAGE: JOURNEY
+===================================================== -->
+<section id="page-journey" class="page">
+  <!-- Hero -->
+  <div class="journey-hero">
+    <p class="journey-label">Expedition Log</p>
+    <h1 class="journey-title">Journey</h1>
+    <div class="journey-divider"></div>
+    <p class="journey-sub">Every Step Tells a Story</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="journey-stats">
+    <p class="journey-stats-title">By the Numbers</p>
+    <div class="journey-stats-grid">
+      <div class="jstat-card">
+        <div class="jstat-number">7</div>
+        <div class="jstat-label">Summits</div>
+      </div>
+      <div class="jstat-card">
+        <div class="jstat-number">14</div>
+        <div class="jstat-label">Climbing Partners</div>
+      </div>
+      <div class="jstat-card">
+        <div class="jstat-number">∞</div>
+        <div class="jstat-label">Trails Explored</div>
+      </div>
+      <div class="jstat-card">
+        <div class="jstat-number">2025</div>
+        <div class="jstat-label">Journey Began</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mountains Section -->
+  <div class="mountains-section">
+    <div class="mountains-header">
+      <p class="mountains-label">Expeditions</p>
+      <h2 class="mountains-title">Mountains We've Conquered</h2>
+      <div class="mountains-accent"></div>
+      <p class="mountains-scroll-hint">← Swipe to explore →</p>
+    </div>
+
+    <div class="mountains-scroll-wrap" id="mountains-scroll">
+      <!-- Cards rendered by JS -->
+    </div>
+
+    <!-- Detail Section -->
+    <div id="mountain-detail">
+      <div class="detail-header">
+        <div>
+          <h2 class="detail-name" id="detail-name"></h2>
+          <div class="detail-meta-row" id="detail-meta"></div>
+        </div>
+        <button class="btn-close-detail" onclick="closeDetail()">✕ Close</button>
+      </div>
+
+      <!-- Gallery Slider -->
+      <div class="gallery-slider" id="gallery-slider">
+        <!-- slides injected by JS -->
+        <button class="gallery-btn gallery-prev" onclick="galleryPrev()">&#8249;</button>
+        <button class="gallery-btn gallery-next" onclick="galleryNext()">&#8250;</button>
+        <div class="gallery-counter" id="gallery-counter">1 / 4</div>
+      </div>
+
+      <!-- Story & Highlight -->
+      <div class="detail-story">
+        <p class="detail-story-title">Story</p>
+        <p class="detail-story-text" id="detail-story-text"></p>
+      </div>
+      <div class="detail-highlight">
+        <p class="detail-highlight-title">Highlight Moment</p>
+        <p class="detail-highlight-text" id="detail-highlight-text"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     PAGE: CONTACT
+===================================================== -->
+<section id="page-contact" class="page">
+  <div class="contact-hero">
+    <h1 class="contact-title">Let's Connect &amp; Explore Together</h1>
+    <p class="contact-sub">We're open for collaboration, questions, and shared adventures.</p>
+  </div>
+
+  <div class="contact-layout">
+    <!-- Form -->
+    <div class="contact-form-wrap">
+      <div class="form-group">
+        <label for="c-name">Name</label>
+        <input type="text" id="c-name" placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label for="c-subject">Subject</label>
+        <input type="text" id="c-subject" placeholder="What is this about?">
+      </div>
+      <div class="form-group">
+        <label for="c-msg">Message</label>
+        <textarea id="c-msg" placeholder="Write your message here..."></textarea>
+      </div>
+      <div class="contact-btns">
+        <button id="btn-email" class="btn-contact" onclick="sendEmail()">
+          <img src="iconemail.png" alt="Email" onerror="this.style.display='none'">
+          Send via Email
+        </button>
+        <button id="btn-wa" class="btn-contact" onclick="sendWA()">
+          <img src="iconwhatsapp.png" alt="WhatsApp" onerror="this.style.display='none'">
+          Chat via WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="contact-info-wrap">
+      <div class="contact-info-block">
+        <div class="contact-info-row">
+          <div class="contact-info-icon">📍</div>
+          <div>
+            <p class="contact-info-label">Location</p>
+            <p class="contact-info-value">Sulawesi Selatan, Indonesia</p>
+          </div>
+        </div>
+        <div class="contact-info-row">
+          <div class="contact-info-icon">✉️</div>
+          <div>
+            <p class="contact-info-label">Email</p>
+            <p class="contact-info-value">adventureclear@gmail.com</p>
+          </div>
+        </div>
+        <div class="contact-info-row">
+          <div class="contact-info-icon">📞</div>
+          <div>
+            <p class="contact-info-label">WhatsApp</p>
+            <p class="contact-info-value">+62 856 7890 207</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="map-placeholder">
+        <p class="map-placeholder-text">🗺 Map Location – Indonesia</p>
+      </div>
+
+      <p class="contact-quote">"Every great journey begins with a single message."</p>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     PAGE: INFORMATION
+===================================================== -->
+<section id="page-information" class="page">
+  <div class="info-hero">
+    <h1 class="info-title">Stay Connected</h1>
+    <p class="info-sub">Get updates on upcoming climbs, recent explorations, and personal milestones through our available channels.</p>
+  </div>
+
+  <div class="info-card">
+    <div class="info-card-inner">
+      <p class="info-card-desc">
+        "Get updates on upcoming climbs, recent explorations, and personal milestones through the available channels."
+      </p>
+      <div class="info-btns">
+        <a href="https://whatsapp.com/channel/YOUR_CHANNEL_LINK" target="_blank" rel="noopener" class="btn-info btn-wa-channel">
+          <img src="iconsaluranwhatsapp.png" alt="WhatsApp Channel" onerror="this.style.display='none'">
+          Join WhatsApp Channel
+        </a>
+        <a href="https://chat.whatsapp.com/YOUR_GROUP_LINK" target="_blank" rel="noopener" class="btn-info btn-wa-group">
+          <img src="icongrupwhatsapp.png" alt="WhatsApp Group" onerror="this.style.display='none'">
+          Join WhatsApp Group
+        </a>
+        <a href="https://www.instagram.com/YOUR_IG_BROADCAST" target="_blank" rel="noopener" class="btn-info btn-ig-broadcast">
+          <img src="iconsaluraninstagram.png" alt="Instagram Broadcast" onerror="this.style.display='none'">
+          Follow Instagram Broadcast
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     PAGE: ABOUT ME
+===================================================== -->
+<section id="page-aboutme" class="page">
+  <div class="about-hero">
+    <p class="about-label">Personal</p>
+    <h1 class="about-title">About Me</h1>
+    <div class="about-divider"></div>
+    <p class="about-desc">
+      I am deeply interested in mountain exploration and natural landscapes.
+      For me, exploration is built on preparation, discipline, and the willingness to keep improving with every experience.
+      Each journey reflects a commitment to responsibility, respect for nature, and long-term growth.
+    </p>
+  </div>
+
+  <div class="core-values">
+    <p class="core-values-label">Philosophy</p>
+    <h2 class="core-values-title">Core Values</h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-number">01</div>
+        <div class="value-name">Discipline</div>
+        <p class="value-desc">Consistency, preparation, and mental strength in every climb.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-number">02</div>
+        <div class="value-name">Responsibility</div>
+        <p class="value-desc">Respecting nature and understanding the impact of every action.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-number">03</div>
+        <div class="value-name">Resilience</div>
+        <p class="value-desc">Staying strong through challenges, weather, and uncertainty.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-number">04</div>
+        <div class="value-name">Growth</div>
+        <p class="value-desc">Learning from every trail, every summit, and every experience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     PERMANENT FOOTER
+===================================================== -->
+<footer id="site-footer" role="contentinfo">
+  <a href="https://www.instagram.com/YOUR_IG" target="_blank" rel="noopener" class="social-link social-instagram">Instagram</a>
+  <a href="https://www.tiktok.com/@YOUR_TIKTOK" target="_blank" rel="noopener" class="social-link social-tiktok">TikTok</a>
+  <a href="https://www.facebook.com/YOUR_FB" target="_blank" rel="noopener" class="social-link social-facebook">Facebook</a>
+</footer>
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
 <script>
-function showExploration(){
-  // Hide all sections first
-  hideAllSections()
-  
-  // Show only Exploration and Gallery
-  document.getElementById('eksplorasi').classList.add('show')
-  document.getElementById('galeri').classList.add('show')
-  
-  // Show menu button
-  document.querySelector('.menu-btn').classList.add('show')
-  
-  // Play music (try/catch in case autoplay blocked)
-  const music = document.getElementById('bg-music')
-  if(music){ try { music.play().catch(()=>{}) } catch(e){} }
-  
-  // Scroll to exploration
-  document.getElementById('eksplorasi').scrollIntoView({behavior:'smooth'})
-}
-
-function showSingleSection(sectionName){
-  // Hide all sections
-  hideAllSections()
-  
-  // Show menu button
-  document.querySelector('.menu-btn').classList.add('show')
-  
-  // Show only the selected section
-  if(sectionName === 'eksplorasi'){
-    document.getElementById('eksplorasi').classList.add('show')
-    document.getElementById('eksplorasi').scrollIntoView({behavior:'smooth'})
-  } else if(sectionName === 'galeri'){
-    document.getElementById('galeri').classList.add('show')
-    document.getElementById('galeri').scrollIntoView({behavior:'smooth'})
-  } else if(sectionName === 'blog'){
-    document.getElementById('blog').classList.add('show')
-    document.getElementById('blog').scrollIntoView({behavior:'smooth'})
-  } else if(sectionName === 'location'){
-    document.getElementById('location').classList.add('show')
-    document.getElementById('location').scrollIntoView({behavior:'smooth'})
-  } else if(sectionName === 'information'){
-    document.getElementById('information').classList.add('show')
-    document.getElementById('information').scrollIntoView({behavior:'smooth'})
+/* --------------------------------------------------
+   MOUNTAIN DATA — add new mountains here easily
+-------------------------------------------------- */
+const mountains = [
+  {
+    id: 'puncaktalung',
+    name: 'Puncak Talung',
+    location: 'Sulawesi Selatan',
+    elevation: '2,871 m',
+    year: '2024',
+    photos: ['puncaktalung01.jpg','puncaktalung02.jpg','puncaktalung03.jpg','puncaktalung04.jpg'],
+    story: 'A breathtaking summit that rewards the climb with vast open views and cool alpine winds.',
+    highlight: 'Sunrise from the summit ridge, painting the sky in layers of amber and rose.'
+  },
+  {
+    id: 'lembahramma',
+    name: 'Lembah Ramma',
+    location: 'Sulawesi Selatan',
+    elevation: '2,300 m',
+    year: '2024',
+    photos: ['lembahramma01.jpg','lembahramma02.jpg','lembahramma03.jpg','lembahramma04.jpg'],
+    story: 'A lush valley carved by ancient rivers, rich with biodiversity and serene atmosphere.',
+    highlight: 'Morning mist slowly lifting to reveal the full valley in golden light.'
+  },
+  {
+    id: 'danauslank',
+    name: 'Danau Slank',
+    location: 'Sulawesi Selatan',
+    elevation: '2,100 m',
+    year: '2024',
+    photos: ['danauslank01.jpg','danauslank02.jpg','danauslank03.jpg','danauslank04.jpg'],
+    story: 'A crater lake of deep blue stillness, surrounded by mossy banks and silence.',
+    highlight: 'Reflection of the surrounding peaks mirrored perfectly in the calm waters.'
+  },
+  {
+    id: 'danautanralili',
+    name: 'Danau Tanralili',
+    location: 'Sulawesi Selatan',
+    elevation: '2,200 m',
+    year: '2024',
+    photos: ['danautanralili01.jpg','danautanralili02.jpg','danautanralili03.jpg','danautanralili04.jpg'],
+    story: 'A hidden gem of highland waters, accessible only to those who earn it on foot.',
+    highlight: "Stars reflecting in the lake's surface on a cloudless night."
+  },
+  {
+    id: 'lembahlohe',
+    name: 'Lembah Lohe',
+    location: 'Sulawesi Selatan',
+    elevation: '2,000 m',
+    year: '2024',
+    photos: ['lembahlohe01.jpg','lembahlohe02.jpg','lembahlohe03.jpg','lembahlohe04.jpg'],
+    story: 'A valley of tall grasses and cool streams, perfect for rest and reflection.',
+    highlight: 'Wind moving in waves through the tall highland grass.'
+  },
+  {
+    id: 'bulubialo',
+    name: 'Bulu Bialo',
+    location: 'Sulawesi Selatan',
+    elevation: '2,073 m',
+    year: '2024',
+    photos: ['bulubialo01.jpg','bulubialo02.jpg','bulubialo03.jpg','bulubialo04.jpg'],
+    story: 'A rewarding trail through dense highland forest leading to a panoramic open ridge.',
+    highlight: 'Looking down from the ridge onto a sea of clouds below.'
+  },
+  {
+    id: 'mtkappire',
+    name: 'MT. Kappire',
+    location: 'Sulawesi Selatan',
+    elevation: '1,800 m',
+    year: '2024',
+    photos: ['mtkappire01.jpg','mtkappire02.jpg','mtkappire03.jpg','mtkappire04.jpg'],
+    story: 'A mountain of character — rugged terrain and rocky outcrops define every step.',
+    highlight: 'Reaching the peak after a challenging final scramble, completely worth it.'
+  },
+  {
+    id: 'bulusaraung',
+    name: 'Bulu Saraung',
+    location: 'Sulawesi Selatan',
+    elevation: '2,472 m',
+    year: '2024',
+    photos: ['bulusaraung01.jpg','bulusaraung02.jpg','bulusaraung03.jpg','bulusaraung04.jpg'],
+    story: 'A towering formation with sharp ridges and breathtaking views of the southern highlands.',
+    highlight: 'Summit winds that carry the scent of pine and open sky.'
+  },
+  {
+    id: 'mtbawakaraeng',
+    name: 'MT. Bawakaraeng',
+    location: 'Sulawesi Selatan',
+    elevation: '2,830 m',
+    year: '2024',
+    photos: ['mtbawakaraeng01.jpg','mtbawakaraeng02.jpg','mtbawakaraeng03.jpg','mtbawakaraeng04.jpg'],
+    story: 'An iconic peak revered by local culture, with trails that test both body and spirit.',
+    highlight: 'First light on the sacred peak — a moment of pure stillness.'
+  },
+  {
+    id: 'bulusaukang',
+    name: 'Bulu Saukang',
+    location: 'Sulawesi Selatan',
+    elevation: '1,900 m',
+    year: '2024',
+    photos: ['bulusaukang01.jpg','bulusaukang02.jpg','bulusaukang03.jpg','bulusaukang04.jpg'],
+    story: 'A quiet ridge with sweeping views over lowland forests and river deltas far below.',
+    highlight: 'Evening colors turning the sky into a canvas of orange and indigo.'
+  },
+  {
+    id: 'mtlatimojong',
+    name: 'MT. Latimojong',
+    location: 'Sulawesi Selatan',
+    elevation: '3,478 m',
+    year: '2024',
+    photos: ['mtlatimojong01.jpg','mtlatimojong02.jpg','mtlatimojong03.jpg','mtlatimojong04.jpg'],
+    story: 'The highest peak in Sulawesi — demanding, remote, and absolutely extraordinary.',
+    highlight: 'Summiting Rante Mario and standing above the entire island.'
+  },
+  {
+    id: 'mtlompobattang',
+    name: 'MT. Lompobattang',
+    location: 'Sulawesi Selatan',
+    elevation: '2,874 m',
+    year: '2024',
+    photos: ['mtlompobattang01.jpg','mtlompobattang02.jpg','mtlompobattang03.jpg','mtlompobattang04.jpg'],
+    story: 'A majestic volcano standing tall over South Sulawesi, with rich highland ecosystems.',
+    highlight: 'Cloud inversions below the summit creating an ocean of white below.'
+  },
+  {
+    id: 'bulubaria',
+    name: 'Bulu Baria',
+    location: 'Sulawesi Selatan',
+    elevation: '2,060 m',
+    year: '2024',
+    photos: ['bulubaria01.jpg','bulubaria02.jpg','bulubaria03.jpg','bulubaria04.jpg'],
+    story: 'A lesser-known ridge that rewards explorers with solitude and unspoiled nature.',
+    highlight: 'Complete silence at the summit — just wind and the view.'
+  },
+  {
+    id: 'mtbahonglangi',
+    name: 'MT. Bahonglangi',
+    location: 'Sulawesi Selatan',
+    elevation: '2,111 m',
+    year: '2024',
+    photos: ['mtbahonglangi01.jpg','mtbahonglangi02.jpg','mtbahonglangi03.jpg','mtbahonglangi04.jpg'],
+    story: 'A forested mountain trail offering rich biodiversity and sweeping highland vistas.',
+    highlight: 'Discovering a hidden waterfall mid-trail, cold and refreshing.'
+  },
+  {
+    id: 'tondongkarambu',
+    name: 'Tondong Karambu',
+    location: 'Sulawesi Selatan',
+    elevation: '2,100 m',
+    year: '2024',
+    photos: ['tondongkarambu01.jpg','tondongkarambu02.jpg','tondongkarambu03.jpg','tondongkarambu04.jpg'],
+    story: 'A dramatic peak with rugged character and expansive views over the eastern highland belt.',
+    highlight: 'Golden sunset light casting long shadows across the valley below.'
   }
-  
-  // Close menu
-  closeMenuMobile()
+];
+
+/* --------------------------------------------------
+   STATE
+-------------------------------------------------- */
+let explorationStarted = false;
+let currentMountain = null;
+let currentSlide = 0;
+let totalSlides = 0;
+
+/* --------------------------------------------------
+   PAGE NAVIGATION
+-------------------------------------------------- */
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + pageId);
+  if (target) target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  updateActiveMenu(pageId);
+  closeMenu();
 }
 
-function hideAllSections(){
-  document.getElementById('eksplorasi').classList.remove('show')
-  document.getElementById('galeri').classList.remove('show')
-  document.getElementById('blog').classList.remove('show')
-  document.getElementById('location').classList.remove('show')
-  document.getElementById('information').classList.remove('show')
-}
-
-function goHome(){
-  // Hide all sections
-  hideAllSections()
-  
-  // Hide menu button
-  document.querySelector('.menu-btn').classList.remove('show')
-  
-  // Close menu mobile
-  closeMenuMobile()
-  
-  // Scroll to hero
-  document.getElementById('hero').scrollIntoView({behavior:'smooth'})
-  
-  // Pause music
-  const music = document.getElementById('bg-music')
-  if(music) music.pause()
-  
-  // Reset location grid
-  document.getElementById('locationGrid').classList.remove('show')
-  const openBtn = document.querySelector('.open-destination-btn')
-  if(openBtn) openBtn.style.display = 'block'
-}
-
-function showExplore(key,el){
-  document.querySelectorAll('.card').forEach(c=>c.classList.remove('show'))
-  document.querySelectorAll('.explore-tabs button')
-    .forEach(b=>b.classList.remove('active'))
-
-  const target = document.querySelector(`[data-explore="${key}"]`)
-  if(target) target.classList.add('show')
-  if(el) el.classList.add('active')
-}
-
-// FUNGSI BARU UNTUK GALLERY TABS
-function showGallery(key,el){
-  // Hide semua carousel
-  document.querySelectorAll('.carousel').forEach(c=>c.classList.remove('show'))
-  
-  // Remove active dari semua button
-  document.querySelectorAll('.gallery-tabs button')
-    .forEach(b=>b.classList.remove('active'))
-
-  // Show carousel yang dipilih
-  const gallery = document.querySelector(`[data-gallery="${key}"]`)
-  if(gallery) gallery.classList.add('show')
-  
-  // Set button sebagai active
-  if(el) el.classList.add('active')
-}
-
-function toggleMenu(){
-  document.getElementById('menu').classList.toggle('show')
-}
-
-function closeMenuMobile(){
-  document.getElementById('menu').classList.remove('show')
-}
-
-function openDestinations(){
-  document.getElementById('locationGrid').classList.add('show')
-  document.querySelector('.open-destination-btn').style.display = 'none'
-}
-
-function toggleDarkMode(){
-  document.body.classList.toggle('dark-mode')
-  const icon = document.getElementById('darkModeIcon')
-  
-  if(document.body.classList.contains('dark-mode')){
-    icon.textContent = '☀️'
-    localStorage.setItem('darkMode', 'enabled')
-  } else {
-    icon.textContent = '🌙'
-    localStorage.setItem('darkMode', 'disabled')
+function navTo(dest) {
+  if (dest === 'home') {
+    // Go back to cover (no music)
+    stopMusic();
+    explorationStarted = false;
+    document.getElementById('hamburger').classList.remove('visible');
+    showPage('cover');
+    return;
   }
+  showPage(dest);
 }
 
-// Load dark mode preference on page load
-window.addEventListener('DOMContentLoaded', () => {
-  const darkMode = localStorage.getItem('darkMode')
-  if(darkMode === 'enabled'){
-    document.body.classList.add('dark-mode')
-    document.getElementById('darkModeIcon').textContent = '☀️'
-  }
-  
-  // Reveal blog items with animation (they have .show class)
-  document.querySelectorAll('.blog-item').forEach(item => {
-    if(item.classList.contains('show')){
-      item.style.opacity = ''
-      item.style.transform = ''
-    }
-  })
-})
-
-// FUNGSI UNTUK MODAL VIA
-const viaData = {
-  talung: {
-    title: 'Puncak Talung',
-    vias: [
-      { name: 'Via Panaikang', icon: '🥾', link: 'GANTI_LINK_VIA_PANAIKANG' },
-      { name: 'Via Lembanna', icon: '🥾', link: 'GANTI_LINK_VIA_LEMBANNA' },
-      { name: 'Via Buluballea', icon: '🥾', link: 'GANTI_LINK_VIA_BULUBALLEA' }
-    ]
-  },
-  ramma: {
-    title: 'Lembah Ramma',
-    vias: [
-      { name: 'Via Panaikang', icon: '🥾', link: 'GANTI_LINK_VIA_PANAIKANG' },
-      { name: 'Via Lembanna', icon: '🥾', link: 'GANTI_LINK_VIA_LEMBANNA' },
-      { name: 'Via Buluballea', icon: '🥾', link: 'GANTI_LINK_VIA_BULUBALLEA' }
-    ]
-  },
-  slank: {
-    title: 'Danau Slank',
-    vias: [
-      { name: 'Via Panaikang', icon: '🥾', link: 'GANTI_LINK_VIA_PANAIKANG' },
-      { name: 'Via Lembanna', icon: '🥾', link: 'GANTI_LINK_VIA_LEMBANNA' },
-      { name: 'Via Buluballea', icon: '🥾', link: 'GANTI_LINK_VIA_BULUBALLEA' }
-    ]
-  },
-  tanralili: {
-    title: 'Danau Tanralili',
-    vias: [
-      { name: 'Buka di Google Maps', icon: '📍', link: 'GANTI_LINK_TANRALILI' }
-    ]
-  },
-  lohe: {
-    title: 'Lembah Lohe',
-    vias: [
-      { name: 'Buka di Google Maps', icon: '📍', link: 'GANTI_LINK_LOHE' }
-    ]
-  },
-  bialo: {
-    title: 'Bulu Bialo',
-    vias: [
-      { name: 'Buka di Google Maps', icon: '📍', link: 'GANTI_LINK_BIALO' }
-    ]
-  },
-  kappire: {
-    title: 'Mt Kappire',
-    vias: [
-      { name: 'Buka di Google Maps', icon: '📍', link: 'GANTI_LINK_KAPPIRE' }
-    ]
-  },
-  bulusaraung: {
-    title: 'BuluSaraung',
-    vias: [
-      { name: 'Buka di Google Maps', icon: '📍', link: 'GANTI_LINK_BULUSARAUNG' }
-    ]
-  },
-  bawakaraeng: {
-    title: 'Mt Bawakaraeng',
-    vias: [
-      { name: 'Via Buluballea', icon: '🥾', link: 'GANTI_LINK_VIA_BULUBALLEA' },
-      { name: 'Via Tassoso', icon: '🥾', link: 'GANTI_LINK_VIA_TASSOSO' },
-      { name: 'Via Lembanna', icon: '🥾', link: 'GANTI_LINK_VIA_LEMBANNA' },
-      { name: 'Via Kanreapia', icon: '🥾', link: 'GANTI_LINK_VIA_KANREAPIA' }
-    ]
-  },
-  tomagelli: {
-    title: 'Air Terjun Tomagelli',
-    vias: [
-      { name: 'Buka di Google Maps', icon: '📍', link: 'GANTI_LINK_TOMAGELLI' }
-    ]
-  },
-  massimpolongnge: {
-    title: 'Mt Massimpolongnge',
-    vias: [
-      { name: 'Buka di Google Maps', icon: '📍', link: 'GANTI_LINK_MASSIMPOLONGNGE' }
-    ]
-  },
-  maddo: {
-    title: 'Bukit Maddo',
-    vias: [
-      { name: 'Buka di Google Maps', icon: '📍', link: 'GANTI_LINK_MADDO' }
-    ]
-  },
-  latimojong: {
-    title: 'Mt Latimojong',
-    vias: [
-      { name: 'Via Karangan', icon: '🥾', link: 'GANTI_LINK_VIA_KARANGAN' },
-      { name: 'Via Angin-Angin', icon: '🥾', link: 'GANTI_LINK_VIA_ANGINANGIN' }
-    ]
-  },
-  pengka: {
-    title: 'Bulu Pengka',
-    vias: [
-      { name: 'Buka Lokasi', icon: '📍', link: 'GANTI_LINK_PENGKA' }
-    ]
-  },
-  lompobattang: {
-    title: 'Mt Lompobattang',
-    vias: [
-      { name: 'Lihat di Maps', icon: '📍', link: 'GANTI_LINK_LOMPOBATTANG' }
-    ]
-  },
-  baria: {
-    title: 'Bulu Baria',
-    vias: [
-      { name: 'Buka di Google Maps', icon: '📍', link: 'GANTI_LINK_BARIA' }
-    ]
-  },
-  buludua: {
-    title: 'Bulu Dua',
-    vias: [
-      { name: 'Puncak 1 (1004 mdpl)', icon: '⛰️', link: 'GANTI_LINK_PUNCAK1' },
-      { name: 'Puncak 2 (920 mdpl)', icon: '⛰️', link: 'GANTI_LINK_PUNCAK2' }
-    ]
-  },
-  tondongkarambu: {
-    title: 'Mt Tondong Karambu',
-    vias: [
-      { name: 'Lihat Lokasi', icon: '📍', link: 'GANTI_LINK_TONDONGKARAMBU' }
-    ]
-  },
-  saukang: {
-    title: 'Bulu Saukang',
-    vias: [
-      { name: 'Buka di Google Maps', icon: '📍', link: 'GANTI_LINK_SAUKANG' }
-    ]
-  },
-  marukuruku: {
-    title: 'Mt Maruku-ruku',
-    vias: [
-      { name: 'Lihat di Maps', icon: '📍', link: 'GANTI_LINK_MARUKURUKU' }
-    ]
-  },
-  lehe: {
-    title: 'Mt Lehe Lompoa',
-    vias: [
-      { name: 'Buka Lokasi', icon: '📍', link: 'GANTI_LINK_LEHE' }
-    ]
-  },
-  sumpangbita: {
-    title: 'Taman Purbakala Sumpang Bita',
-    vias: [
-      { name: 'Lihat Lokasi', icon: '📍', link: 'GANTI_LINK_SUMPANGBITA' }
-    ]
-  },
-  leangleang: {
-    title: 'Taman Arkeologi Leang-Leang',
-    vias: [
-      { name: 'Buka di Google Maps', icon: '📍', link: 'GANTI_LINK_LEANGLEANG' }
-    ]
-  },
-  bantimurung: {
-    title: 'Taman Nasional Bantimurung Bulusaraung',
-    vias: [
-      { name: 'Lihat di Maps', icon: '📍', link: 'GANTI_LINK_BANTIMURUNG' }
-    ]
-  },
-  rammang: {
-    title: 'Kampoeng Karst Rammang-Rammang',
-    vias: [
-      { name: 'Buka Lokasi', icon: '📍', link: 'GANTI_LINK_RAMMANG' }
-    ]
-  },
-  gallang: {
-    title: 'Air Terjun Bantimurung Gallang',
-    vias: [
-      { name: 'Lihat Lokasi', icon: '📍', link: 'GANTI_LINK_GALLANG' }
-    ]
+function updateActiveMenu(pageId) {
+  document.querySelectorAll('.menu-nav a').forEach(a => a.classList.remove('active-menu'));
+  const map = { main:'home', journey:'journey', contact:'contact', information:'information', aboutme:'aboutme' };
+  const key = Object.keys(map).find(k => k === pageId);
+  if (key) {
+    const idx = Object.keys(map).indexOf(key);
+    const links = document.querySelectorAll('.menu-nav a');
+    if (links[idx]) links[idx].classList.add('active-menu');
   }
 }
 
-function showViaModal(destination){
-  const data = viaData[destination]
-  if(!data) return
-  
-  // Set title
-  document.getElementById('modalTitle').textContent = data.title
-  
-  // Generate via buttons
-  const viaList = document.getElementById('viaList')
-  viaList.innerHTML = data.vias.map(via => `
-    <a href="${via.link}" target="_blank" class="via-btn">
-      <span class="via-icon">${via.icon}</span>
-      <span class="via-name">${via.name}</span>
-      <span>→</span>
-    </a>
-  `).join('')
-  
-  // Show modal
-  document.getElementById('viaModal').classList.add('show')
+/* --------------------------------------------------
+   EXPLORATION ENTRY
+-------------------------------------------------- */
+function enterExploration() {
+  explorationStarted = true;
+  showPage('main');
+  document.getElementById('hamburger').classList.add('visible');
+  playMusic();
+  renderMountainCards();
 }
 
-function closeModal(event){
-  if(event && event.target !== event.currentTarget) return
-  document.getElementById('viaModal').classList.remove('show')
-}
-
-// Read More Toggle for Exploration Cards
-function toggleReadMore(btn){
-  const cardText = btn.previousElementSibling
-  if(!cardText) return
-  cardText.classList.toggle('expanded')
-  
-  if(cardText.classList.contains('expanded')){
-    btn.textContent = 'Read Less'
-    // Smooth scroll to keep card in view after expansion
-    btn.closest('.card').scrollIntoView({behavior:'smooth', block:'center'})
-  } else {
-    btn.textContent = 'Read More...'
+/* --------------------------------------------------
+   MUSIC
+-------------------------------------------------- */
+function playMusic() {
+  const music = document.getElementById('bg-music');
+  music.volume = 0.4;
+  const promise = music.play();
+  if (promise !== undefined) {
+    promise.catch(() => {
+      // autoplay blocked — will play on next user interaction
+      document.addEventListener('click', () => music.play(), { once: true });
+    });
   }
 }
-
-// Read More Toggle for 2026 Plan
-function toggleBlogReadMore(btn){
-  const blogText = btn.previousElementSibling
-  if(!blogText) return
-  blogText.classList.toggle('expanded')
-  
-  if(blogText.classList.contains('expanded')){
-    btn.textContent = 'Read Less'
-    btn.closest('.blog-item').scrollIntoView({behavior:'smooth', block:'center'})
-  } else {
-    btn.textContent = 'Read More...'
-  }
+function stopMusic() {
+  const music = document.getElementById('bg-music');
+  music.pause();
+  music.currentTime = 0;
 }
+
+/* --------------------------------------------------
+   DARK MODE
+-------------------------------------------------- */
+function toggleDark() {
+  document.body.classList.toggle('dark-mode');
+  const icon = document.getElementById('dark-toggle-icon');
+  icon.textContent = document.body.classList.contains('dark-mode') ? '☀' : '🌙';
+  localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+}
+// Restore preference
+(function() {
+  const saved = localStorage.getItem('darkMode');
+  if (saved === 'true') {
+    document.body.classList.add('dark-mode');
+    const icon = document.getElementById('dark-toggle-icon');
+    if (icon) icon.textContent = '☀';
+  }
+})();
+
+/* --------------------------------------------------
+   MENU DRAWER
+-------------------------------------------------- */
+function openMenu() {
+  document.getElementById('side-menu').classList.add('open');
+  document.getElementById('menu-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMenu() {
+  document.getElementById('side-menu').classList.remove('open');
+  document.getElementById('menu-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+/* --------------------------------------------------
+   MOUNTAIN CARDS RENDER
+-------------------------------------------------- */
+function renderMountainCards() {
+  const wrap = document.getElementById('mountains-scroll');
+  if (!wrap || wrap.children.length > 0) return;
+
+  mountains.forEach((m, i) => {
+    const card = document.createElement('div');
+    card.className = 'mountain-card';
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', 'View ' + m.name);
+
+    // Image container
+    const imgWrap = document.createElement('div');
+    imgWrap.className = 'mountain-card-img-placeholder';
+    imgWrap.style.position = 'relative';
+    imgWrap.style.overflow = 'hidden';
+
+    // fallback SVG
+    const svgFallback = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svgFallback.setAttribute('viewBox','0 0 24 24');
+    svgFallback.setAttribute('fill','none');
+    svgFallback.setAttribute('stroke','#a8cdb8');
+    svgFallback.setAttribute('stroke-width','1.5');
+    svgFallback.innerHTML = '<path d="M3 20l5-10 4 6 3-4 6 8H3z"/><circle cx="18" cy="6" r="2"/>';
+    svgFallback.style.cssText = 'width:40px;height:40px;opacity:0.4;';
+    imgWrap.appendChild(svgFallback);
+
+    const cardImg = new Image();
+    cardImg.alt = m.name;
+    cardImg.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0;';
+    cardImg.onload = () => {
+      svgFallback.style.display = 'none';
+      imgWrap.appendChild(cardImg);
+    };
+    cardImg.onerror = () => { /* keep SVG fallback */ };
+    cardImg.src = m.photos[0];
+
+    const body = document.createElement('div');
+    body.className = 'mountain-card-body';
+    body.innerHTML = `
+      <p class="mountain-card-name">${m.name}</p>
+      <p class="mountain-card-loc">${m.location}</p>
+      <div class="mountain-card-meta">
+        <span class="mountain-card-year">${m.year}</span>
+        <span class="mountain-card-elev">${m.elevation}</span>
+      </div>
+    `;
+
+    card.appendChild(imgWrap);
+    card.appendChild(body);
+
+    card.addEventListener('click', () => openDetail(i));
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openDetail(i); });
+    wrap.appendChild(card);
+  });
+}
+
+/* --------------------------------------------------
+   MOUNTAIN DETAIL
+-------------------------------------------------- */
+function openDetail(idx) {
+  const m = mountains[idx];
+  currentMountain = m;
+  currentSlide = 0;
+  totalSlides = m.photos.length;
+
+  document.getElementById('detail-name').textContent = m.name;
+  document.getElementById('detail-meta').innerHTML = `
+    <span class="detail-badge">📍 ${m.location}</span>
+    <span class="detail-badge">⛰ ${m.elevation}</span>
+    <span class="detail-badge">📅 ${m.year}</span>
+  `;
+  document.getElementById('detail-story-text').textContent = m.story;
+  document.getElementById('detail-highlight-text').textContent = m.highlight;
+
+  // Build slides
+  const slider = document.getElementById('gallery-slider');
+  // Remove old slides
+  slider.querySelectorAll('.gallery-slide').forEach(s => s.remove());
+  const prevBtn = slider.querySelector('.gallery-prev');
+  const nextBtn = slider.querySelector('.gallery-next');
+  const counter = slider.querySelector('.gallery-counter');
+
+  m.photos.forEach((photo, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'gallery-slide' + (i === 0 ? ' active' : '');
+
+    // placeholder shown until image loads
+    const placeholder = document.createElement('div');
+    placeholder.className = 'gallery-slide-placeholder';
+    placeholder.innerHTML = `<span>${m.name} — Photo ${i+1}</span>`;
+    slide.appendChild(placeholder);
+
+    const img = new Image();
+    img.alt = m.name + ' photo ' + (i+1);
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'cover';
+    img.style.display = 'block';
+    img.onload = () => {
+      placeholder.style.display = 'none';
+      slide.appendChild(img);
+    };
+    img.onerror = () => { /* keep placeholder */ };
+    img.src = photo;
+
+    slider.insertBefore(slide, prevBtn);
+  });
+
+  updateGalleryCounter();
+
+  const detail = document.getElementById('mountain-detail');
+  detail.classList.add('visible');
+  setTimeout(() => {
+    detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
+function closeDetail() {
+  document.getElementById('mountain-detail').classList.remove('visible');
+  currentMountain = null;
+}
+
+function galleryPrev() {
+  if (!currentMountain) return;
+  currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+  updateGallerySlide();
+}
+function galleryNext() {
+  if (!currentMountain) return;
+  currentSlide = (currentSlide + 1) % totalSlides;
+  updateGallerySlide();
+}
+function updateGallerySlide() {
+  const slider = document.getElementById('gallery-slider');
+  const slides = slider.querySelectorAll('.gallery-slide');
+  slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
+  updateGalleryCounter();
+}
+function updateGalleryCounter() {
+  document.getElementById('gallery-counter').textContent = (currentSlide+1) + ' / ' + totalSlides;
+}
+
+/* --------------------------------------------------
+   CONTACT ACTIONS
+-------------------------------------------------- */
+function sendEmail() {
+  const name = document.getElementById('c-name').value || '';
+  const subject = document.getElementById('c-subject').value || 'Inquiry from rhmttmuhmmd Website';
+  const msg = document.getElementById('c-msg').value || '';
+  const body = `Hello rhmttmuhmmd Team,\n\nMy name is ${name}.\n\n${msg}\n\nBest regards,\n${name}`;
+  const mailto = `mailto:adventureclear@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailto;
+}
+function sendWA() {
+  const name = document.getElementById('c-name').value || '';
+  const msg = document.getElementById('c-msg').value || '';
+  const text = `Hello rhmttmuhmmd Team, I'm interested in your expedition.${name ? ' My name is ' + name + '.' : ''}${msg ? '\n\n' + msg : ''}`;
+  const waUrl = `https://wa.me/628567890207?text=${encodeURIComponent(text)}`;
+  window.open(waUrl, '_blank');
+}
+
+/* --------------------------------------------------
+   HAMBURGER KEYBOARD
+-------------------------------------------------- */
+document.getElementById('hamburger').addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') openMenu();
+});
+
+/* --------------------------------------------------
+   INIT: Render mountains if page is already journey
+-------------------------------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
+  // Nothing needed on load — cover shows first
+});
 </script>
-
 </body>
 </html>
 
