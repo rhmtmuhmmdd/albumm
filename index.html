@@ -11,37 +11,37 @@
    CSS VARIABLES — LIGHT & DARK MODE
    ============================================= */
 :root {
-  --bg:         #f3efe3;
-  --bg2:        #e5dfc9;
-  --text:       #1a1a18;
-  --text2:      #5a5648;
-  --accent:     #4a6741;
-  --accent2:    #8bc34a;
+  --bg:         #f5f5f5;
+  --bg2:        #e9e9e9;
+  --text:       #1a1a1a;
+  --text2:      #555555;
+  --accent:     #c9a227;
+  --accent2:    #e6c65c;
   --card-bg:    #ffffff;
   --card-shadow:0 4px 28px rgba(0,0,0,0.08);
-  --border:     rgba(74,103,65,0.18);
-  --header-bg:  rgba(243,239,227,0.96);
-  --sidebar-bg: #141e12;
-  --footer-bg:  #141e12;
+  --border:     rgba(201,162,39,0.25);
+  --header-bg:  rgba(245,245,245,0.96);
+  --sidebar-bg: #1c1c1c;
+  --footer-bg:  #1c1c1c;
   --input-bg:   #ffffff;
-  --input-border:rgba(74,103,65,0.28);
+  --input-border:rgba(201,162,39,0.35);
 }
 
 body.dark {
-  --bg:         #0d160c;
-  --bg2:        #182415;
-  --text:       #f3efe3;
-  --text2:      #a8a090;
-  --accent:     #8bc34a;
-  --accent2:    #a3d977;
-  --card-bg:    #192416;
+  --bg:         #111111;
+  --bg2:        #1a1a1a;
+  --text:       #f5f5f5;
+  --text2:      #bbbbbb;
+  --accent:     #e6c65c;
+  --accent2:    #f5d97b;
+  --card-bg:    #1c1c1c;
   --card-shadow:0 4px 28px rgba(0,0,0,0.55);
-  --border:     rgba(139,195,74,0.18);
-  --header-bg:  rgba(13,22,12,0.96);
-  --sidebar-bg: #090f08;
-  --footer-bg:  #090f08;
-  --input-bg:   rgba(255,255,255,0.06);
-  --input-border:rgba(139,195,74,0.25);
+  --border:     rgba(230,198,92,0.18);
+  --header-bg:  rgba(17,17,17,0.96);
+  --sidebar-bg: #0d0d0d;
+  --footer-bg:  #0d0d0d;
+  --input-bg:   rgba(255,255,255,0.05);
+  --input-border:rgba(230,198,92,0.25);
 }
 
 /* =============================================
@@ -529,7 +529,7 @@ a { text-decoration: none; }
 #section-journey { padding-top: 64px; background: var(--bg); }
 
 .journey-hero {
-  background: linear-gradient(155deg, #142e12 0%, #070d07 100%);
+  background: linear-gradient(155deg, #1a1a1a 0%, #0d0d0d 100%);
   padding: clamp(48px,7vw,100px) clamp(18px,5vw,60px);
   text-align: center;
   position: relative;
@@ -537,9 +537,11 @@ a { text-decoration: none; }
 }
 
 .journey-hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 50% 0%, rgba(139,195,74,0.18) 0%, transparent 68%);
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(230,198,92,0.15) 0%,
+    transparent 68%
+  );
   pointer-events: none;
 }
 
