@@ -209,6 +209,8 @@ body,#bar,.journey,.photo,.ph,#menu,.quote,h1,h2,h3,.meta{transition-timing-func
 #intro h1{font-size:clamp(1.5rem,5vw,2.8rem);letter-spacing:.12em;margin:.2em 0 1.8rem;animation-delay:.15s}
 #intro .btn{animation-delay:.35s}
 .on-intro #bar .logo{visibility:hidden}
+#burger{transition:background .4s var(--ease),transform .35s var(--ease),opacity .8s var(--ease),visibility .8s}
+.on-intro #burger{opacity:0;visibility:hidden;pointer-events:none}
 .on-intro #bar{background:transparent;border-bottom-color:transparent;backdrop-filter:none}
 /* efek air saat layar disentuh */
 #ripples{position:fixed;inset:0;pointer-events:none;z-index:200;overflow:hidden}
